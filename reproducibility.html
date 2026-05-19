@@ -1,0 +1,278 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Advanced: Reproducible Research — Biomedical Informatics Tutorial</title>
+<link rel="stylesheet" href="styles.css">
+</head><body>
+<nav class="top-nav"><div class="top-nav-inner">
+  <a href="index.html" class="top-nav-brand"><span>🔬</span> <span data-zh="生醫資訊研究技術" data-en="BioMed Informatics">生醫資訊研究技術</span></a>
+  <ul class="top-nav-links">
+    <li><a href="research-design.html" data-zh="設計" data-en="Design">設計</a></li>
+    <li><a href="literature-review.html" data-zh="文獻" data-en="Lit">文獻</a></li>
+    <li><a href="databases.html" data-zh="資料庫" data-en="DB">資料庫</a></li>
+    <li><a href="ethics.html" data-zh="倫理" data-en="Ethics">倫理</a></li>
+    <li><a href="sample-size.html" data-zh="樣本量" data-en="Sample">樣本量</a></li>
+    <li><a href="statistical-tests.html" data-zh="檢定" data-en="Tests">檢定</a></li>
+    <li><a href="multiple-testing.html" data-zh="多重檢定" data-en="MultTest">多重檢定</a></li>
+    <li><a href="bias-confounding.html" data-zh="偏差" data-en="Bias">偏差</a></li>
+    <li><a href="survival.html" data-zh="存活" data-en="Surv">存活</a></li>
+    <li><a href="causal-inference.html" data-zh="因果" data-en="Causal">因果</a></li>
+    <li><a href="meta-analysis.html" data-zh="Meta" data-en="Meta">Meta</a></li>
+    <li><a href="reproducibility.html" class="active" data-zh="重現" data-en="Repro">重現</a></li>
+    <li><a href="visualization.html" data-zh="視覺化" data-en="Viz">視覺化</a></li>
+    <li><a href="scientific-writing.html" data-zh="寫作" data-en="Writing">寫作</a></li>
+    <li><a href="references/index.html" data-zh="📚 參考資料" data-en="📚 References">📚 參考資料</a></li>
+  </ul>
+</div></nav>
+<div class="progress-bar-container"><div class="progress-bar" id="progressBar"></div></div>
+<header class="page-hero"><div class="step-badge">ADVANCED</div>
+<h1 data-zh="可重現研究" data-en="Reproducible Research">可重現研究</h1>
+<p class="subtitle" data-lang="zh">Git、Docker、Snakemake、Quarto——讓你的研究在 5 年後依然能跑、能重現、能信任。</p>
+<p class="subtitle" data-lang="en">Git, Docker, Snakemake, Quarto — make your study still runnable, reproducible, and trustworthy five years from now.</p>
+</header>
+<main class="content-wrap">
+
+<section class="section">
+<div class="section-label" data-zh="概覽" data-en="OVERVIEW">概覽</div>
+<h2 data-zh="重現性危機與基本詞彙" data-en="The Reproducibility Crisis &amp; Basic Vocabulary">重現性危機與詞彙</h2>
+<div data-lang="zh">
+<p>2016 年 Nature 對 1,576 名科學家的調查：70% 曾無法重現他人實驗，超過 50% 無法重現自己的研究。Baker (2016)、Ioannidis (2005) 與 Open Science Collaboration (2015) 都點出生醫研究的重現性問題。基本詞彙：</p>
+<ul>
+<li><strong>Computational reproducibility（計算重現）：</strong>同樣資料 + 同樣程式碼 → 同樣結果。最基本要求。</li>
+<li><strong>Replicability（複製）：</strong>新資料 + 同方法 → 相似結論。</li>
+<li><strong>Robustness（穩健）：</strong>稍微不同的資料/方法 → 相似結論。</li>
+<li><strong>Generalizability（推論性）：</strong>不同族群/情境 → 相似結論。</li>
+</ul>
+</div>
+<div data-lang="en">
+<p>Nature's 2016 survey of 1,576 scientists: 70% had failed to reproduce others' experiments; over 50% couldn't reproduce their own. Baker (2016), Ioannidis (2005), and the Open Science Collaboration (2015) all highlight a reproducibility problem in biomedicine. Basic vocabulary:</p>
+<ul>
+<li><strong>Computational reproducibility:</strong> same data + same code → same result. The minimum bar.</li>
+<li><strong>Replicability:</strong> new data + same method → similar conclusion.</li>
+<li><strong>Robustness:</strong> slightly varied data/method → similar conclusion.</li>
+<li><strong>Generalizability:</strong> different populations/contexts → similar conclusion.</li>
+</ul>
+</div>
+</section>
+
+<section class="section">
+<div class="section-label" data-zh="四層工具" data-en="FOUR LAYERS">四層工具</div>
+<h2 data-zh="一、可重現研究的四層工具" data-en="I. Four Layers of Reproducibility Tools">一、四層工具</h2>
+<div class="card-grid cols-2">
+<div class="card"><h4>🌿 <span data-zh="版本控制 (Version Control)" data-en="Version Control">版本控制</span></h4>
+<div data-lang="zh"><p><strong>Git + GitHub/GitLab：</strong>追蹤每行程式碼變動。<code>main</code> 為穩定、<code>dev</code> 為開發、PR 為審查機制。<br><strong>論文版本：</strong>用 tag (例 v1.0-submission) 凍結特定版本。</p></div>
+<div data-lang="en"><p><strong>Git + GitHub/GitLab:</strong> track every line change. <code>main</code> = stable, <code>dev</code> = development, PRs for review.<br><strong>Manuscript versions:</strong> use tags (e.g., v1.0-submission) to freeze specific states.</p></div>
+</div>
+<div class="card"><h4>📦 <span data-zh="環境管理 (Environment)" data-en="Environment Management">環境管理</span></h4>
+<div data-lang="zh"><p><strong>conda / mamba</strong>（最常用）、<strong>renv</strong>（R 專案鎖定）、<strong>poetry / uv</strong>（現代 Python）。每個專案一個獨立環境 + 鎖定檔（<code>environment.yml</code>、<code>renv.lock</code>、<code>pyproject.toml</code>）。</p></div>
+<div data-lang="en"><p><strong>conda / mamba</strong> (most common), <strong>renv</strong> (R project pinning), <strong>poetry / uv</strong> (modern Python). One environment per project + lockfile (<code>environment.yml</code>, <code>renv.lock</code>, <code>pyproject.toml</code>).</p></div>
+</div>
+<div class="card"><h4>🐳 <span data-zh="容器化 (Containers)" data-en="Containers">容器化</span></h4>
+<div data-lang="zh"><p><strong>Docker / Singularity / Apptainer：</strong>把 OS 函式庫 + 工具 + 環境全打包成一個映像檔。HPC 通常用 Singularity（不需 root）；DockerHub / Biocontainers 提供現成映像。</p></div>
+<div data-lang="en"><p><strong>Docker / Singularity / Apptainer:</strong> bundle OS libs + tools + environment into one image. HPC typically uses Singularity (no root needed). DockerHub / Biocontainers provide ready-made images.</p></div>
+</div>
+<div class="card"><h4>🔄 <span data-zh="工作流引擎 (Workflows)" data-en="Workflow Engines">工作流引擎</span></h4>
+<div data-lang="zh"><p><strong>Snakemake</strong>（Python，DAG 自動）、<strong>Nextflow</strong>（DSL，跨平台佳）、<strong>WDL / Cromwell</strong>（雲端流程，Terra/AnVIL）。從 raw FASTQ 到結果一鍵跑完。</p></div>
+<div data-lang="en"><p><strong>Snakemake</strong> (Python, auto-DAG), <strong>Nextflow</strong> (DSL, cross-platform), <strong>WDL / Cromwell</strong> (cloud-native, Terra/AnVIL). Run from raw FASTQ to result in one command.</p></div>
+</div>
+</div>
+</section>
+
+<section class="section">
+<div class="section-label" data-zh="動態報告" data-en="DYNAMIC REPORTS">動態報告</div>
+<h2 data-zh="二、動態文件：R Markdown / Quarto / Jupyter" data-en="II. Dynamic Documents: R Markdown / Quarto / Jupyter">二、動態文件</h2>
+<div data-lang="zh">
+<p>把程式碼、輸出、文字寫在同一份檔案，並可一鍵 render 成 HTML / PDF / DOCX。優點：</p>
+<ul>
+<li><strong>文字與程式碼緊密綁定</strong>——修改資料後重 render，圖表自動更新</li>
+<li><strong>literate programming</strong>——讀者可以看到每段邏輯</li>
+<li>支援 ggplot、Plotly、LaTeX、mermaid 等</li>
+</ul>
+<p>2025 年最推薦：<strong>Quarto</strong>（取代 R Markdown、Jupyter book，可同時支援 R / Python / Julia / Observable）。</p>
+</div>
+<div data-lang="en">
+<p>Embed code, output, and prose in one file; render to HTML / PDF / DOCX with one command. Pros:</p>
+<ul>
+<li><strong>Tight coupling between text and code</strong> — figures auto-update when data changes</li>
+<li><strong>Literate programming</strong> — readers follow every logical step</li>
+<li>Supports ggplot, Plotly, LaTeX, mermaid, etc.</li>
+</ul>
+<p>2025 top pick: <strong>Quarto</strong> (replaces R Markdown / Jupyter Book; supports R / Python / Julia / Observable in one file).</p>
+</div>
+</section>
+
+<section class="section">
+<div class="section-label" data-zh="專案結構" data-en="PROJECT STRUCTURE">專案結構</div>
+<h2 data-zh="三、推薦的專案目錄結構" data-en="III. Recommended Project Layout">三、推薦目錄結構</h2>
+<div class="code-tabs">
+<div class="code-tab-btns">
+<button class="code-tab-btn active">Tree</button>
+<button class="code-tab-btn">Snakefile</button>
+<button class="code-tab-btn">Dockerfile</button>
+</div>
+<div class="code-tab-content active"><pre><span class="comment"># Cookiecutter-style biomedical project</span>
+my-project/
+├── README.md
+├── LICENSE
+├── environment.yml          <span class="comment"># conda env (or renv.lock)</span>
+├── Dockerfile               <span class="comment"># reproducible image</span>
+├── Snakefile                <span class="comment"># workflow definition</span>
+├── config/
+│   └── config.yaml          <span class="comment"># parameters &amp; paths</span>
+├── data/
+│   ├── raw/                 <span class="comment"># read-only, often gitignored</span>
+│   ├── interim/             <span class="comment"># cleaned (cached)</span>
+│   └── processed/           <span class="comment"># analysis-ready</span>
+├── results/
+│   ├── figures/
+│   └── tables/
+├── src/                     <span class="comment"># scripts &amp; modules</span>
+│   ├── 01_qc.py
+│   ├── 02_norm.R
+│   └── utils/
+├── notebooks/               <span class="comment"># exploratory only</span>
+├── reports/                 <span class="comment"># Quarto / Rmd</span>
+└── tests/                   <span class="comment"># pytest / testthat</span></pre></div>
+<div class="code-tab-content"><pre><span class="comment"># Minimal RNA-seq Snakemake example</span>
+SAMPLES = [<span class="str">"S1"</span>, <span class="str">"S2"</span>, <span class="str">"S3"</span>]
+
+rule all:
+    input:
+        <span class="str">"results/de_results.tsv"</span>
+
+rule fastqc:
+    input:  <span class="str">"data/raw/{sample}.fq.gz"</span>
+    output: <span class="str">"results/qc/{sample}_fastqc.html"</span>
+    shell:  <span class="str">"fastqc {input} -o results/qc"</span>
+
+rule align:
+    input:  fq=<span class="str">"data/raw/{sample}.fq.gz"</span>, idx=<span class="str">"data/ref/star_idx"</span>
+    output: <span class="str">"results/bam/{sample}.bam"</span>
+    threads: <span class="num">8</span>
+    shell:  <span class="str">"STAR --readFilesIn {input.fq} --genomeDir {input.idx} "</span>
+            <span class="str">"--runThreadN {threads} --outFileNamePrefix results/bam/{wildcards.sample}_"</span>
+
+rule deseq2:
+    input:  <span class="func">expand</span>(<span class="str">"results/bam/{s}.bam"</span>, s=SAMPLES)
+    output: <span class="str">"results/de_results.tsv"</span>
+    script: <span class="str">"src/02_deseq2.R"</span></pre></div>
+<div class="code-tab-content"><pre><span class="comment"># Reproducible bioinformatics image</span>
+FROM mambaorg/micromamba:<span class="num">1.5</span>
+
+LABEL maintainer=<span class="str">"you@uni.edu"</span> \
+      org.opencontainers.image.source=<span class="str">"https://github.com/you/proj"</span>
+
+COPY --chown=$MAMBA_USER:$MAMBA_USER environment.yml /tmp/
+RUN micromamba install -y -n base -f /tmp/environment.yml \
+    && micromamba clean --all --yes
+
+WORKDIR /workspace
+COPY . /workspace
+
+CMD [<span class="str">"snakemake"</span>, <span class="str">"--use-conda"</span>, <span class="str">"--cores"</span>, <span class="str">"8"</span>]
+
+<span class="comment"># Build &amp; run:</span>
+<span class="comment"># docker build -t myproj:v1.0 .</span>
+<span class="comment"># docker run --rm -v $PWD:/workspace myproj:v1.0</span></pre></div>
+</div>
+</section>
+
+<section class="section">
+<div class="section-label" data-zh="檢查表" data-en="CHECKLIST">檢查表</div>
+<h2 data-zh="四、論文發表前的重現性檢查表" data-en="IV. Pre-submission Reproducibility Checklist">四、發表前檢查表</h2>
+<div class="accordion-item"><button class="accordion-btn"><span data-zh="✓ 程式碼" data-en="✓ Code">✓ 程式碼</span></button><div class="accordion-body">
+<ul style="margin-left:20px;">
+<li data-lang="zh">所有 figure / table 的產生程式碼都在 repo</li>
+<li data-lang="en">All figure/table generation code is in the repo</li>
+<li data-lang="zh">使用 random seed 並紀錄</li>
+<li data-lang="en">Random seeds set and logged</li>
+<li data-lang="zh">提供 README + LICENSE</li>
+<li data-lang="en">README + LICENSE included</li>
+</ul>
+</div></div>
+<div class="accordion-item"><button class="accordion-btn"><span data-zh="✓ 資料" data-en="✓ Data">✓ 資料</span></button><div class="accordion-body">
+<ul style="margin-left:20px;">
+<li data-lang="zh">公開資料：accession number + 版本</li>
+<li data-lang="en">Public data: accession number + version</li>
+<li data-lang="zh">受控資料：申請流程說明</li>
+<li data-lang="en">Controlled data: application process documented</li>
+<li data-lang="zh">處理過的資料存到 Zenodo / FigShare（給 DOI）</li>
+<li data-lang="en">Processed data deposited at Zenodo / FigShare (with DOI)</li>
+</ul>
+</div></div>
+<div class="accordion-item"><button class="accordion-btn"><span data-zh="✓ 環境" data-en="✓ Environment">✓ 環境</span></button><div class="accordion-body">
+<ul style="margin-left:20px;">
+<li data-lang="zh">提供 <code>environment.yml</code> 或 <code>renv.lock</code></li>
+<li data-lang="en">Provide <code>environment.yml</code> or <code>renv.lock</code></li>
+<li data-lang="zh">Docker / Singularity image（推薦）</li>
+<li data-lang="en">Docker / Singularity image (recommended)</li>
+<li data-lang="zh">指明 OS、R / Python 版本、套件版本</li>
+<li data-lang="en">Specify OS, R/Python versions, package versions</li>
+</ul>
+</div></div>
+<div class="accordion-item"><button class="accordion-btn"><span data-zh="✓ 文件" data-en="✓ Documentation">✓ 文件</span></button><div class="accordion-body">
+<ul style="margin-left:20px;">
+<li data-lang="zh">每個步驟有 docstring / inline comment</li>
+<li data-lang="en">Each step has docstrings / inline comments</li>
+<li data-lang="zh">README 包含 "How to reproduce" 段落</li>
+<li data-lang="en">README has a "How to reproduce" section</li>
+<li data-lang="zh">附 ORCID、CRediT、利益衝突聲明</li>
+<li data-lang="en">Include ORCID, CRediT, COI</li>
+</ul>
+</div></div>
+</section>
+
+<section class="quiz-section">
+<h3 data-zh="📝 隨堂測驗" data-en="📝 Quick Quiz">📝 隨堂測驗</h3>
+<div class="quiz-q">
+<p data-zh="Q1. 「Computational reproducibility」最基本的定義？" data-en="Q1. Most basic definition of computational reproducibility?">Q1. Computational reproducibility 的最基本定義？</p>
+<div class="quiz-options">
+<div class="quiz-opt" data-correct="0"><span>A. <span data-lang="zh">不同樣本能得到相同結果</span><span data-lang="en">Same result on a new sample</span></span></div>
+<div class="quiz-opt" data-correct="1"><span>B. <span data-lang="zh">同樣資料+同樣程式碼能得到同樣結果</span><span data-lang="en">Same data + same code → same result</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>C. <span data-lang="zh">不同方法得到相同結論</span><span data-lang="en">Different methods → same conclusion</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>D. <span data-lang="zh">不同實驗室得到相同結果</span><span data-lang="en">Different labs → same result</span></span></div>
+</div>
+<div class="quiz-feedback"><span data-lang="zh">這是重現性的最低門檻：任何人取得你的資料和程式碼都能得到同樣輸出。</span><span data-lang="en">This is the floor: anyone with your data and code reproduces your output.</span></div>
+</div>
+
+<div class="quiz-q">
+<p data-zh="Q2. HPC 環境最常用哪一種容器系統？" data-en="Q2. Most common container system on HPC?">Q2. HPC 常用哪種容器？</p>
+<div class="quiz-options">
+<div class="quiz-opt" data-correct="0"><span>A. Docker</span></div>
+<div class="quiz-opt" data-correct="1"><span>B. Singularity / Apptainer</span></div>
+<div class="quiz-opt" data-correct="0"><span>C. VMware</span></div>
+<div class="quiz-opt" data-correct="0"><span>D. <span data-lang="zh">不用容器</span><span data-lang="en">No containers</span></span></div>
+</div>
+<div class="quiz-feedback"><span data-lang="zh">HPC 通常不允許 root 權限。Singularity/Apptainer 是不需 root 的替代方案，且能直接讀 Docker images。</span><span data-lang="en">HPC clusters disallow root. Singularity/Apptainer is the rootless alternative and can pull Docker images.</span></div>
+</div>
+
+<div class="quiz-q">
+<p data-zh="Q3. 處理過的「分析結果資料」應該放在？" data-en="Q3. Where should processed analysis-ready data be deposited?">Q3. 處理過的資料放哪？</p>
+<div class="quiz-options">
+<div class="quiz-opt" data-correct="0"><span>A. <span data-lang="zh">私人電腦</span><span data-lang="en">Local hard drive</span></span></div>
+<div class="quiz-opt" data-correct="1"><span>B. <span data-lang="zh">Zenodo / FigShare 等公開資料庫並取得 DOI</span><span data-lang="en">Public repository like Zenodo / FigShare with a DOI</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>C. <span data-lang="zh">補充材料 PDF 附錄</span><span data-lang="en">PDF supplement</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>D. <span data-lang="zh">完全不公開</span><span data-lang="en">Don't share</span></span></div>
+</div>
+<div class="quiz-feedback"><span data-lang="zh">Zenodo/FigShare 提供永久 DOI、版本控管與 metadata 範本，符合 FAIR 原則。</span><span data-lang="en">Zenodo/FigShare provide persistent DOIs, versioning, and metadata templates — meeting the FAIR principles.</span></div>
+</div>
+
+<div class="quiz-q">
+<p data-zh="Q4. 為什麼要把 raw 與 processed 資料分開存放？" data-en="Q4. Why separate raw and processed data folders?">Q4. raw 與 processed 資料為何要分開？</p>
+<div class="quiz-options">
+<div class="quiz-opt" data-correct="0"><span>A. <span data-lang="zh">節省硬碟</span><span data-lang="en">Save disk space</span></span></div>
+<div class="quiz-opt" data-correct="1"><span>B. <span data-lang="zh">raw 應視為唯讀，processed 可隨時重建</span><span data-lang="en">Raw is read-only; processed can be regenerated</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>C. <span data-lang="zh">符合 GDPR</span><span data-lang="en">Required by GDPR</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>D. <span data-lang="zh">提升 I/O 效能</span><span data-lang="en">Boost I/O performance</span></span></div>
+</div>
+<div class="quiz-feedback"><span data-lang="zh">raw 必須維持原貌（萬一處理錯誤可回到起點）。processed 是程式碼 + raw 的衍生物，可隨時重建。</span><span data-lang="en">Raw must be untouched (so you can re-run from scratch). Processed is a derivative of code + raw — regeneratable any time.</span></div>
+</div>
+</section>
+
+<div class="page-nav">
+<a href="meta-analysis.html"><span class="nav-dir" data-zh="← 上一步" data-en="← Previous">← 上一步</span><span class="nav-title" data-zh="Meta 分析" data-en="Meta-analysis">Meta 分析</span></a>
+<a href="visualization.html"><span class="nav-dir" data-zh="下一步 →" data-en="Next →">下一步 →</span><span class="nav-title" data-zh="數據視覺化" data-en="Data Visualization">數據視覺化</span></a>
+</div>
+
+</main>
+<footer class="site-footer">© Charlene — Biomedical Informatics Research Techniques</footer>
+<script src="i18n.js"></script>
+</body></html>

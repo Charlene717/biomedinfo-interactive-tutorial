@@ -1,0 +1,254 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Step 8: Bias, Confounding &amp; Batch Effects — Biomedical Informatics Tutorial</title>
+<link rel="stylesheet" href="styles.css">
+</head><body>
+<nav class="top-nav"><div class="top-nav-inner">
+  <a href="index.html" class="top-nav-brand"><span>🔬</span> <span data-zh="生醫資訊研究技術" data-en="BioMed Informatics">生醫資訊研究技術</span></a>
+  <ul class="top-nav-links">
+    <li><a href="research-design.html" data-zh="設計" data-en="Design">設計</a></li>
+    <li><a href="literature-review.html" data-zh="文獻" data-en="Lit">文獻</a></li>
+    <li><a href="databases.html" data-zh="資料庫" data-en="DB">資料庫</a></li>
+    <li><a href="ethics.html" data-zh="倫理" data-en="Ethics">倫理</a></li>
+    <li><a href="sample-size.html" data-zh="樣本量" data-en="Sample">樣本量</a></li>
+    <li><a href="statistical-tests.html" data-zh="檢定" data-en="Tests">檢定</a></li>
+    <li><a href="multiple-testing.html" data-zh="多重檢定" data-en="MultTest">多重檢定</a></li>
+    <li><a href="bias-confounding.html" class="active" data-zh="偏差" data-en="Bias">偏差</a></li>
+    <li><a href="survival.html" data-zh="存活" data-en="Surv">存活</a></li>
+    <li><a href="causal-inference.html" data-zh="因果" data-en="Causal">因果</a></li>
+    <li><a href="meta-analysis.html" data-zh="Meta" data-en="Meta">Meta</a></li>
+    <li><a href="reproducibility.html" data-zh="重現" data-en="Repro">重現</a></li>
+    <li><a href="visualization.html" data-zh="視覺化" data-en="Viz">視覺化</a></li>
+    <li><a href="scientific-writing.html" data-zh="寫作" data-en="Writing">寫作</a></li>
+    <li><a href="references/index.html" data-zh="📚 參考資料" data-en="📚 References">📚 參考資料</a></li>
+  </ul>
+</div></nav>
+<div class="progress-bar-container"><div class="progress-bar" id="progressBar"></div></div>
+<header class="page-hero"><div class="step-badge">STEP 8 / 9</div>
+<h1 data-zh="偏差、干擾與批次效應" data-en="Bias, Confounding &amp; Batch Effects">偏差、干擾與批次效應</h1>
+<p class="subtitle" data-lang="zh">即使統計再嚴謹，未控制的偏差也能讓結論完全顛倒——這就是流行病學最常見的論文撤稿原因。</p>
+<p class="subtitle" data-lang="en">No statistic survives uncontrolled bias. It is the most common reason for epidemiologic retractions.</p>
+</header>
+<main class="content-wrap">
+
+<section class="section">
+<div class="section-label" data-zh="概覽" data-en="OVERVIEW">概覽</div>
+<h2 data-zh="偏差的三大來源" data-en="Three Sources of Bias">偏差的三大來源</h2>
+<div data-lang="zh">
+<p>傳統流行病學把偏差分三類：</p>
+<ul>
+<li><strong>Selection bias（選擇偏倚）</strong>：誰被招募進來、誰失訪不對等</li>
+<li><strong>Information bias（資訊偏倚）</strong>：暴露或結果測量不準確或不對稱</li>
+<li><strong>Confounding（干擾）</strong>：第三變數同時與暴露和結果相關</li>
+</ul>
+<p>生醫資訊時代又增加一項：<strong>Batch effect（批次效應）</strong>——技術變數（如定序中心、年份）混淆了真正的生物訊號。</p>
+</div>
+<div data-lang="en">
+<p>Classical epidemiology recognizes three biases:</p>
+<ul>
+<li><strong>Selection bias</strong> — who gets in, who drops out</li>
+<li><strong>Information bias</strong> — measurement is inaccurate or asymmetric</li>
+<li><strong>Confounding</strong> — a third variable is associated with both exposure and outcome</li>
+</ul>
+<p>Biomedical informatics adds: <strong>Batch effects</strong> — technical covariates (sequencing center, year) confound true biological signal.</p>
+</div>
+</section>
+
+<section class="section">
+<div class="section-label" data-zh="Selection Bias" data-en="SELECTION BIAS">Selection Bias</div>
+<h2 data-zh="一、選擇偏倚的常見型態" data-en="I. Common Selection Biases">一、選擇偏倚常見型態</h2>
+<div class="card-grid cols-2">
+<div class="card"><h4>🏥 <span data-zh="Berkson 偏倚" data-en="Berkson's bias">Berkson 偏倚</span></h4>
+<div data-lang="zh"><p>醫院 case-control 研究中，住院病人比一般人更常合併多種疾病，導致兩疾病出現虛假關聯。對策：盡量從<strong>族群</strong>而非醫院抽樣。</p></div>
+<div data-lang="en"><p>Hospital-based case-control studies inflate comorbidity associations because hospitalized patients have more conditions. Fix: sample from <strong>population</strong>, not hospitals.</p></div>
+</div>
+<div class="card"><h4>🚪 <span data-zh="Healthy worker effect" data-en="Healthy worker effect">健康工人效應</span></h4>
+<div data-lang="zh"><p>職業 cohort 中，員工通常比一般族群健康（因疾病者已離職）→ 低估暴露的不良影響。對策：與內部對照比較或標準化死亡比 SMR。</p></div>
+<div data-lang="en"><p>Workers are healthier than the general population (sick leave the workforce), underestimating exposure harms. Fix: compare to internal controls or use SMR.</p></div>
+</div>
+<div class="card"><h4>📞 <span data-zh="Non-response bias" data-en="Non-response bias">不回應偏倚</span></h4>
+<div data-lang="zh"><p>填問卷的人通常比不填的人更健康/教育程度高 → 估計值有偏。對策：multiple imputation、敏感度分析、提高回應率。</p></div>
+<div data-lang="en"><p>Respondents are typically healthier / more educated than non-respondents → biased estimates. Fix: multiple imputation, sensitivity analysis, boost response rates.</p></div>
+</div>
+<div class="card"><h4>🎯 <span data-zh="Collider bias" data-en="Collider bias">碰撞變數偏倚</span></h4>
+<div data-lang="zh"><p>調整一個被兩變數共同影響的「碰撞節點」會造成假關聯。例如 COVID 研究中「住院」即為 collider，分層分析住院族群會引入新偏倚。</p></div>
+<div data-lang="en"><p>Conditioning on a variable affected by two others creates spurious associations. In COVID studies, "hospitalization" is a collider; stratifying by it introduces new bias.</p></div>
+</div>
+</div>
+</section>
+
+<section class="section">
+<div class="section-label" data-zh="Confounding" data-en="CONFOUNDING">Confounding</div>
+<h2 data-zh="二、干擾與其辨識" data-en="II. Confounding and Its Identification">二、干擾與辨識</h2>
+<div data-lang="zh"><p>一個變數要成為干擾因子，必須同時滿足三條件：</p>
+<ol>
+<li>與暴露相關（A → C）</li>
+<li>與結果相關（C → Y），且不在「暴露 → 結果」的中介路徑上</li>
+<li>不是暴露的後果</li>
+</ol>
+<p><strong>經典例子：</strong>「咖啡飲用」與「肺癌」的關聯——年代久遠的研究發現喝咖啡的人肺癌較多。但喝咖啡者也常抽菸，<strong>抽菸</strong>才是真正的因子（同時與咖啡與肺癌相關）。</p></div>
+<div data-lang="en"><p>To be a confounder, a variable must satisfy three conditions:</p>
+<ol>
+<li>Associated with the exposure (A → C)</li>
+<li>Associated with the outcome (C → Y) — and not on the causal pathway</li>
+<li>Not a consequence of the exposure</li>
+</ol>
+<p><strong>Classic example:</strong> "Coffee" appeared linked to "lung cancer" in older studies. But coffee drinkers smoked more, and <strong>smoking</strong> is the real driver (associated with both coffee and lung cancer).</p></div>
+
+<div class="dag-box">
+A (Coffee) ───────────► Y (Lung Cancer)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;▲&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;▲<br>
+&nbsp;&nbsp;&nbsp;&nbsp;└────── C (Smoking) ──────┘
+</div>
+
+<div data-lang="zh"><p><strong>三種處理策略：</strong></p>
+<ul>
+<li><strong>設計階段：</strong>隨機化 (RCT)、限制 (restriction)、配對 (matching)</li>
+<li><strong>分析階段：</strong>分層 (stratification)、多變量回歸、propensity score</li>
+<li><strong>進階：</strong>工具變數、Mendelian randomization（詳見 Step 10）</li>
+</ul></div>
+<div data-lang="en"><p><strong>Three mitigation strategies:</strong></p>
+<ul>
+<li><strong>Design stage:</strong> randomization (RCT), restriction, matching</li>
+<li><strong>Analysis stage:</strong> stratification, multivariable regression, propensity score</li>
+<li><strong>Advanced:</strong> instrumental variables, Mendelian randomization (see Step 10)</li>
+</ul></div>
+</section>
+
+<section class="section">
+<div class="section-label" data-zh="Batch Effects" data-en="BATCH EFFECTS">Batch Effects</div>
+<h2 data-zh="三、組學資料的批次效應" data-en="III. Batch Effects in Omics Data">三、組學的批次效應</h2>
+<div data-lang="zh"><p>2010 年 Leek et al. 在 Nature Reviews Genetics 揭露：許多公開 microarray 研究的「生物學發現」其實主要由<strong>定序日期</strong>驅動。批次效應的來源包括：</p>
+<ul>
+<li>不同實驗室、技術員、機器</li>
+<li>不同 reagent lot、protocol 版本</li>
+<li>不同年份、季節（試劑批次）</li>
+<li>不同樣本處理日期或冷凍時間</li>
+</ul>
+<p><strong>診斷工具：</strong>PCA + 用 batch 變數上色看是否分層；plotMD、relative log expression (RLE) plots。</p></div>
+<div data-lang="en"><p>Leek et al. (Nat Rev Genet 2010) showed that many "biological findings" in public microarray data were driven by <strong>processing date</strong>. Sources of batch effects:</p>
+<ul>
+<li>Different labs, technicians, machines</li>
+<li>Different reagent lots, protocol versions</li>
+<li>Different years/seasons</li>
+<li>Different sample handling or freezing dates</li>
+</ul>
+<p><strong>Diagnostics:</strong> PCA colored by batch (look for stratification), plotMD, RLE plots.</p></div>
+
+<table class="comp-table"><thead><tr>
+<th data-zh="方法" data-en="Method">方法</th>
+<th data-zh="原理" data-en="Principle">原理</th>
+<th data-zh="使用情境" data-en="When">使用情境</th>
+</tr></thead><tbody>
+<tr><td><strong>ComBat</strong></td><td><span data-lang="zh">empirical Bayes 校正每個基因的位置與尺度</span><span data-lang="en">Empirical Bayes adjustment of location &amp; scale per gene</span></td><td><span data-lang="zh">已知 batch、生物變數的整合</span><span data-lang="en">Known batch + biology covariates</span></td></tr>
+<tr><td><strong>limma::removeBatchEffect</strong></td><td><span data-lang="zh">迴歸式移除 batch 主效應</span><span data-lang="en">Regression-based batch removal</span></td><td><span data-lang="zh">微陣列或 log-transformed 表達</span><span data-lang="en">Microarray or log-expr</span></td></tr>
+<tr><td><strong>SVA (Surrogate Variable Analysis)</strong></td><td><span data-lang="zh">推斷未知潛在 batch</span><span data-lang="en">Infer unknown hidden batches</span></td><td><span data-lang="zh">不知道 batch 變數時</span><span data-lang="en">When batch is unknown</span></td></tr>
+<tr><td><strong>RUV (Remove Unwanted Variation)</strong></td><td><span data-lang="zh">用 negative control 基因校正</span><span data-lang="en">Uses negative control genes</span></td><td><span data-lang="zh">擁有 housekeeping 基因參考</span><span data-lang="en">Housekeeping genes available</span></td></tr>
+<tr><td><strong>Harmony / scVI / fastMNN</strong></td><td><span data-lang="zh">單細胞特化的 latent-space 校正</span><span data-lang="en">scRNA-seq latent-space alignment</span></td><td><span data-lang="zh">scRNA-seq 整合</span><span data-lang="en">scRNA-seq integration</span></td></tr>
+</tbody></table>
+<div class="callout warn"><span class="callout-icon">⚠️</span><div>
+<span data-lang="zh"><strong>實驗設計才是根本：</strong>校正再強也救不回「所有 case 在 batch 1，所有 control 在 batch 2」的完全混淆設計。樣本應在 batch 間<strong>平衡分配</strong>。</span>
+<span data-lang="en"><strong>Design beats correction:</strong> No method can rescue a fully confounded design ("all cases in batch 1, all controls in batch 2"). <strong>Balance</strong> samples across batches at the design stage.</span>
+</div></div>
+</section>
+
+<section class="section">
+<div class="section-label" data-zh="程式碼" data-en="CODE">程式碼</div>
+<h2 data-zh="實作：偵測與校正" data-en="Detect &amp; Correct">實作範例</h2>
+<div class="code-tabs">
+<div class="code-tab-btns">
+<button class="code-tab-btn active">R (sva)</button>
+<button class="code-tab-btn">R (limma)</button>
+<button class="code-tab-btn">Python</button>
+</div>
+<div class="code-tab-content active"><pre><span class="comment"># Detect batch via PCA</span>
+pca <- <span class="func">prcomp</span>(<span class="func">t</span>(expr), scale.=<span class="kw">TRUE</span>)
+<span class="func">plot</span>(pca$x, col=<span class="func">factor</span>(meta$batch))   <span class="comment"># color by batch</span>
+
+<span class="comment"># ComBat from sva</span>
+<span class="kw">library</span>(<span class="func">sva</span>)
+modcombat <- <span class="func">model.matrix</span>(~ disease, data=meta)  <span class="comment"># keep biology</span>
+expr_adj  <- <span class="func">ComBat</span>(dat=expr,
+                    batch=meta$batch,
+                    mod=modcombat)</pre></div>
+<div class="code-tab-content"><pre><span class="kw">library</span>(<span class="func">limma</span>)
+
+<span class="comment"># Remove batch for downstream visualization (PCA, heatmap)</span>
+expr_adj <- <span class="func">removeBatchEffect</span>(expr,
+              batch=meta$batch,
+              design=<span class="func">model.matrix</span>(~ meta$disease))
+
+<span class="comment"># For statistical testing: include batch as covariate instead!</span>
+design <- <span class="func">model.matrix</span>(~ disease + batch, data=meta)
+fit <- <span class="func">lmFit</span>(expr, design); fit <- <span class="func">eBayes</span>(fit)
+<span class="func">topTable</span>(fit, coef=<span class="str">"disease"</span>)</pre></div>
+<div class="code-tab-content"><pre><span class="kw">import</span> pandas <span class="kw">as</span> pd
+<span class="kw">from</span> combat.pycombat <span class="kw">import</span> pycombat   <span class="comment"># pip install combat</span>
+
+<span class="comment"># expr: genes x samples; batch / biology as Series</span>
+expr_adj = <span class="func">pycombat</span>(expr, batch=meta[<span class="str">"batch"</span>],
+                    mod=pd.<span class="func">get_dummies</span>(meta[<span class="str">"disease"</span>]))
+
+<span class="comment"># For single-cell, use scanpy + Harmony / Scanorama / scVI</span>
+<span class="kw">import</span> scanpy <span class="kw">as</span> sc, harmonypy <span class="kw">as</span> hm
+sc.<span class="func">tl</span>.pca(adata)
+ho = hm.<span class="func">run_harmony</span>(adata.obsm[<span class="str">"X_pca"</span>], adata.obs, [<span class="str">"batch"</span>])
+adata.obsm[<span class="str">"X_pca_harmony"</span>] = ho.Z_corr.T</pre></div>
+</div>
+</section>
+
+<section class="quiz-section">
+<h3 data-zh="📝 隨堂測驗" data-en="📝 Quick Quiz">📝 隨堂測驗</h3>
+<div class="quiz-q">
+<p data-zh="Q1. 一變數要成為干擾因子，必須同時滿足哪三個條件？" data-en="Q1. Three conditions for a confounder?">Q1. 干擾因子的三個條件？</p>
+<div class="quiz-options">
+<div class="quiz-opt" data-correct="1"><span>A. <span data-lang="zh">與暴露相關、與結果相關、不在因果鏈中介</span><span data-lang="en">Associated with exposure, with outcome, not a mediator</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>B. <span data-lang="zh">與暴露無關、與結果相關、是 collider</span><span data-lang="en">Unrelated to exposure, related to outcome, is a collider</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>C. <span data-lang="zh">是暴露的後果、與結果無關、是中介</span><span data-lang="en">Consequence of exposure, unrelated to outcome, is a mediator</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>D. <span data-lang="zh">是隨機變數、有大樣本量、是 confounder</span><span data-lang="en">Random, large n, is a confounder</span></span></div>
+</div>
+<div class="quiz-feedback"><span data-lang="zh">三條件缺一不可：與 exposure 相關、與 outcome 相關、不是中介或暴露的後果。</span><span data-lang="en">All three are required: associated with exposure, with outcome, and not a mediator or consequence.</span></div>
+</div>
+
+<div class="quiz-q">
+<p data-zh="Q2. 已知 batch label 時最常用的批次校正方法？" data-en="Q2. When batch is known, the most common correction is:">Q2. 已知 batch 最常用？</p>
+<div class="quiz-options">
+<div class="quiz-opt" data-correct="0"><span>A. SVA</span></div>
+<div class="quiz-opt" data-correct="1"><span>B. ComBat</span></div>
+<div class="quiz-opt" data-correct="0"><span>C. PCA</span></div>
+<div class="quiz-opt" data-correct="0"><span>D. <span data-lang="zh">不校正</span><span data-lang="en">No correction</span></span></div>
+</div>
+<div class="quiz-feedback"><span data-lang="zh">ComBat (Johnson 2007) 是處理已知 batch 變數的金標準 empirical-Bayes 方法。</span><span data-lang="en">ComBat (Johnson 2007) is the gold-standard empirical-Bayes method when batch is known.</span></div>
+</div>
+
+<div class="quiz-q">
+<p data-zh="Q3. 完全混淆設計（所有 case 在 batch 1、control 在 batch 2）可以靠統計校正修正嗎？" data-en="Q3. Can statistical correction rescue a fully confounded batch design?">Q3. 完全混淆設計可以靠校正補救嗎？</p>
+<div class="quiz-options">
+<div class="quiz-opt" data-correct="0"><span>A. <span data-lang="zh">可以，用 ComBat</span><span data-lang="en">Yes, with ComBat</span></span></div>
+<div class="quiz-opt" data-correct="1"><span>B. <span data-lang="zh">不可以——biology 與 batch 完全混淆</span><span data-lang="en">No — biology and batch are perfectly confounded</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>C. <span data-lang="zh">可以，用更多樣本</span><span data-lang="en">Yes, with more samples</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>D. <span data-lang="zh">可以，用 SVA</span><span data-lang="en">Yes, with SVA</span></span></div>
+</div>
+<div class="quiz-feedback"><span data-lang="zh">當生物變數與 batch 100% 相關時，沒有任何方法能分離兩者效應。應在設計階段 balance。</span><span data-lang="en">When biology is 100% correlated with batch, no method can separate them. Balance at the design stage.</span></div>
+</div>
+
+<div class="quiz-q">
+<p data-zh="Q4. 「Berkson 偏倚」屬於哪一類偏差？" data-en="Q4. Berkson's bias is a type of:">Q4. Berkson 偏倚屬於？</p>
+<div class="quiz-options">
+<div class="quiz-opt" data-correct="1"><span>A. Selection bias</span></div>
+<div class="quiz-opt" data-correct="0"><span>B. Information bias</span></div>
+<div class="quiz-opt" data-correct="0"><span>C. Confounding</span></div>
+<div class="quiz-opt" data-correct="0"><span>D. Batch effect</span></div>
+</div>
+<div class="quiz-feedback"><span data-lang="zh">Berkson 偏倚出現在醫院樣本選擇上，住院病人比一般人更常合併多種疾病，是典型 selection bias。</span><span data-lang="en">Berkson's bias arises from hospital sampling — hospitalized patients have more comorbidities. It is selection bias.</span></div>
+</div>
+</section>
+
+<div class="page-nav">
+<a href="multiple-testing.html"><span class="nav-dir" data-zh="← 上一步" data-en="← Previous">← 上一步</span><span class="nav-title" data-zh="多重檢定" data-en="Multiple Testing">多重檢定</span></a>
+<a href="survival.html"><span class="nav-dir" data-zh="下一步 →" data-en="Next →">下一步 →</span><span class="nav-title" data-zh="存活分析" data-en="Survival Analysis">存活分析</span></a>
+</div>
+
+</main>
+<footer class="site-footer">© Charlene — Biomedical Informatics Research Techniques</footer>
+<script src="i18n.js"></script>
+</body></html>

@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>生醫資訊研究技術 · References</title>
+<meta name="description" content="Biomedical Informatics Research Techniques 14 個主題的學術論文、官方文件、Best Practices 綜述、報告指引與資料庫來源整理。">
+<link rel="stylesheet" href="../styles.css">
+<style>
+/* References-specific styling */
+.ref-list{list-style:none;padding:0;margin:14px 0 0}
+.ref-list li{padding:14px 16px;background:var(--c-surface-alt);border:1px solid var(--c-border-light);border-radius:var(--radius);margin-bottom:10px;font-size:.92rem;line-height:1.65}
+.ref-list li:hover{background:var(--c-surface);border-color:var(--c-border)}
+.ref-tag{display:inline-block;font-family:var(--font-mono);font-size:.72rem;font-weight:600;padding:2px 8px;border-radius:6px;margin-right:8px;letter-spacing:.5px}
+.ref-tag.paper{background:var(--c-accent-light);color:var(--c-accent-dark)}
+.ref-tag.doc{background:#e3f2fd;color:#1565c0}
+.ref-tag.bench{background:#fff3e0;color:#e65100}
+.ref-tag.db{background:#fce4ec;color:#ad1457}
+.ref-tag.book{background:#f3e5f5;color:#6a1b9a}
+.ref-tag.bestp{background:var(--c-highlight-light);color:#a06a00;border:1px solid var(--c-highlight)}
+.ref-tag.guide{background:#e0f2fe;color:#0369a1}
+.ref-tag.law{background:#f1f5f9;color:#334155}
+.ref-author{color:var(--c-ink);font-weight:600}
+.ref-title{color:var(--c-ink);font-weight:500}
+.ref-meta{color:var(--c-ink-muted);font-size:.85rem;margin-top:4px;display:block}
+.ref-list a{color:var(--c-accent);text-decoration:none;border-bottom:1px dotted var(--c-accent)}
+.ref-list a:hover{color:var(--c-accent-dark);border-bottom-style:solid}
+.errata{background:#fef3c7;border-left:4px solid #d97706;border-radius:0 var(--radius-lg) var(--radius-lg) 0;padding:18px 22px;margin:18px 0;font-size:.9rem}
+.errata h4{margin:0 0 8px;color:#92400e;font-family:var(--font-display);font-size:1.05rem}
+.errata p{color:#78350f;margin-bottom:8px}
+.errata p:last-child{margin-bottom:0}
+.toc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin:18px 0}
+.toc-grid a{padding:10px 14px;background:var(--c-surface);border:1px solid var(--c-border-light);border-radius:var(--radius);text-decoration:none;color:var(--c-ink);font-size:.88rem;transition:var(--transition);display:flex;align-items:center;gap:8px}
+.toc-grid a:hover{border-color:var(--c-accent);background:var(--c-accent-light);color:var(--c-accent-dark)}
+.toc-grid a .step-tag{font-family:var(--font-mono);font-size:.72rem;color:var(--c-accent);font-weight:600}
+.section-anchor{scroll-margin-top:80px}
+</style>
+</head>
+<body>
+
+<nav class="top-nav">
+<div class="top-nav-inner">
+  <a href="../index.html" class="top-nav-brand"><span>🔬</span> <span data-zh="生醫資訊研究技術" data-en="BioMed Informatics">生醫資訊研究技術</span></a>
+  <ul class="top-nav-links">
+    <li><a href="../research-design.html" data-zh="設計" data-en="Design">設計</a></li>
+    <li><a href="../literature-review.html" data-zh="文獻" data-en="Lit">文獻</a></li>
+    <li><a href="../databases.html" data-zh="資料庫" data-en="DB">資料庫</a></li>
+    <li><a href="../ethics.html" data-zh="倫理" data-en="Ethics">倫理</a></li>
+    <li><a href="../sample-size.html" data-zh="樣本量" data-en="Sample">樣本量</a></li>
+    <li><a href="../statistical-tests.html" data-zh="檢定" data-en="Tests">檢定</a></li>
+    <li><a href="../multiple-testing.html" data-zh="多重檢定" data-en="MultTest">多重檢定</a></li>
+    <li><a href="../bias-confounding.html" data-zh="偏差" data-en="Bias">偏差</a></li>
+    <li><a href="../survival.html" data-zh="存活" data-en="Surv">存活</a></li>
+    <li><a href="../causal-inference.html" data-zh="因果" data-en="Causal">因果</a></li>
+    <li><a href="../meta-analysis.html" data-zh="Meta" data-en="Meta">Meta</a></li>
+    <li><a href="../reproducibility.html" data-zh="重現" data-en="Repro">重現</a></li>
+    <li><a href="../visualization.html" data-zh="視覺化" data-en="Viz">視覺化</a></li>
+    <li><a href="../scientific-writing.html" data-zh="寫作" data-en="Writing">寫作</a></li>
+    <li><a href="index.html" class="active" style="font-weight:700" data-zh="📚 參考資料" data-en="📚 References">📚 參考資料</a></li>
+  </ul>
+</div>
+</nav>
+
+<header class="page-hero">
+<div class="step-badge" data-zh="參考資料 · REFERENCES" data-en="REFERENCES">參考資料 · REFERENCES</div>
+<h1 data-zh="學術論文、官方文件與報告指引" data-en="Papers, Official Docs &amp; Reporting Guidelines">學術論文、官方文件與報告指引</h1>
+<p class="subtitle" data-lang="zh">為「生醫資訊研究技術」14 個主題的原始論文、Best Practices 綜述、官方文件、線上書籍與報告指引（CONSORT/STROBE/PRISMA…）的完整佐證。</p>
+<p class="subtitle" data-lang="en">Original papers, best-practice reviews, official documentation, open books, and reporting guidelines (CONSORT / STROBE / PRISMA …) for all 14 topics of the Biomedical Informatics Research Techniques tutorial.</p>
+</header>
+
+<main class="content-wrap">
+
+<!-- Overview -->
+<section class="section">
+<div class="section-label" data-zh="概覽" data-en="OVERVIEW">概覽</div>
+<h2 data-zh="如何使用這份資料？" data-en="How to Use This Page">如何使用這份資料？</h2>
+<p data-lang="zh">本頁針對教程中提到的每個概念、工具與報告指引整理學術出處。引用標籤含義：</p>
+<p data-lang="en">This page documents the academic provenance of every concept, tool, and reporting guideline mentioned in the tutorial. Tag legend:</p>
+<div class="card-grid cols-3">
+  <div class="card"><div class="card-icon" style="background:var(--c-accent-light)">📄</div><h4>Paper</h4><p data-lang="zh">原始論文 · 含 DOI / PubMed</p><p data-lang="en">Original paper · DOI / PubMed</p></div>
+  <div class="card"><div class="card-icon" style="background:#e3f2fd">📘</div><h4>Doc</h4><p data-lang="zh">官方文件、vignette、tutorial</p><p data-lang="en">Official docs, vignettes, tutorials</p></div>
+  <div class="card"><div class="card-icon" style="background:var(--c-highlight-light)">⭐</div><h4>Best Practice</h4><p data-lang="zh">系統性綜述或社群推薦</p><p data-lang="en">Systematic review or community standard</p></div>
+  <div class="card"><div class="card-icon" style="background:#e0f2fe">✅</div><h4>Guideline</h4><p data-lang="zh">EQUATOR 報告指引 / 國際標準</p><p data-lang="en">EQUATOR reporting / international standard</p></div>
+  <div class="card"><div class="card-icon" style="background:#fce4ec">🗄️</div><h4>Database</h4><p data-lang="zh">公開資料庫 / 註冊平台</p><p data-lang="en">Public database / registry</p></div>
+  <div class="card"><div class="card-icon" style="background:#f3e5f5">📚</div><h4>Book</h4><p data-lang="zh">線上免費書籍或綜合教材</p><p data-lang="en">Open online books &amp; textbooks</p></div>
+</div>
+
+<h3 data-zh="本頁目錄" data-en="On this page">本頁目錄</h3>
+<div class="toc-grid">
+  <a href="#bestpractices"><span class="step-tag">★</span><span data-zh="方法學經典" data-en="Foundational works">方法學經典</span></a>
+  <a href="#design"><span class="step-tag">Step 1</span><span data-zh="研究設計" data-en="Design">研究設計</span></a>
+  <a href="#lit"><span class="step-tag">Step 2</span><span data-zh="文獻檢索" data-en="Lit search">文獻檢索</span></a>
+  <a href="#db"><span class="step-tag">Step 3</span><span data-zh="公開資料庫" data-en="Databases">公開資料庫</span></a>
+  <a href="#ethics"><span class="step-tag">Step 4</span><span data-zh="倫理與治理" data-en="Ethics">倫理與治理</span></a>
+  <a href="#power"><span class="step-tag">Step 5</span><span data-zh="樣本量與檢定力" data-en="Sample size">樣本量與檢定力</span></a>
+  <a href="#tests"><span class="step-tag">Step 6</span><span data-zh="假設檢定" data-en="Hypothesis tests">假設檢定</span></a>
+  <a href="#mult"><span class="step-tag">Step 7</span><span data-zh="多重檢定" data-en="Multiple testing">多重檢定</span></a>
+  <a href="#bias"><span class="step-tag">Step 8</span><span data-zh="偏差與批次效應" data-en="Bias &amp; batch">偏差與批次效應</span></a>
+  <a href="#surv"><span class="step-tag">Step 9</span><span data-zh="存活分析" data-en="Survival">存活分析</span></a>
+  <a href="#causal"><span class="step-tag">Adv.</span><span data-zh="因果推論" data-en="Causal inference">因果推論</span></a>
+  <a href="#meta"><span class="step-tag">Adv.</span><span data-zh="Meta 分析" data-en="Meta-analysis">Meta 分析</span></a>
+  <a href="#repro"><span class="step-tag">Adv.</span><span data-zh="可重現研究" data-en="Reproducibility">可重現研究</span></a>
+  <a href="#viz"><span class="step-tag">Adv.</span><span data-zh="數據視覺化" data-en="Visualization">數據視覺化</span></a>
+  <a href="#writing"><span class="step-tag">Adv.</span><span data-zh="科學寫作" data-en="Sci. writing">科學寫作</span></a>
+  <a href="#equator"><span class="step-tag">✅</span><span data-zh="EQUATOR 全表" data-en="EQUATOR table">EQUATOR 全表</span></a>
+  <a href="#errata"><span class="step-tag">!</span><span data-zh="教學註記與細節" data-en="Tutorial Notes & Details">教學註記與細節</span></a>
+</div>
+</section>
+
+<!-- =================== Foundational ==================== -->
+<section class="section section-anchor" id="bestpractices">
+<div class="section-label" data-zh="方法學經典" data-en="FOUNDATIONS">方法學經典</div>
+<h2 data-zh="⭐ 整體方法論：經典教科書與綜述" data-en="⭐ Foundational Methodology: Classic Textbooks &amp; Reviews">⭐ 整體方法論</h2>
+<p data-lang="zh">下列是涵蓋整個研究流程的權威性綜述與書籍。建議在開始任何一個主題前先翻閱對應段落。</p>
+<p data-lang="en">These authoritative reviews and textbooks span the whole research workflow. Skim the relevant chapter before diving into any specific topic.</p>
+<ul class="ref-list">
+  <li>
+    <span class="ref-tag book">📚 BOOK</span>
+    <span class="ref-author">Hulley SB, Cummings SR, Browner WS, Grady DG, Newman TB.</span>
+    <span class="ref-title"> Designing Clinical Research, 5th ed. </span>
+    <em>Wolters Kluwer</em> (2022).
+    <span class="ref-meta"><span data-lang="zh">ISBN 978-1975174408 · 涵蓋 PICO、FINER、樣本量、研究類型、倫理。</span><span data-lang="en">ISBN 978-1975174408 · Covers PICO, FINER, sample size, study designs, and ethics.</span></span>
+  </li>
+  <li>
+    <span class="ref-tag book">📚 BOOK</span>
+    <span class="ref-author">Rothman KJ, Lash TL, VanderWeele TJ, Haneuse S.</span>
+    <span class="ref-title"> Modern Epidemiology, 4th ed. </span>
+    <em>Wolters Kluwer</em> (2021).
+    <span class="ref-meta"><span data-lang="zh">ISBN 978-1975166908 · 偏差、干擾、因果推論的教科書級綜述。</span><span data-lang="en">ISBN 978-1975166908 · Textbook-level review of bias, confounding, and causal inference.</span></span>
+  </li>
+  <li>
+    <span class="ref-tag book">📚 BOOK · FREE</span>
+    <span class="ref-author">Hernán MA, Robins JM.</span>
+    <span class="ref-title"> Causal Inference: What If. </span>
+    <em>Chapman &amp; Hall/CRC</em> (2020).
+    <span class="ref-meta"><span data-lang="zh">免費 PDF：<a href="https://www.hsph.harvard.edu/miguel-hernan/causal-inference-book/" target="_blank" rel="noopener">hsph.harvard.edu/miguel-hernan/causal-inference-book</a></span><span data-lang="en">Free PDF: <a href="https://www.hsph.harvard.edu/miguel-hernan/causal-inference-book/" target="_blank" rel="noopener">hsph.harvard.edu/miguel-hernan/causal-inference-book</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag book">📚 BOOK · FREE</span>
+    <span class="ref-author">Higgins JPT, Thomas J, Chandler J, et al. (eds).</span>
+    <span class="ref-title"> Cochrane Handbook for Systematic Reviews of Interventions v6.5. </span>
+    <em>Cochrane</em> (2024).
+    <span class="ref-meta"><span data-lang="zh">線上閱讀：<a href="https://training.cochrane.org/handbook" target="_blank" rel="noopener">training.cochrane.org/handbook</a></span><span data-lang="en">Read online: <a href="https://training.cochrane.org/handbook" target="_blank" rel="noopener">training.cochrane.org/handbook</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag bestp">★ MANIFESTO</span>
+    <span class="ref-author">Munafò MR, Nosek BA, Bishop DVM, et al.</span>
+    <span class="ref-title"> A manifesto for reproducible science. </span>
+    <em>Nat Hum Behav</em> 1:0021 (2017).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1038/s41562-016-0021" target="_blank" rel="noopener">10.1038/s41562-016-0021</a></span><span data-lang="en">DOI: <a href="https://doi.org/10.1038/s41562-016-0021" target="_blank" rel="noopener">10.1038/s41562-016-0021</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag paper">PAPER</span>
+    <span class="ref-author">Ioannidis JPA.</span>
+    <span class="ref-title"> Why most published research findings are false. </span>
+    <em>PLoS Med</em> 2:e124 (2005).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1371/journal.pmed.0020124" target="_blank" rel="noopener">10.1371/journal.pmed.0020124</a> · 被引超過 1.5 萬次的方法論宣言。</span><span data-lang="en">DOI: <a href="https://doi.org/10.1371/journal.pmed.0020124" target="_blank" rel="noopener">10.1371/journal.pmed.0020124</a> · Methodological manifesto cited more than 15,000 times.</span></span>
+  </li>
+</ul>
+</section>
+
+<!-- =================== Step 1: Research Design ==================== -->
+<section class="section section-anchor" id="design">
+<div class="section-label" data-zh="Step 1" data-en="STEP 1">Step 1</div>
+<h2 data-zh="🧭 研究設計與假說建立" data-en="🧭 Research Design &amp; Hypothesis">🧭 研究設計與假說建立</h2>
+<ul class="ref-list">
+  <li>
+    <span class="ref-tag paper">PAPER</span>
+    <span class="ref-author">Richardson WS, Wilson MC, Nishikawa J, Hayward RS.</span>
+    <span class="ref-title"> The well-built clinical question: a key to evidence-based decisions. </span>
+    <em>ACP Journal Club</em> 123(3):A12-13 (1995).
+    <span class="ref-meta"><span data-lang="zh">PICO 框架原始提案。</span><span data-lang="en">Original proposal of the PICO framework.</span></span>
+  </li>
+  <li>
+    <span class="ref-tag paper">PAPER · HISTORIC</span>
+    <span class="ref-author">Hill AB.</span>
+    <span class="ref-title"> The environment and disease: association or causation? </span>
+    <em>Proc R Soc Med</em> 58:295-300 (1965).
+    <span class="ref-meta"><span data-lang="zh">Bradford Hill 因果關係九準則（強度、一致性、特異性、時序、劑量-反應…）。</span><span data-lang="en">Bradford Hill's nine criteria for causation (strength, consistency, specificity, temporality, dose-response, etc.).</span></span>
+  </li>
+  <li>
+    <span class="ref-tag paper">PAPER</span>
+    <span class="ref-author">Kerr NL.</span>
+    <span class="ref-title"> HARKing: Hypothesizing after the results are known. </span>
+    <em>Pers Soc Psychol Rev</em> 2:196-217 (1998).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1207/s15327957pspr0203_4" target="_blank" rel="noopener">10.1207/s15327957pspr0203_4</a></span><span data-lang="en">DOI: <a href="https://doi.org/10.1207/s15327957pspr0203_4" target="_blank" rel="noopener">10.1207/s15327957pspr0203_4</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag paper">PAPER</span>
+    <span class="ref-author">Nosek BA, Ebersole CR, DeHaven AC, Mellor DT.</span>
+    <span class="ref-title"> The preregistration revolution. </span>
+    <em>PNAS</em> 115:2600-2606 (2018).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1073/pnas.1708274114" target="_blank" rel="noopener">10.1073/pnas.1708274114</a></span><span data-lang="en">DOI: <a href="https://doi.org/10.1073/pnas.1708274114" target="_blank" rel="noopener">10.1073/pnas.1708274114</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag db">🗄️ REGISTRY</span>
+    <span class="ref-title"><span data-lang="zh">ClinicalTrials.gov（臨床試驗註冊）。</span><span data-lang="en">ClinicalTrials.gov (clinical trial registry).</span></span>
+    <span class="ref-meta"><span data-lang="zh"><a href="https://clinicaltrials.gov/" target="_blank" rel="noopener">clinicaltrials.gov</a> · NIH 維護，符合 ICMJE 必要註冊要求。</span><span data-lang="en"><a href="https://clinicaltrials.gov/" target="_blank" rel="noopener">clinicaltrials.gov</a> · Maintained by NIH; satisfies ICMJE registration requirements.</span></span>
+  </li>
+  <li>
+    <span class="ref-tag db">🗄️ REGISTRY</span>
+    <span class="ref-title"><span data-lang="zh">Open Science Framework (OSF) — 研究計畫預先註冊。</span><span data-lang="en">Open Science Framework (OSF) — preregistration of research plans.</span></span>
+    <span class="ref-meta"><span data-lang="zh"><a href="https://osf.io/" target="_blank" rel="noopener">osf.io</a> · 適合觀察性與計算研究的預先註冊。</span><span data-lang="en"><a href="https://osf.io/" target="_blank" rel="noopener">osf.io</a> · Preregistration suited to observational and computational research.</span></span>
+  </li>
+  <li>
+    <span class="ref-tag db">🗄️ REGISTRY</span>
+    <span class="ref-title"><span data-lang="zh">PROSPERO — 國際系統性回顧前瞻註冊。</span><span data-lang="en">PROSPERO — international prospective register of systematic reviews.</span></span>
+    <span class="ref-meta"><span data-lang="zh"><a href="https://www.crd.york.ac.uk/prospero/" target="_blank" rel="noopener">crd.york.ac.uk/prospero</a></span><span data-lang="en"><a href="https://www.crd.york.ac.uk/prospero/" target="_blank" rel="noopener">crd.york.ac.uk/prospero</a></span></span>
+  </li>
+</ul>
+</section>
+
+<!-- =================== Step 2: Literature Search ==================== -->
+<section class="section section-anchor" id="lit">
+<div class="section-label" data-zh="Step 2" data-en="STEP 2">Step 2</div>
+<h2 data-zh="📚 文獻檢索與系統性回顧" data-en="📚 Literature Search &amp; Systematic Review">📚 文獻檢索與系統性回顧</h2>
+<ul class="ref-list">
+  <li>
+    <span class="ref-tag guide">✅ GUIDELINE</span>
+    <span class="ref-author">Page MJ, McKenzie JE, Bossuyt PM, et al.</span>
+    <span class="ref-title"> The PRISMA 2020 statement: an updated guideline for reporting systematic reviews. </span>
+    <em>BMJ</em> 372:n71 (2021).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1136/bmj.n71" target="_blank" rel="noopener">10.1136/bmj.n71</a> · 官方檢查表：<a href="https://www.prisma-statement.org/" target="_blank" rel="noopener">prisma-statement.org</a></span><span data-lang="en">DOI: <a href="https://doi.org/10.1136/bmj.n71" target="_blank" rel="noopener">10.1136/bmj.n71</a> · Official checklist: <a href="https://www.prisma-statement.org/" target="_blank" rel="noopener">prisma-statement.org</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag paper">PAPER</span>
+    <span class="ref-author">Moher D, Liberati A, Tetzlaff J, Altman DG.</span>
+    <span class="ref-title"> Preferred reporting items for systematic reviews and meta-analyses: the PRISMA statement. </span>
+    <em>PLoS Med</em> 6:e1000097 (2009).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1371/journal.pmed.1000097" target="_blank" rel="noopener">10.1371/journal.pmed.1000097</a> · PRISMA 原版。</span><span data-lang="en">DOI: <a href="https://doi.org/10.1371/journal.pmed.1000097" target="_blank" rel="noopener">10.1371/journal.pmed.1000097</a> · Original PRISMA statement.</span></span>
+  </li>
+  <li>
+    <span class="ref-tag paper">PAPER</span>
+    <span class="ref-author">Ouzzani M, Hammady H, Fedorowicz Z, Elmagarmid A.</span>
+    <span class="ref-title"> Rayyan—a web and mobile app for systematic reviews. </span>
+    <em>Syst Rev</em> 5:210 (2016).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1186/s13643-016-0384-4" target="_blank" rel="noopener">10.1186/s13643-016-0384-4</a> · <a href="https://www.rayyan.ai/" target="_blank" rel="noopener">rayyan.ai</a></span><span data-lang="en">DOI: <a href="https://doi.org/10.1186/s13643-016-0384-4" target="_blank" rel="noopener">10.1186/s13643-016-0384-4</a> <a href="https://www.rayyan.ai/" target="_blank" rel="noopener">rayyan.ai</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag db">🗄️ DB</span>
+    <span class="ref-title"><span data-lang="zh">PubMed / MEDLINE（NCBI）— 含 MeSH 詞彙樹。</span><span data-lang="en">PubMed / MEDLINE (NCBI) — with MeSH vocabulary tree.</span></span>
+    <span class="ref-meta"><span data-lang="zh"><a href="https://pubmed.ncbi.nlm.nih.gov/" target="_blank" rel="noopener">pubmed.ncbi.nlm.nih.gov</a> · MeSH 瀏覽器 <a href="https://www.ncbi.nlm.nih.gov/mesh/" target="_blank" rel="noopener">ncbi.nlm.nih.gov/mesh</a></span><span data-lang="en"><a href="https://pubmed.ncbi.nlm.nih.gov/" target="_blank" rel="noopener">pubmed.ncbi.nlm.nih.gov</a> · MeSH browser: <a href="https://www.ncbi.nlm.nih.gov/mesh/" target="_blank" rel="noopener">ncbi.nlm.nih.gov/mesh</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag db">🗄️ DB</span>
+    <span class="ref-title"><span data-lang="zh">Embase（Elsevier）— Emtree 詞彙、含會議摘要。</span><span data-lang="en">Embase (Elsevier) — Emtree vocabulary, includes conference abstracts.</span></span>
+    <span class="ref-meta"><span data-lang="zh"><a href="https://www.embase.com/" target="_blank" rel="noopener">embase.com</a></span><span data-lang="en"><a href="https://www.embase.com/" target="_blank" rel="noopener">embase.com</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag db">🗄️ DB</span>
+    <span class="ref-title"><span data-lang="zh">Cochrane Library — 系統性回顧、CENTRAL RCT 註冊。</span><span data-lang="en">Cochrane Library — systematic reviews and the CENTRAL RCT registry.</span></span>
+    <span class="ref-meta"><span data-lang="zh"><a href="https://www.cochranelibrary.com/" target="_blank" rel="noopener">cochranelibrary.com</a></span><span data-lang="en"><a href="https://www.cochranelibrary.com/" target="_blank" rel="noopener">cochranelibrary.com</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag db">🗄️ DB</span>
+    <span class="ref-title"><span data-lang="zh">bioRxiv / medRxiv — 預印本伺服器。</span><span data-lang="en">bioRxiv / medRxiv — preprint servers.</span></span>
+    <span class="ref-meta"><span data-lang="zh"><a href="https://www.biorxiv.org/" target="_blank" rel="noopener">biorxiv.org</a> · <a href="https://www.medrxiv.org/" target="_blank" rel="noopener">medrxiv.org</a></span><span data-lang="en"><a href="https://www.biorxiv.org/" target="_blank" rel="noopener">biorxiv.org</a> · <a href="https://www.medrxiv.org/" target="_blank" rel="noopener">medrxiv.org</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag doc">DOC</span>
+    <span class="ref-title"><span data-lang="zh">NCBI E-utilities API（程式化檢索）。</span><span data-lang="en">NCBI E-utilities API (programmatic search).</span></span>
+    <span class="ref-meta"><span data-lang="zh"><a href="https://www.ncbi.nlm.nih.gov/books/NBK25501/" target="_blank" rel="noopener">ncbi.nlm.nih.gov/books/NBK25501</a> · R: <code>rentrez</code>、Python: <code>Bio.Entrez</code></span><span data-lang="en"><a href="https://www.ncbi.nlm.nih.gov/books/NBK25501/" target="_blank" rel="noopener">ncbi.nlm.nih.gov/books/NBK25501</a> · R: <code>rentrez</code>; Python: <code>Bio.Entrez</code></span></span>
+  </li>
+</ul>
+</section>
+
+<!-- =================== Step 3: Public Databases ==================== -->
+<section class="section section-anchor" id="db">
+<div class="section-label" data-zh="Step 3" data-en="STEP 3">Step 3</div>
+<h2 data-zh="🗄️ 公開資料庫" data-en="🗄️ Public Databases">🗄️ 公開資料庫</h2>
+
+<h3 data-zh="基因組、序列與蛋白質" data-en="Genome, Sequence &amp; Protein">基因組、序列與蛋白質</h3>
+<ul class="ref-list">
+  <li>
+    <span class="ref-tag paper">PAPER</span>
+    <span class="ref-author">Sayers EW, Beck J, Bolton EE, et al.</span>
+    <span class="ref-title"> Database resources of the National Center for Biotechnology Information in 2024. </span>
+    <em>Nucleic Acids Res</em> 52:D33-D43 (2024).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1093/nar/gkad1044" target="_blank" rel="noopener">10.1093/nar/gkad1044</a> · <a href="https://www.ncbi.nlm.nih.gov/" target="_blank" rel="noopener">ncbi.nlm.nih.gov</a></span><span data-lang="en">DOI: <a href="https://doi.org/10.1093/nar/gkad1044" target="_blank" rel="noopener">10.1093/nar/gkad1044</a> <a href="https://www.ncbi.nlm.nih.gov/" target="_blank" rel="noopener">ncbi.nlm.nih.gov</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag paper">PAPER</span>
+    <span class="ref-author">Harrison PW, Amode MR, Austine-Orimoloye O, et al.</span>
+    <span class="ref-title"> Ensembl 2024. </span>
+    <em>Nucleic Acids Res</em> 52:D891-D899 (2024).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1093/nar/gkad1049" target="_blank" rel="noopener">10.1093/nar/gkad1049</a> · <a href="https://www.ensembl.org/" target="_blank" rel="noopener">ensembl.org</a></span><span data-lang="en">DOI: <a href="https://doi.org/10.1093/nar/gkad1049" target="_blank" rel="noopener">10.1093/nar/gkad1049</a> <a href="https://www.ensembl.org/" target="_blank" rel="noopener">ensembl.org</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag paper">PAPER</span>
+    <span class="ref-author">Nassar LR, Barber GP, Benet-Pagès A, et al.</span>
+    <span class="ref-title"> The UCSC Genome Browser database: 2023 update. </span>
+    <em>Nucleic Acids Res</em> 51:D1188-D1195 (2023).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1093/nar/gkac1072" target="_blank" rel="noopener">10.1093/nar/gkac1072</a> · <a href="https://genome.ucsc.edu/" target="_blank" rel="noopener">genome.ucsc.edu</a></span><span data-lang="en">DOI: <a href="https://doi.org/10.1093/nar/gkac1072" target="_blank" rel="noopener">10.1093/nar/gkac1072</a> <a href="https://genome.ucsc.edu/" target="_blank" rel="noopener">genome.ucsc.edu</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag db">🗄️ DB</span>
+    <span class="ref-author">UniProt Consortium.</span>
+    <span class="ref-title"> UniProt: the universal protein knowledgebase in 2023. </span>
+    <em>Nucleic Acids Res</em> 51:D523-D531 (2023).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1093/nar/gkac1052" target="_blank" rel="noopener">10.1093/nar/gkac1052</a> · <a href="https://www.uniprot.org/" target="_blank" rel="noopener">uniprot.org</a></span><span data-lang="en">DOI: <a href="https://doi.org/10.1093/nar/gkac1052" target="_blank" rel="noopener">10.1093/nar/gkac1052</a> <a href="https://www.uniprot.org/" target="_blank" rel="noopener">uniprot.org</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag paper">PAPER</span>
+    <span class="ref-author">Varadi M, Bertoni D, Magana P, et al.</span>
+    <span class="ref-title"> AlphaFold Protein Structure Database in 2024. </span>
+    <em>Nucleic Acids Res</em> 52:D368-D375 (2024).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1093/nar/gkad1011" target="_blank" rel="noopener">10.1093/nar/gkad1011</a> · <a href="https://alphafold.ebi.ac.uk/" target="_blank" rel="noopener">alphafold.ebi.ac.uk</a></span><span data-lang="en">DOI: <a href="https://doi.org/10.1093/nar/gkad1011" target="_blank" rel="noopener">10.1093/nar/gkad1011</a> <a href="https://alphafold.ebi.ac.uk/" target="_blank" rel="noopener">alphafold.ebi.ac.uk</a></span></span>
+  </li>
+</ul>
+
+<h3 data-zh="癌症與多體學 cohort" data-en="Cancer &amp; Multi-omics Cohorts">癌症與多體學 cohort</h3>
+<ul class="ref-list">
+  <li>
+    <span class="ref-tag paper">PAPER</span>
+    <span class="ref-author">The Cancer Genome Atlas Research Network, Weinstein JN, Collisson EA, et al.</span>
+    <span class="ref-title"> The Cancer Genome Atlas Pan-Cancer analysis project. </span>
+    <em>Nat Genet</em> 45:1113-1120 (2013).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1038/ng.2764" target="_blank" rel="noopener">10.1038/ng.2764</a> · 入口 <a href="https://portal.gdc.cancer.gov/" target="_blank" rel="noopener">GDC Data Portal</a></span><span data-lang="en">DOI: <a href="https://doi.org/10.1038/ng.2764" target="_blank" rel="noopener">10.1038/ng.2764</a> <a href="https://portal.gdc.cancer.gov/" target="_blank" rel="noopener">GDC Data Portal</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag paper">PAPER</span>
+    <span class="ref-author">ICGC/TCGA Pan-Cancer Analysis of Whole Genomes Consortium.</span>
+    <span class="ref-title"> Pan-cancer analysis of whole genomes. </span>
+    <em>Nature</em> 578:82-93 (2020).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1038/s41586-020-1969-6" target="_blank" rel="noopener">10.1038/s41586-020-1969-6</a></span><span data-lang="en">DOI: <a href="https://doi.org/10.1038/s41586-020-1969-6" target="_blank" rel="noopener">10.1038/s41586-020-1969-6</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag paper">PAPER</span>
+    <span class="ref-author">Cerami E, Gao J, Dogrusoz U, et al.</span>
+    <span class="ref-title"> The cBio Cancer Genomics Portal: An open platform for exploring multidimensional cancer genomics data. </span>
+    <em>Cancer Discov</em> 2:401-404 (2012).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1158/2159-8290.CD-12-0095" target="_blank" rel="noopener">10.1158/2159-8290.CD-12-0095</a> · <a href="https://www.cbioportal.org/" target="_blank" rel="noopener">cbioportal.org</a></span><span data-lang="en">DOI: <a href="https://doi.org/10.1158/2159-8290.CD-12-0095" target="_blank" rel="noopener">10.1158/2159-8290.CD-12-0095</a> <a href="https://www.cbioportal.org/" target="_blank" rel="noopener">cbioportal.org</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag paper">PAPER</span>
+    <span class="ref-author">GTEx Consortium.</span>
+    <span class="ref-title"> The GTEx Consortium atlas of genetic regulatory effects across human tissues. </span>
+    <em>Science</em> 369:1318-1330 (2020).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1126/science.aaz1776" target="_blank" rel="noopener">10.1126/science.aaz1776</a> · <a href="https://gtexportal.org/" target="_blank" rel="noopener">gtexportal.org</a></span><span data-lang="en">DOI: <a href="https://doi.org/10.1126/science.aaz1776" target="_blank" rel="noopener">10.1126/science.aaz1776</a> <a href="https://gtexportal.org/" target="_blank" rel="noopener">gtexportal.org</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag db">🗄️ DB</span>
+    <span class="ref-title"><span data-lang="zh">GEO (Gene Expression Omnibus) / ArrayExpress / Recount3.</span><span data-lang="en">GEO (Gene Expression Omnibus) / ArrayExpress / Recount3.</span></span>
+    <span class="ref-meta"><span data-lang="zh"><a href="https://www.ncbi.nlm.nih.gov/geo/" target="_blank" rel="noopener">ncbi.nlm.nih.gov/geo</a> · <a href="https://www.ebi.ac.uk/biostudies/arrayexpress" target="_blank" rel="noopener">ArrayExpress</a> · <a href="http://rna.recount.bio/" target="_blank" rel="noopener">recount3</a></span><span data-lang="en"><a href="https://www.ncbi.nlm.nih.gov/geo/" target="_blank" rel="noopener">ncbi.nlm.nih.gov/geo</a> <a href="https://www.ebi.ac.uk/biostudies/arrayexpress" target="_blank" rel="noopener">ArrayExpress</a> <a href="http://rna.recount.bio/" target="_blank" rel="noopener">recount3</a></span></span>
+  </li>
+</ul>
+
+<h3 data-zh="族群與電子病歷 cohort" data-en="Population &amp; EHR Cohorts">族群與電子病歷 cohort</h3>
+<ul class="ref-list">
+  <li>
+    <span class="ref-tag paper">PAPER</span>
+    <span class="ref-author">Sudlow C, Gallacher J, Allen N, et al.</span>
+    <span class="ref-title"> UK Biobank: an open access resource for identifying the causes of a wide range of complex diseases of middle and old age. </span>
+    <em>PLoS Med</em> 12:e1001779 (2015).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1371/journal.pmed.1001779" target="_blank" rel="noopener">10.1371/journal.pmed.1001779</a></span><span data-lang="en">DOI: <a href="https://doi.org/10.1371/journal.pmed.1001779" target="_blank" rel="noopener">10.1371/journal.pmed.1001779</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag paper">PAPER</span>
+    <span class="ref-author">Bycroft C, Freeman C, Petkova D, et al.</span>
+    <span class="ref-title"> The UK Biobank resource with deep phenotyping and genomic data. </span>
+    <em>Nature</em> 562:203-209 (2018).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1038/s41586-018-0579-z" target="_blank" rel="noopener">10.1038/s41586-018-0579-z</a> · <a href="https://www.ukbiobank.ac.uk/" target="_blank" rel="noopener">ukbiobank.ac.uk</a></span><span data-lang="en">DOI: <a href="https://doi.org/10.1038/s41586-018-0579-z" target="_blank" rel="noopener">10.1038/s41586-018-0579-z</a> <a href="https://www.ukbiobank.ac.uk/" target="_blank" rel="noopener">ukbiobank.ac.uk</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag paper">PAPER</span>
+    <span class="ref-author">All of Us Research Program Investigators.</span>
+    <span class="ref-title"> The "All of Us" Research Program. </span>
+    <em>N Engl J Med</em> 381:668-676 (2019).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1056/NEJMsr1809937" target="_blank" rel="noopener">10.1056/NEJMsr1809937</a> · <a href="https://allofus.nih.gov/" target="_blank" rel="noopener">allofus.nih.gov</a></span><span data-lang="en">DOI: <a href="https://doi.org/10.1056/NEJMsr1809937" target="_blank" rel="noopener">10.1056/NEJMsr1809937</a> <a href="https://allofus.nih.gov/" target="_blank" rel="noopener">allofus.nih.gov</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag paper">PAPER</span>
+    <span class="ref-author">Johnson AEW, Bulgarelli L, Shen L, et al.</span>
+    <span class="ref-title"> MIMIC-IV, a freely accessible electronic health record dataset. </span>
+    <em>Sci Data</em> 10:1 (2023).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1038/s41597-022-01899-x" target="_blank" rel="noopener">10.1038/s41597-022-01899-x</a> · <a href="https://physionet.org/content/mimiciv/" target="_blank" rel="noopener">physionet.org/content/mimiciv</a></span><span data-lang="en">DOI: <a href="https://doi.org/10.1038/s41597-022-01899-x" target="_blank" rel="noopener">10.1038/s41597-022-01899-x</a> <a href="https://physionet.org/content/mimiciv/" target="_blank" rel="noopener">physionet.org/content/mimiciv</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag paper">PAPER</span>
+    <span class="ref-author">Kurki MI, Karjalainen J, Palta P, et al.</span>
+    <span class="ref-title"> FinnGen provides genetic insights from a well-phenotyped isolated population. </span>
+    <em>Nature</em> 613:508-518 (2023).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1038/s41586-022-05473-8" target="_blank" rel="noopener">10.1038/s41586-022-05473-8</a></span><span data-lang="en">DOI: <a href="https://doi.org/10.1038/s41586-022-05473-8" target="_blank" rel="noopener">10.1038/s41586-022-05473-8</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag paper">PAPER</span>
+    <span class="ref-author">Karczewski KJ, Francioli LC, Tiao G, et al.</span>
+    <span class="ref-title"> The mutational constraint spectrum quantified from variation in 141,456 humans (gnomAD). </span>
+    <em>Nature</em> 581:434-443 (2020).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1038/s41586-020-2308-7" target="_blank" rel="noopener">10.1038/s41586-020-2308-7</a> · <a href="https://gnomad.broadinstitute.org/" target="_blank" rel="noopener">gnomad.broadinstitute.org</a></span><span data-lang="en">DOI: <a href="https://doi.org/10.1038/s41586-020-2308-7" target="_blank" rel="noopener">10.1038/s41586-020-2308-7</a> <a href="https://gnomad.broadinstitute.org/" target="_blank" rel="noopener">gnomad.broadinstitute.org</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag doc">DOC</span>
+    <span class="ref-title"><span data-lang="zh">TCGAbiolinks（R）、pyEGA3（EGA）、GDC client。</span><span data-lang="en">TCGAbiolinks (R), pyEGA3 (EGA), GDC client.</span></span>
+    <span class="ref-meta"><span data-lang="zh">TCGAbiolinks Bioconductor <a href="https://bioconductor.org/packages/TCGAbiolinks/" target="_blank" rel="noopener">bioconductor.org/packages/TCGAbiolinks</a></span><span data-lang="en">TCGAbiolinks Bioconductor <a href="https://bioconductor.org/packages/TCGAbiolinks/" target="_blank" rel="noopener">bioconductor.org/packages/TCGAbiolinks</a></span></span>
+  </li>
+</ul>
+</section>
+
+<!-- =================== Step 4: Ethics ==================== -->
+<section class="section section-anchor" id="ethics">
+<div class="section-label" data-zh="Step 4" data-en="STEP 4">Step 4</div>
+<h2 data-zh="⚖️ 研究倫理與資料治理" data-en="⚖️ Research Ethics &amp; Data Governance">⚖️ 研究倫理與資料治理</h2>
+<ul class="ref-list">
+  <li>
+    <span class="ref-tag law">📜 LAW · HISTORIC</span>
+    <span class="ref-author">National Commission for the Protection of Human Subjects of Biomedical and Behavioral Research.</span>
+    <span class="ref-title"> The Belmont Report: Ethical Principles and Guidelines for the Protection of Human Subjects of Research. </span>
+    <em>US DHEW</em> (1979).
+    <span class="ref-meta"><span data-lang="zh"><a href="https://www.hhs.gov/ohrp/regulations-and-policy/belmont-report/index.html" target="_blank" rel="noopener">hhs.gov/ohrp/regulations-and-policy/belmont-report</a></span><span data-lang="en"><a href="https://www.hhs.gov/ohrp/regulations-and-policy/belmont-report/index.html" target="_blank" rel="noopener">hhs.gov/ohrp/regulations-and-policy/belmont-report</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag law">📜 LAW</span>
+    <span class="ref-title"><span data-lang="zh">45 CFR 46 — Federal Policy for the Protection of Human Subjects (Common Rule), 2018 revision.</span><span data-lang="en">45 CFR 46 — Federal Policy for the Protection of Human Subjects (Common Rule), 2018 revision.</span></span>
+    <span class="ref-meta"><span data-lang="zh"><a href="https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-A/part-46" target="_blank" rel="noopener">ecfr.gov · 45 CFR 46</a></span><span data-lang="en"><a href="https://www.ecfr.gov/current/title-45/subtitle-A/subchapter-A/part-46" target="_blank" rel="noopener">ecfr.gov 45 CFR 46</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag law">📜 LAW</span>
+    <span class="ref-title"><span data-lang="zh">Health Insurance Portability and Accountability Act (HIPAA) Privacy Rule — Safe Harbor 18 identifiers.</span><span data-lang="en">Health Insurance Portability and Accountability Act (HIPAA) Privacy Rule — Safe Harbor 18 identifiers.</span></span>
+    <span class="ref-meta"><span data-lang="zh"><a href="https://www.hhs.gov/hipaa/for-professionals/privacy/special-topics/de-identification/" target="_blank" rel="noopener">hhs.gov/hipaa de-identification</a></span><span data-lang="en"><a href="https://www.hhs.gov/hipaa/for-professionals/privacy/special-topics/de-identification/" target="_blank" rel="noopener">hhs.gov/hipaa de-identification</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag law">📜 LAW</span>
+    <span class="ref-title"><span data-lang="zh">Regulation (EU) 2016/679 — General Data Protection Regulation (GDPR).</span><span data-lang="en">Regulation (EU) 2016/679 — General Data Protection Regulation (GDPR).</span></span>
+    <span class="ref-meta"><span data-lang="zh"><a href="https://gdpr-info.eu/" target="_blank" rel="noopener">gdpr-info.eu</a></span><span data-lang="en"><a href="https://gdpr-info.eu/" target="_blank" rel="noopener">gdpr-info.eu</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag bestp">★ STANDARD</span>
+    <span class="ref-author">Wilkinson MD, Dumontier M, Aalbersberg IJ, et al.</span>
+    <span class="ref-title"> The FAIR Guiding Principles for scientific data management and stewardship. </span>
+    <em>Sci Data</em> 3:160018 (2016).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1038/sdata.2016.18" target="_blank" rel="noopener">10.1038/sdata.2016.18</a> · <a href="https://www.go-fair.org/fair-principles/" target="_blank" rel="noopener">go-fair.org/fair-principles</a></span><span data-lang="en">DOI: <a href="https://doi.org/10.1038/sdata.2016.18" target="_blank" rel="noopener">10.1038/sdata.2016.18</a> <a href="https://www.go-fair.org/fair-principles/" target="_blank" rel="noopener">go-fair.org/fair-principles</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag paper">PAPER</span>
+    <span class="ref-author">Obermeyer Z, Powers B, Vogeli C, Mullainathan S.</span>
+    <span class="ref-title"> Dissecting racial bias in an algorithm used to manage the health of populations. </span>
+    <em>Science</em> 366:447-453 (2019).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1126/science.aax2342" target="_blank" rel="noopener">10.1126/science.aax2342</a> · 演算法公平性的標誌性研究。</span><span data-lang="en">DOI: <a href="https://doi.org/10.1126/science.aax2342" target="_blank" rel="noopener">10.1126/science.aax2342</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag paper">PAPER</span>
+    <span class="ref-author">Gymrek M, McGuire AL, Golan D, Halperin E, Erlich Y.</span>
+    <span class="ref-title"> Identifying personal genomes by surname inference. </span>
+    <em>Science</em> 339:321-324 (2013).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1126/science.1229566" target="_blank" rel="noopener">10.1126/science.1229566</a> · 基因組去名後仍可再識別。</span><span data-lang="en">DOI: <a href="https://doi.org/10.1126/science.1229566" target="_blank" rel="noopener">10.1126/science.1229566</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag paper">PAPER</span>
+    <span class="ref-author">Martin AR, Kanai M, Kamatani Y, et al.</span>
+    <span class="ref-title"> Clinical use of current polygenic risk scores may exacerbate health disparities. </span>
+    <em>Nat Genet</em> 51:584-591 (2019).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1038/s41588-019-0379-x" target="_blank" rel="noopener">10.1038/s41588-019-0379-x</a> · 多元族群代表性偏倚。</span><span data-lang="en">DOI: <a href="https://doi.org/10.1038/s41588-019-0379-x" target="_blank" rel="noopener">10.1038/s41588-019-0379-x</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag doc">DOC</span>
+    <span class="ref-title"><span data-lang="zh">CITI Program — 全球通用的人體與動物研究倫理訓練。</span><span data-lang="en">CITI Program — globally recognized training in human- and animal-subject research ethics.</span></span>
+    <span class="ref-meta"><span data-lang="zh"><a href="https://about.citiprogram.org/" target="_blank" rel="noopener">citiprogram.org</a></span><span data-lang="en"><a href="https://about.citiprogram.org/" target="_blank" rel="noopener">citiprogram.org</a></span></span>
+  </li>
+</ul>
+</section>
+
+<!-- =================== Step 5: Sample Size ==================== -->
+<section class="section section-anchor" id="power">
+<div class="section-label" data-zh="Step 5" data-en="STEP 5">Step 5</div>
+<h2 data-zh="📐 樣本量與統計檢定力" data-en="📐 Sample Size &amp; Statistical Power">📐 樣本量與統計檢定力</h2>
+<ul class="ref-list">
+  <li>
+    <span class="ref-tag book">📚 BOOK · CLASSIC</span>
+    <span class="ref-author">Cohen J.</span>
+    <span class="ref-title"> Statistical Power Analysis for the Behavioral Sciences, 2nd ed. </span>
+    <em>Lawrence Erlbaum</em> (1988).
+    <span class="ref-meta"><span data-lang="zh">ISBN 0805802835 · 效應量定義 (small/medium/large) 的源頭。</span><span data-lang="en">ISBN 0805802835 (small/medium/large)</span></span>
+  </li>
+  <li>
+    <span class="ref-tag paper">PAPER · CLASSIC</span>
+    <span class="ref-author">Schoenfeld DA.</span>
+    <span class="ref-title"> The asymptotic properties of nonparametric tests for comparing survival distributions. </span>
+    <em>Biometrika</em> 68:316-319 (1981).
+    <span class="ref-meta"><span data-lang="zh">存活分析樣本量公式（events ≈ 4(z<sub>α/2</sub>+z<sub>β</sub>)² / (lnHR)²）。</span><span data-lang="en">events ≈ 4(z<sub>α/2</sub>+z<sub>β</sub>)² / (lnHR)²</span></span>
+  </li>
+  <li>
+    <span class="ref-tag paper">PAPER</span>
+    <span class="ref-author">Faul F, Erdfelder E, Buchner A, Lang AG.</span>
+    <span class="ref-title"> Statistical power analyses using G*Power 3.1: Tests for correlation and regression analyses. </span>
+    <em>Behav Res Methods</em> 41:1149-1160 (2009).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.3758/BRM.41.4.1149" target="_blank" rel="noopener">10.3758/BRM.41.4.1149</a> · <a href="https://www.psychologie.hhu.de/arbeitsgruppen/allgemeine-psychologie-und-arbeitspsychologie/gpower" target="_blank" rel="noopener">G*Power 下載</a></span><span data-lang="en">DOI: <a href="https://doi.org/10.3758/BRM.41.4.1149" target="_blank" rel="noopener">10.3758/BRM.41.4.1149</a> <a href="https://www.psychologie.hhu.de/arbeitsgruppen/allgemeine-psychologie-und-arbeitspsychologie/gpower" target="_blank" rel="noopener">G*Power </a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag paper">PAPER</span>
+    <span class="ref-author">Lakens D.</span>
+    <span class="ref-title"> Sample size justification. </span>
+    <em>Collabra: Psychology</em> 8:33267 (2022).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1525/collabra.33267" target="_blank" rel="noopener">10.1525/collabra.33267</a></span><span data-lang="en">DOI: <a href="https://doi.org/10.1525/collabra.33267" target="_blank" rel="noopener">10.1525/collabra.33267</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag paper">PAPER</span>
+    <span class="ref-author">Hoenig JM, Heisey DM.</span>
+    <span class="ref-title"> The abuse of power: the pervasive fallacy of power calculations for data analysis. </span>
+    <em>Am Stat</em> 55:19-24 (2001).
+    <span class="ref-meta"><span data-lang="zh">為什麼 post-hoc power 沒意義的權威論文。</span><span data-lang="en">post-hoc power</span></span>
+  </li>
+  <li>
+    <span class="ref-tag doc">DOC</span>
+    <span class="ref-title"><span data-lang="zh">R 套件 <code>pwr</code> · Python <code>statsmodels.stats.power</code>。</span><span data-lang="en">R package <code>pwr</code> · Python <code>statsmodels.stats.power</code>.</span></span>
+    <span class="ref-meta"><span data-lang="zh">CRAN <a href="https://cran.r-project.org/package=pwr" target="_blank" rel="noopener">cran/pwr</a> · <a href="https://www.statsmodels.org/stable/stats.html#power-and-sample-size-calculations" target="_blank" rel="noopener">statsmodels power</a></span><span data-lang="en">CRAN <a href="https://cran.r-project.org/package=pwr" target="_blank" rel="noopener">cran/pwr</a> <a href="https://www.statsmodels.org/stable/stats.html#power-and-sample-size-calculations" target="_blank" rel="noopener">statsmodels power</a></span></span>
+  </li>
+</ul>
+</section>
+
+<!-- =================== Step 6: Hypothesis Tests ==================== -->
+<section class="section section-anchor" id="tests">
+<div class="section-label" data-zh="Step 6" data-en="STEP 6">Step 6</div>
+<h2 data-zh="📊 統計假設檢定" data-en="📊 Statistical Hypothesis Testing">📊 統計假設檢定</h2>
+<ul class="ref-list">
+  <li>
+    <span class="ref-tag bestp">★ STATEMENT</span>
+    <span class="ref-author">Wasserstein RL, Lazar NA.</span>
+    <span class="ref-title"> The ASA Statement on p-Values: Context, Process, and Purpose. </span>
+    <em>Am Stat</em> 70:129-133 (2016).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1080/00031305.2016.1154108" target="_blank" rel="noopener">10.1080/00031305.2016.1154108</a></span><span data-lang="en">DOI: <a href="https://doi.org/10.1080/00031305.2016.1154108" target="_blank" rel="noopener">10.1080/00031305.2016.1154108</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag bestp">★ STATEMENT</span>
+    <span class="ref-author">Wasserstein RL, Schirm AL, Lazar NA.</span>
+    <span class="ref-title"> Moving to a world beyond "p &lt; 0.05". </span>
+    <em>Am Stat</em> 73:1-19 (2019).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1080/00031305.2019.1583913" target="_blank" rel="noopener">10.1080/00031305.2019.1583913</a></span><span data-lang="en">DOI: <a href="https://doi.org/10.1080/00031305.2019.1583913" target="_blank" rel="noopener">10.1080/00031305.2019.1583913</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag paper">PAPER</span>
+    <span class="ref-author">Amrhein V, Greenland S, McShane B.</span>
+    <span class="ref-title"> Scientists rise up against statistical significance. </span>
+    <em>Nature</em> 567:305-307 (2019).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1038/d41586-019-00857-9" target="_blank" rel="noopener">10.1038/d41586-019-00857-9</a> · 800 多位科學家連署。</span><span data-lang="en">DOI: <a href="https://doi.org/10.1038/d41586-019-00857-9" target="_blank" rel="noopener">10.1038/d41586-019-00857-9</a> 800</span></span>
+  </li>
+  <li>
+    <span class="ref-tag paper">PAPER</span>
+    <span class="ref-author">Bland JM, Altman DG.</span>
+    <span class="ref-title"> Statistics notes: the use of transformation when comparing two means. </span>
+    <em>BMJ</em> 312:1153 (1996).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1136/bmj.312.7039.1153" target="_blank" rel="noopener">10.1136/bmj.312.7039.1153</a> · Bland 與 Altman 的 BMJ Statistics Notes 系列是經典實務教材。</span><span data-lang="en">DOI: <a href="https://doi.org/10.1136/bmj.312.7039.1153" target="_blank" rel="noopener">10.1136/bmj.312.7039.1153</a> Bland Altman BMJ Statistics Notes</span></span>
+  </li>
+  <li>
+    <span class="ref-tag doc">DOC</span>
+    <span class="ref-title"><span data-lang="zh">R <code>stats</code>、<code>rstatix</code>、<code>ggpubr</code>；Python <code>scipy.stats</code>、<code>pingouin</code>。</span><span data-lang="en">R <code>stats</code>, <code>rstatix</code>, <code>ggpubr</code>; Python <code>scipy.stats</code>, <code>pingouin</code>.</span></span>
+    <span class="ref-meta"><span data-lang="zh">Pingouin: <a href="https://pingouin-stats.org/" target="_blank" rel="noopener">pingouin-stats.org</a></span><span data-lang="en">Pingouin: <a href="https://pingouin-stats.org/" target="_blank" rel="noopener">pingouin-stats.org</a></span></span>
+  </li>
+</ul>
+</section>
+
+<!-- =================== Step 7: Multiple Testing ==================== -->
+<section class="section section-anchor" id="mult">
+<div class="section-label" data-zh="Step 7" data-en="STEP 7">Step 7</div>
+<h2 data-zh="🎯 多重檢定校正" data-en="🎯 Multiple Testing Correction">🎯 多重檢定校正</h2>
+<ul class="ref-list">
+  <li>
+    <span class="ref-tag paper">PAPER · LANDMARK</span>
+    <span class="ref-author">Benjamini Y, Hochberg Y.</span>
+    <span class="ref-title"> Controlling the false discovery rate: a practical and powerful approach to multiple testing. </span>
+    <em>J R Stat Soc B</em> 57:289-300 (1995).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1111/j.2517-6161.1995.tb02031.x" target="_blank" rel="noopener">10.1111/j.2517-6161.1995.tb02031.x</a> · FDR 概念開創之作。</span><span data-lang="en">DOI: <a href="https://doi.org/10.1111/j.2517-6161.1995.tb02031.x" target="_blank" rel="noopener">10.1111/j.2517-6161.1995.tb02031.x</a> FDR</span></span>
+  </li>
+  <li>
+    <span class="ref-tag paper">PAPER</span>
+    <span class="ref-author">Storey JD.</span>
+    <span class="ref-title"> A direct approach to false discovery rates. </span>
+    <em>J R Stat Soc B</em> 64:479-498 (2002).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1111/1467-9868.00346" target="_blank" rel="noopener">10.1111/1467-9868.00346</a></span><span data-lang="en">DOI: <a href="https://doi.org/10.1111/1467-9868.00346" target="_blank" rel="noopener">10.1111/1467-9868.00346</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag paper">PAPER</span>
+    <span class="ref-author">Storey JD, Tibshirani R.</span>
+    <span class="ref-title"> Statistical significance for genomewide studies. </span>
+    <em>PNAS</em> 100:9440-9445 (2003).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1073/pnas.1530509100" target="_blank" rel="noopener">10.1073/pnas.1530509100</a> · q-value 概念。</span><span data-lang="en">DOI: <a href="https://doi.org/10.1073/pnas.1530509100" target="_blank" rel="noopener">10.1073/pnas.1530509100</a> q-value</span></span>
+  </li>
+  <li>
+    <span class="ref-tag paper">PAPER</span>
+    <span class="ref-author">Holm S.</span>
+    <span class="ref-title"> A simple sequentially rejective multiple test procedure. </span>
+    <em>Scand J Stat</em> 6:65-70 (1979).
+    <span class="ref-meta"><span data-lang="zh">Step-down Bonferroni。</span><span data-lang="en">Step-down Bonferroni</span></span>
+  </li>
+  <li>
+    <span class="ref-tag paper">PAPER · GWAS</span>
+    <span class="ref-author">Pe'er I, Yelensky R, Altshuler D, Daly MJ.</span>
+    <span class="ref-title"> Estimation of the multiple testing burden for genomewide association studies of nearly all common variants. </span>
+    <em>Genet Epidemiol</em> 32:381-385 (2008).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1002/gepi.20303" target="_blank" rel="noopener">10.1002/gepi.20303</a> · GWAS 5×10⁻⁸ 閾值的推導依據。</span><span data-lang="en">DOI: <a href="https://doi.org/10.1002/gepi.20303" target="_blank" rel="noopener">10.1002/gepi.20303</a> GWAS 5×10⁻⁸</span></span>
+  </li>
+  <li>
+    <span class="ref-tag doc">DOC</span>
+    <span class="ref-title"><span data-lang="zh">R <code>p.adjust</code> / Bioconductor <code>qvalue</code>；Python <code>statsmodels.stats.multitest</code>。</span><span data-lang="en">R <code>p.adjust</code> / Bioconductor <code>qvalue</code>; Python <code>statsmodels.stats.multitest</code>.</span></span>
+    <span class="ref-meta"><span data-lang="zh">qvalue: <a href="https://bioconductor.org/packages/qvalue/" target="_blank" rel="noopener">bioconductor.org/packages/qvalue</a></span><span data-lang="en">qvalue: <a href="https://bioconductor.org/packages/qvalue/" target="_blank" rel="noopener">bioconductor.org/packages/qvalue</a></span></span>
+  </li>
+</ul>
+</section>
+
+<!-- =================== Step 8: Bias & Batch ==================== -->
+<section class="section section-anchor" id="bias">
+<div class="section-label" data-zh="Step 8" data-en="STEP 8">Step 8</div>
+<h2 data-zh="⚠️ 偏差、干擾與批次效應" data-en="⚠️ Bias, Confounding &amp; Batch Effects">⚠️ 偏差、干擾與批次效應</h2>
+<ul class="ref-list">
+  <li>
+    <span class="ref-tag paper">PAPER · CLASSIC</span>
+    <span class="ref-author">Berkson J.</span>
+    <span class="ref-title"> Limitations of the application of fourfold table analysis to hospital data. </span>
+    <em>Biometrics Bulletin</em> 2:47-53 (1946).
+    <span class="ref-meta"><span data-lang="zh">Berkson 偏倚原始論文。</span><span data-lang="en">Berkson</span></span>
+  </li>
+  <li>
+    <span class="ref-tag paper">PAPER</span>
+    <span class="ref-author">Greenland S, Pearl J, Robins JM.</span>
+    <span class="ref-title"> Causal diagrams for epidemiologic research. </span>
+    <em>Epidemiology</em> 10:37-48 (1999).
+    <span class="ref-meta"><span data-lang="zh">DAG 在流行病學的奠基論文。</span><span data-lang="en">DAG</span></span>
+  </li>
+  <li>
+    <span class="ref-tag bestp">★ REVIEW</span>
+    <span class="ref-author">Leek JT, Scharpf RB, Bravo HC, et al.</span>
+    <span class="ref-title"> Tackling the widespread and critical impact of batch effects in high-throughput data. </span>
+    <em>Nat Rev Genet</em> 11:733-739 (2010).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1038/nrg2825" target="_blank" rel="noopener">10.1038/nrg2825</a> · 組學批次效應的標誌性綜述。</span><span data-lang="en">DOI: <a href="https://doi.org/10.1038/nrg2825" target="_blank" rel="noopener">10.1038/nrg2825</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag paper">PAPER</span>
+    <span class="ref-author">Johnson WE, Li C, Rabinovic A.</span>
+    <span class="ref-title"> Adjusting batch effects in microarray expression data using empirical Bayes methods (ComBat). </span>
+    <em>Biostatistics</em> 8:118-127 (2007).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1093/biostatistics/kxj037" target="_blank" rel="noopener">10.1093/biostatistics/kxj037</a></span><span data-lang="en">DOI: <a href="https://doi.org/10.1093/biostatistics/kxj037" target="_blank" rel="noopener">10.1093/biostatistics/kxj037</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag paper">PAPER</span>
+    <span class="ref-author">Leek JT, Storey JD.</span>
+    <span class="ref-title"> Capturing heterogeneity in gene expression studies by Surrogate Variable Analysis (SVA). </span>
+    <em>PLoS Genet</em> 3:e161 (2007).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1371/journal.pgen.0030161" target="_blank" rel="noopener">10.1371/journal.pgen.0030161</a></span><span data-lang="en">DOI: <a href="https://doi.org/10.1371/journal.pgen.0030161" target="_blank" rel="noopener">10.1371/journal.pgen.0030161</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag paper">PAPER</span>
+    <span class="ref-author">Risso D, Ngai J, Speed TP, Dudoit S.</span>
+    <span class="ref-title"> Normalization of RNA-seq data using factor analysis of control genes or samples (RUVSeq). </span>
+    <em>Nat Biotechnol</em> 32:896-902 (2014).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1038/nbt.2931" target="_blank" rel="noopener">10.1038/nbt.2931</a></span><span data-lang="en">DOI: <a href="https://doi.org/10.1038/nbt.2931" target="_blank" rel="noopener">10.1038/nbt.2931</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag paper">PAPER</span>
+    <span class="ref-author">Korsunsky I, Millard N, Fan J, et al.</span>
+    <span class="ref-title"> Fast, sensitive and accurate integration of single-cell data with Harmony. </span>
+    <em>Nat Methods</em> 16:1289-1296 (2019).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1038/s41592-019-0619-0" target="_blank" rel="noopener">10.1038/s41592-019-0619-0</a></span><span data-lang="en">DOI: <a href="https://doi.org/10.1038/s41592-019-0619-0" target="_blank" rel="noopener">10.1038/s41592-019-0619-0</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag paper">PAPER</span>
+    <span class="ref-author">Sterne JAC, Hernán MA, Reeves BC, et al.</span>
+    <span class="ref-title"> ROBINS-I: a tool for assessing risk of bias in non-randomised studies of interventions. </span>
+    <em>BMJ</em> 355:i4919 (2016).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1136/bmj.i4919" target="_blank" rel="noopener">10.1136/bmj.i4919</a></span><span data-lang="en">DOI: <a href="https://doi.org/10.1136/bmj.i4919" target="_blank" rel="noopener">10.1136/bmj.i4919</a></span></span>
+  </li>
+</ul>
+</section>
+
+<!-- =================== Step 9: Survival ==================== -->
+<section class="section section-anchor" id="surv">
+<div class="section-label" data-zh="Step 9" data-en="STEP 9">Step 9</div>
+<h2 data-zh="⏱️ 存活分析" data-en="⏱️ Survival Analysis">⏱️ 存活分析</h2>
+<ul class="ref-list">
+  <li>
+    <span class="ref-tag paper">PAPER · LANDMARK</span>
+    <span class="ref-author">Kaplan EL, Meier P.</span>
+    <span class="ref-title"> Nonparametric estimation from incomplete observations. </span>
+    <em>J Am Stat Assoc</em> 53:457-481 (1958).
+    <span class="ref-meta"><span data-lang="zh">KM 估計法的原始論文，被引超過 6 萬次。</span><span data-lang="en">KM 6</span></span>
+  </li>
+  <li>
+    <span class="ref-tag paper">PAPER · LANDMARK</span>
+    <span class="ref-author">Cox DR.</span>
+    <span class="ref-title"> Regression models and life-tables (with discussion). </span>
+    <em>J R Stat Soc B</em> 34:187-220 (1972).
+    <span class="ref-meta"><span data-lang="zh">Cox 比例風險模型的奠基論文。</span><span data-lang="en">Cox</span></span>
+  </li>
+  <li>
+    <span class="ref-tag paper">PAPER</span>
+    <span class="ref-author">Schoenfeld DA.</span>
+    <span class="ref-title"> Partial residuals for the proportional hazards regression model. </span>
+    <em>Biometrika</em> 69:239-241 (1982).
+    <span class="ref-meta"><span data-lang="zh">Schoenfeld residuals — PH 假設檢驗。</span><span data-lang="en">Schoenfeld residuals — PH</span></span>
+  </li>
+  <li>
+    <span class="ref-tag paper">PAPER</span>
+    <span class="ref-author">Royston P, Parmar MKB.</span>
+    <span class="ref-title"> Restricted mean survival time: an alternative to the hazard ratio for the design and analysis of randomized trials with a time-to-event outcome. </span>
+    <em>Stat Med</em> 32:2380-2398 (2013).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1002/sim.5681" target="_blank" rel="noopener">10.1002/sim.5681</a> · RMST。</span><span data-lang="en">DOI: <a href="https://doi.org/10.1002/sim.5681" target="_blank" rel="noopener">10.1002/sim.5681</a> RMST</span></span>
+  </li>
+  <li>
+    <span class="ref-tag book">📚 BOOK</span>
+    <span class="ref-author">Therneau TM, Grambsch PM.</span>
+    <span class="ref-title"> Modeling Survival Data: Extending the Cox Model. </span>
+    <em>Springer</em> (2000).
+    <span class="ref-meta"><span data-lang="zh">ISBN 0387987843 · R 套件 <code>survival</code> 作者的教科書。</span><span data-lang="en">ISBN 0387987843 R <code>survival</code></span></span>
+  </li>
+  <li>
+    <span class="ref-tag doc">DOC</span>
+    <span class="ref-title"><span data-lang="zh">R: <code>survival</code>、<code>survminer</code>、<code>rms</code>；Python: <code>lifelines</code>、<code>scikit-survival</code>。</span><span data-lang="en">R: <code>survival</code>, <code>survminer</code>, <code>rms</code>; Python: <code>lifelines</code>, <code>scikit-survival</code>.</span></span>
+    <span class="ref-meta"><span data-lang="zh">survival CRAN <a href="https://cran.r-project.org/package=survival" target="_blank" rel="noopener">cran/survival</a> · lifelines <a href="https://lifelines.readthedocs.io/" target="_blank" rel="noopener">lifelines.readthedocs.io</a></span><span data-lang="en">survival CRAN <a href="https://cran.r-project.org/package=survival" target="_blank" rel="noopener">cran/survival</a> lifelines <a href="https://lifelines.readthedocs.io/" target="_blank" rel="noopener">lifelines.readthedocs.io</a></span></span>
+  </li>
+</ul>
+</section>
+
+<!-- =================== Advanced: Causal Inference ==================== -->
+<section class="section section-anchor" id="causal">
+<div class="section-label" data-zh="進階" data-en="ADVANCED">Advanced</div>
+<h2 data-zh="🔗 因果推論" data-en="🔗 Causal Inference">🔗 因果推論</h2>
+<ul class="ref-list">
+  <li>
+    <span class="ref-tag book">📚 BOOK · CLASSIC</span>
+    <span class="ref-author">Pearl J.</span>
+    <span class="ref-title"> Causality: Models, Reasoning, and Inference, 2nd ed. </span>
+    <em>Cambridge University Press</em> (2009).
+    <span class="ref-meta"><span data-lang="zh">ISBN 978-0521895606 · 結構性因果模型 (SCM) 與 do-calculus 的教科書。</span><span data-lang="en">ISBN 978-0521895606 (SCM) do-calculus</span></span>
+  </li>
+  <li>
+    <span class="ref-tag book">📚 BOOK</span>
+    <span class="ref-author">Pearl J, Mackenzie D.</span>
+    <span class="ref-title"> The Book of Why: The New Science of Cause and Effect. </span>
+    <em>Basic Books</em> (2018).
+    <span class="ref-meta"><span data-lang="zh">ISBN 978-0465097609 · 因果推論的科普版。</span><span data-lang="en">ISBN 978-0465097609</span></span>
+  </li>
+  <li>
+    <span class="ref-tag paper">PAPER · LANDMARK</span>
+    <span class="ref-author">Rosenbaum PR, Rubin DB.</span>
+    <span class="ref-title"> The central role of the propensity score in observational studies for causal effects. </span>
+    <em>Biometrika</em> 70:41-55 (1983).
+    <span class="ref-meta"><span data-lang="zh">傾向分數方法的開創之作。</span><span data-lang="en">(Annotation available in Chinese — translation pending.)</span></span>
+  </li>
+  <li>
+    <span class="ref-tag paper">PAPER</span>
+    <span class="ref-author">Davey Smith G, Ebrahim S.</span>
+    <span class="ref-title"> "Mendelian randomization": can genetic epidemiology contribute to understanding environmental determinants of disease? </span>
+    <em>Int J Epidemiol</em> 32:1-22 (2003).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1093/ije/dyg070" target="_blank" rel="noopener">10.1093/ije/dyg070</a> · MR 概念奠基。</span><span data-lang="en">DOI: <a href="https://doi.org/10.1093/ije/dyg070" target="_blank" rel="noopener">10.1093/ije/dyg070</a> MR</span></span>
+  </li>
+  <li>
+    <span class="ref-tag paper">PAPER</span>
+    <span class="ref-author">Lawlor DA, Harbord RM, Sterne JAC, Timpson N, Davey Smith G.</span>
+    <span class="ref-title"> Mendelian randomization: using genes as instruments for making causal inferences in epidemiology. </span>
+    <em>Stat Med</em> 27:1133-1163 (2008).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1002/sim.3034" target="_blank" rel="noopener">10.1002/sim.3034</a></span><span data-lang="en">DOI: <a href="https://doi.org/10.1002/sim.3034" target="_blank" rel="noopener">10.1002/sim.3034</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag paper">PAPER</span>
+    <span class="ref-author">Hemani G, Zheng J, Elsworth B, et al.</span>
+    <span class="ref-title"> The MR-Base platform supports systematic causal inference across the human phenome. </span>
+    <em>eLife</em> 7:e34408 (2018).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.7554/eLife.34408" target="_blank" rel="noopener">10.7554/eLife.34408</a> · <a href="https://www.mrbase.org/" target="_blank" rel="noopener">mrbase.org</a></span><span data-lang="en">DOI: <a href="https://doi.org/10.7554/eLife.34408" target="_blank" rel="noopener">10.7554/eLife.34408</a> <a href="https://www.mrbase.org/" target="_blank" rel="noopener">mrbase.org</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag paper">PAPER</span>
+    <span class="ref-author">Sharma A, Kiciman E.</span>
+    <span class="ref-title"> DoWhy: An End-to-End Library for Causal Inference. </span>
+    <em>arXiv</em> 2011.04216 (2020).
+    <span class="ref-meta"><span data-lang="zh"><a href="https://www.pywhy.org/dowhy/" target="_blank" rel="noopener">pywhy.org/dowhy</a></span><span data-lang="en"><a href="https://www.pywhy.org/dowhy/" target="_blank" rel="noopener">pywhy.org/dowhy</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag doc">DOC · TOOL</span>
+    <span class="ref-title"><span data-lang="zh">DAGitty — DAG 線上設計與「需要調整哪些變數」自動建議。</span><span data-lang="en">DAGitty — online DAG editor that suggests which variables to adjust for.</span></span>
+    <span class="ref-meta"><span data-lang="zh"><a href="https://www.dagitty.net/" target="_blank" rel="noopener">dagitty.net</a></span><span data-lang="en"><a href="https://www.dagitty.net/" target="_blank" rel="noopener">dagitty.net</a></span></span>
+  </li>
+</ul>
+</section>
+
+<!-- =================== Advanced: Meta-analysis ==================== -->
+<section class="section section-anchor" id="meta">
+<div class="section-label" data-zh="進階" data-en="ADVANCED">Advanced</div>
+<h2 data-zh="📈 Meta 分析" data-en="📈 Meta-analysis">📈 Meta 分析</h2>
+<ul class="ref-list">
+  <li>
+    <span class="ref-tag paper">PAPER · LANDMARK</span>
+    <span class="ref-author">DerSimonian R, Laird N.</span>
+    <span class="ref-title"> Meta-analysis in clinical trials. </span>
+    <em>Control Clin Trials</em> 7:177-188 (1986).
+    <span class="ref-meta"><span data-lang="zh">DerSimonian-Laird 隨機效應估計（τ²）。</span><span data-lang="en">DerSimonian-Laird τ²</span></span>
+  </li>
+  <li>
+    <span class="ref-tag paper">PAPER</span>
+    <span class="ref-author">Higgins JPT, Thompson SG.</span>
+    <span class="ref-title"> Quantifying heterogeneity in a meta-analysis. </span>
+    <em>Stat Med</em> 21:1539-1558 (2002).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1002/sim.1186" target="_blank" rel="noopener">10.1002/sim.1186</a> · I² 統計量。</span><span data-lang="en">DOI: <a href="https://doi.org/10.1002/sim.1186" target="_blank" rel="noopener">10.1002/sim.1186</a> I²</span></span>
+  </li>
+  <li>
+    <span class="ref-tag paper">PAPER</span>
+    <span class="ref-author">Egger M, Davey Smith G, Schneider M, Minder C.</span>
+    <span class="ref-title"> Bias in meta-analysis detected by a simple, graphical test. </span>
+    <em>BMJ</em> 315:629-634 (1997).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1136/bmj.315.7109.629" target="_blank" rel="noopener">10.1136/bmj.315.7109.629</a> · Egger 檢定。</span><span data-lang="en">DOI: <a href="https://doi.org/10.1136/bmj.315.7109.629" target="_blank" rel="noopener">10.1136/bmj.315.7109.629</a> Egger</span></span>
+  </li>
+  <li>
+    <span class="ref-tag paper">PAPER</span>
+    <span class="ref-author">Duval S, Tweedie R.</span>
+    <span class="ref-title"> Trim and fill: a simple funnel-plot-based method of testing and adjusting for publication bias in meta-analysis. </span>
+    <em>Biometrics</em> 56:455-463 (2000).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1111/j.0006-341X.2000.00455.x" target="_blank" rel="noopener">10.1111/j.0006-341X.2000.00455.x</a></span><span data-lang="en">DOI: <a href="https://doi.org/10.1111/j.0006-341X.2000.00455.x" target="_blank" rel="noopener">10.1111/j.0006-341X.2000.00455.x</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag paper">PAPER · GRADE</span>
+    <span class="ref-author">Guyatt GH, Oxman AD, Vist GE, et al.</span>
+    <span class="ref-title"> GRADE: an emerging consensus on rating quality of evidence and strength of recommendations. </span>
+    <em>BMJ</em> 336:924-926 (2008).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1136/bmj.39489.470347.AD" target="_blank" rel="noopener">10.1136/bmj.39489.470347.AD</a> · <a href="https://www.gradeworkinggroup.org/" target="_blank" rel="noopener">gradeworkinggroup.org</a></span><span data-lang="en">DOI: <a href="https://doi.org/10.1136/bmj.39489.470347.AD" target="_blank" rel="noopener">10.1136/bmj.39489.470347.AD</a> <a href="https://www.gradeworkinggroup.org/" target="_blank" rel="noopener">gradeworkinggroup.org</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag paper">PAPER</span>
+    <span class="ref-author">Viechtbauer W.</span>
+    <span class="ref-title"> Conducting Meta-Analyses in R with the metafor Package. </span>
+    <em>J Stat Softw</em> 36:1-48 (2010).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.18637/jss.v036.i03" target="_blank" rel="noopener">10.18637/jss.v036.i03</a> · <a href="https://www.metafor-project.org/" target="_blank" rel="noopener">metafor-project.org</a></span><span data-lang="en">DOI: <a href="https://doi.org/10.18637/jss.v036.i03" target="_blank" rel="noopener">10.18637/jss.v036.i03</a> <a href="https://www.metafor-project.org/" target="_blank" rel="noopener">metafor-project.org</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag doc">DOC</span>
+    <span class="ref-title"><span data-lang="zh">R: <code>meta</code>、<code>metafor</code>、<code>robumeta</code>；Python: <code>PythonMeta</code>、<code>pyMeta</code>。</span><span data-lang="en">R: <code>meta</code>, <code>metafor</code>, <code>robumeta</code>; Python: <code>PythonMeta</code>, <code>pyMeta</code>.</span></span>
+    <span class="ref-meta"><span data-lang="zh">meta package CRAN <a href="https://cran.r-project.org/package=meta" target="_blank" rel="noopener">cran/meta</a></span><span data-lang="en">meta package CRAN <a href="https://cran.r-project.org/package=meta" target="_blank" rel="noopener">cran/meta</a></span></span>
+  </li>
+</ul>
+</section>
+
+<!-- =================== Advanced: Reproducibility ==================== -->
+<section class="section section-anchor" id="repro">
+<div class="section-label" data-zh="進階" data-en="ADVANCED">Advanced</div>
+<h2 data-zh="🔁 可重現研究" data-en="🔁 Reproducible Research">🔁 可重現研究</h2>
+<ul class="ref-list">
+  <li>
+    <span class="ref-tag paper">PAPER</span>
+    <span class="ref-author">Baker M.</span>
+    <span class="ref-title"> 1,500 scientists lift the lid on reproducibility. </span>
+    <em>Nature</em> 533:452-454 (2016).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1038/533452a" target="_blank" rel="noopener">10.1038/533452a</a> · 重現性危機問卷。</span><span data-lang="en">DOI: <a href="https://doi.org/10.1038/533452a" target="_blank" rel="noopener">10.1038/533452a</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag paper">PAPER</span>
+    <span class="ref-author">Open Science Collaboration.</span>
+    <span class="ref-title"> Estimating the reproducibility of psychological science. </span>
+    <em>Science</em> 349:aac4716 (2015).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1126/science.aac4716" target="_blank" rel="noopener">10.1126/science.aac4716</a></span><span data-lang="en">DOI: <a href="https://doi.org/10.1126/science.aac4716" target="_blank" rel="noopener">10.1126/science.aac4716</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag paper">PAPER</span>
+    <span class="ref-author">Sandve GK, Nekrutenko A, Taylor J, Hovig E.</span>
+    <span class="ref-title"> Ten simple rules for reproducible computational research. </span>
+    <em>PLoS Comput Biol</em> 9:e1003285 (2013).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1371/journal.pcbi.1003285" target="_blank" rel="noopener">10.1371/journal.pcbi.1003285</a></span><span data-lang="en">DOI: <a href="https://doi.org/10.1371/journal.pcbi.1003285" target="_blank" rel="noopener">10.1371/journal.pcbi.1003285</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag paper">PAPER</span>
+    <span class="ref-author">Köster J, Rahmann S.</span>
+    <span class="ref-title"> Snakemake — a scalable bioinformatics workflow engine. </span>
+    <em>Bioinformatics</em> 28:2520-2522 (2012).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1093/bioinformatics/bts480" target="_blank" rel="noopener">10.1093/bioinformatics/bts480</a> · <a href="https://snakemake.readthedocs.io/" target="_blank" rel="noopener">snakemake.readthedocs.io</a></span><span data-lang="en">DOI: <a href="https://doi.org/10.1093/bioinformatics/bts480" target="_blank" rel="noopener">10.1093/bioinformatics/bts480</a> <a href="https://snakemake.readthedocs.io/" target="_blank" rel="noopener">snakemake.readthedocs.io</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag paper">PAPER</span>
+    <span class="ref-author">Di Tommaso P, Chatzou M, Floden EW, et al.</span>
+    <span class="ref-title"> Nextflow enables reproducible computational workflows. </span>
+    <em>Nat Biotechnol</em> 35:316-319 (2017).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1038/nbt.3820" target="_blank" rel="noopener">10.1038/nbt.3820</a> · <a href="https://www.nextflow.io/" target="_blank" rel="noopener">nextflow.io</a> · <a href="https://nf-co.re/" target="_blank" rel="noopener">nf-core.re</a></span><span data-lang="en">DOI: <a href="https://doi.org/10.1038/nbt.3820" target="_blank" rel="noopener">10.1038/nbt.3820</a> <a href="https://www.nextflow.io/" target="_blank" rel="noopener">nextflow.io</a> <a href="https://nf-co.re/" target="_blank" rel="noopener">nf-core.re</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag paper">PAPER</span>
+    <span class="ref-author">Kurtzer GM, Sochat V, Bauer MW.</span>
+    <span class="ref-title"> Singularity: Scientific containers for mobility of compute. </span>
+    <em>PLoS ONE</em> 12:e0177459 (2017).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1371/journal.pone.0177459" target="_blank" rel="noopener">10.1371/journal.pone.0177459</a> · Apptainer <a href="https://apptainer.org/" target="_blank" rel="noopener">apptainer.org</a></span><span data-lang="en">DOI: <a href="https://doi.org/10.1371/journal.pone.0177459" target="_blank" rel="noopener">10.1371/journal.pone.0177459</a> Apptainer <a href="https://apptainer.org/" target="_blank" rel="noopener">apptainer.org</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag doc">DOC</span>
+    <span class="ref-title"><span data-lang="zh">Quarto — 統一 R / Python / Julia 的動態文件工具。</span><span data-lang="en">Quarto — unified dynamic documents for R / Python / Julia.</span></span>
+    <span class="ref-meta"><span data-lang="zh"><a href="https://quarto.org/" target="_blank" rel="noopener">quarto.org</a></span><span data-lang="en"><a href="https://quarto.org/" target="_blank" rel="noopener">quarto.org</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag db">🗄️ REPO</span>
+    <span class="ref-title"><span data-lang="zh">Zenodo（CERN）、FigShare、Dryad — 公開資料/程式碼存放（給 DOI）。</span><span data-lang="en">Zenodo (CERN), FigShare, Dryad — public data/code repositories (DOI-issuing).</span></span>
+    <span class="ref-meta"><span data-lang="zh"><a href="https://zenodo.org/" target="_blank" rel="noopener">zenodo.org</a> · <a href="https://figshare.com/" target="_blank" rel="noopener">figshare.com</a> · <a href="https://datadryad.org/" target="_blank" rel="noopener">datadryad.org</a></span><span data-lang="en"><a href="https://zenodo.org/" target="_blank" rel="noopener">zenodo.org</a> <a href="https://figshare.com/" target="_blank" rel="noopener">figshare.com</a> <a href="https://datadryad.org/" target="_blank" rel="noopener">datadryad.org</a></span></span>
+  </li>
+</ul>
+</section>
+
+<!-- =================== Advanced: Visualization ==================== -->
+<section class="section section-anchor" id="viz">
+<div class="section-label" data-zh="進階" data-en="ADVANCED">Advanced</div>
+<h2 data-zh="🎨 數據視覺化原則" data-en="🎨 Data Visualization Principles">🎨 數據視覺化</h2>
+<ul class="ref-list">
+  <li>
+    <span class="ref-tag book">📚 BOOK · CLASSIC</span>
+    <span class="ref-author">Tufte ER.</span>
+    <span class="ref-title"> The Visual Display of Quantitative Information, 2nd ed. </span>
+    <em>Graphics Press</em> (2001).
+    <span class="ref-meta"><span data-lang="zh">ISBN 0961392142 · 「資料-墨水比」概念來源。</span><span data-lang="en">ISBN 0961392142 -</span></span>
+  </li>
+  <li>
+    <span class="ref-tag book">📚 BOOK · FREE</span>
+    <span class="ref-author">Wilke CO.</span>
+    <span class="ref-title"> Fundamentals of Data Visualization. </span>
+    <em>O'Reilly</em> (2019).
+    <span class="ref-meta"><span data-lang="zh">線上免費版：<a href="https://clauswilke.com/dataviz/" target="_blank" rel="noopener">clauswilke.com/dataviz</a></span><span data-lang="en"><a href="https://clauswilke.com/dataviz/" target="_blank" rel="noopener">clauswilke.com/dataviz</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag paper">PAPER</span>
+    <span class="ref-author">Wickham H.</span>
+    <span class="ref-title"> A layered grammar of graphics. </span>
+    <em>J Comput Graph Stat</em> 19:3-28 (2010).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1198/jcgs.2009.07098" target="_blank" rel="noopener">10.1198/jcgs.2009.07098</a> · ggplot2 理論基礎。</span><span data-lang="en">DOI: <a href="https://doi.org/10.1198/jcgs.2009.07098" target="_blank" rel="noopener">10.1198/jcgs.2009.07098</a> ggplot2</span></span>
+  </li>
+  <li>
+    <span class="ref-tag paper">PAPER</span>
+    <span class="ref-author">Weissgerber TL, Milic NM, Winham SJ, Garovic VD.</span>
+    <span class="ref-title"> Beyond bar and line graphs: time for a new data presentation paradigm. </span>
+    <em>PLoS Biol</em> 13:e1002128 (2015).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1371/journal.pbio.1002128" target="_blank" rel="noopener">10.1371/journal.pbio.1002128</a> · 為什麼不該畫 dynamite plot。</span><span data-lang="en">DOI: <a href="https://doi.org/10.1371/journal.pbio.1002128" target="_blank" rel="noopener">10.1371/journal.pbio.1002128</a> dynamite plot</span></span>
+  </li>
+  <li>
+    <span class="ref-tag paper">PAPER</span>
+    <span class="ref-author">Crameri F, Shephard GE, Heron PJ.</span>
+    <span class="ref-title"> The misuse of colour in science communication. </span>
+    <em>Nat Commun</em> 11:5444 (2020).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1038/s41467-020-19160-7" target="_blank" rel="noopener">10.1038/s41467-020-19160-7</a> · 為什麼不該用 rainbow。Scientific colour maps：<a href="https://www.fabiocrameri.ch/colourmaps/" target="_blank" rel="noopener">fabiocrameri.ch/colourmaps</a></span><span data-lang="en">DOI: <a href="https://doi.org/10.1038/s41467-020-19160-7" target="_blank" rel="noopener">10.1038/s41467-020-19160-7</a> rainbow Scientific colour maps <a href="https://www.fabiocrameri.ch/colourmaps/" target="_blank" rel="noopener">fabiocrameri.ch/colourmaps</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag paper">PAPER</span>
+    <span class="ref-author">Borland D, Taylor MR.</span>
+    <span class="ref-title"> Rainbow color map (still) considered harmful. </span>
+    <em>IEEE Comput Graph Appl</em> 27:14-17 (2007).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1109/MCG.2007.323435" target="_blank" rel="noopener">10.1109/MCG.2007.323435</a></span><span data-lang="en">DOI: <a href="https://doi.org/10.1109/MCG.2007.323435" target="_blank" rel="noopener">10.1109/MCG.2007.323435</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag doc">DOC · TOOL</span>
+    <span class="ref-title"><span data-lang="zh">Color Oracle / Coblis（色盲模擬器）。</span><span data-lang="en">Color Oracle / Coblis (color-blindness simulators).</span></span>
+    <span class="ref-meta"><span data-lang="zh"><a href="https://colororacle.org/" target="_blank" rel="noopener">colororacle.org</a> · <a href="https://www.color-blindness.com/coblis-color-blindness-simulator/" target="_blank" rel="noopener">Coblis</a></span><span data-lang="en"><a href="https://colororacle.org/" target="_blank" rel="noopener">colororacle.org</a> <a href="https://www.color-blindness.com/coblis-color-blindness-simulator/" target="_blank" rel="noopener">Coblis</a></span></span>
+  </li>
+</ul>
+</section>
+
+<!-- =================== Advanced: Scientific Writing ==================== -->
+<section class="section section-anchor" id="writing">
+<div class="section-label" data-zh="進階" data-en="ADVANCED">Advanced</div>
+<h2 data-zh="✍️ 科學寫作與發表" data-en="✍️ Scientific Writing &amp; Publishing">✍️ 科學寫作與發表</h2>
+<ul class="ref-list">
+  <li>
+    <span class="ref-tag guide">✅ ICMJE</span>
+    <span class="ref-title"><span data-lang="zh">ICMJE Recommendations for the Conduct, Reporting, Editing, and Publication of Scholarly Work in Medical Journals.</span><span data-lang="en">ICMJE Recommendations for the Conduct, Reporting, Editing, and Publication of Scholarly Work in Medical Journals.</span></span>
+    <span class="ref-meta"><span data-lang="zh"><a href="https://www.icmje.org/recommendations/" target="_blank" rel="noopener">icmje.org/recommendations</a> · 作者準則、利益衝突、註冊要求。</span><span data-lang="en"><a href="https://www.icmje.org/recommendations/" target="_blank" rel="noopener">icmje.org/recommendations</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag paper">PAPER</span>
+    <span class="ref-author">Sollaci LB, Pereira MG.</span>
+    <span class="ref-title"> The introduction, methods, results, and discussion (IMRAD) structure: a fifty-year survey. </span>
+    <em>J Med Libr Assoc</em> 92:364-371 (2004).
+    <span class="ref-meta"><span data-lang="zh">IMRaD 結構的歷史與接受度。</span><span data-lang="en">IMRaD</span></span>
+  </li>
+  <li>
+    <span class="ref-tag paper">PAPER</span>
+    <span class="ref-author">Brand A, Allen L, Altman M, Hlava M, Scott J.</span>
+    <span class="ref-title"> Beyond authorship: attribution, contribution, collaboration, and credit (CRediT). </span>
+    <em>Learn Publ</em> 28:151-155 (2015).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1087/20150211" target="_blank" rel="noopener">10.1087/20150211</a> · <a href="https://credit.niso.org/" target="_blank" rel="noopener">credit.niso.org</a></span><span data-lang="en">DOI: <a href="https://doi.org/10.1087/20150211" target="_blank" rel="noopener">10.1087/20150211</a> <a href="https://credit.niso.org/" target="_blank" rel="noopener">credit.niso.org</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag db">🗄️ ID</span>
+    <span class="ref-title"><span data-lang="zh">ORCID — 永久學者識別碼。</span><span data-lang="en">ORCID — persistent researcher identifier.</span></span>
+    <span class="ref-meta"><span data-lang="zh"><a href="https://orcid.org/" target="_blank" rel="noopener">orcid.org</a></span><span data-lang="en"><a href="https://orcid.org/" target="_blank" rel="noopener">orcid.org</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag db">🗄️ POLICY</span>
+    <span class="ref-title"><span data-lang="zh">NIH Public Access Policy（2024 起所有 NIH-funded 論文需公開存取）。</span><span data-lang="en">NIH Public Access Policy (all NIH-funded papers must be open access from 2024).</span></span>
+    <span class="ref-meta"><span data-lang="zh"><a href="https://publicaccess.nih.gov/" target="_blank" rel="noopener">publicaccess.nih.gov</a></span><span data-lang="en"><a href="https://publicaccess.nih.gov/" target="_blank" rel="noopener">publicaccess.nih.gov</a></span></span>
+  </li>
+</ul>
+</section>
+
+<!-- =================== EQUATOR ==================== -->
+<section class="section section-anchor" id="equator">
+<div class="section-label" data-zh="EQUATOR" data-en="EQUATOR">EQUATOR</div>
+<h2 data-zh="✅ EQUATOR 報告指引總表" data-en="✅ EQUATOR Reporting Guidelines">✅ EQUATOR 報告指引總表</h2>
+<p data-lang="zh">EQUATOR Network 收錄超過 500 種報告指引。下表整理生醫研究最常用的 9 種。投稿前用對的指引能大幅減少被審稿人指出「資訊不全」。</p>
+<p data-lang="en">EQUATOR Network curates 500+ reporting guidelines. The 9 below are the most common in biomedical research. Using the right checklist before submission saves reviewers from flagging "missing information."</p>
+<ul class="ref-list">
+  <li>
+    <span class="ref-tag guide">✅ RCT</span>
+    <span class="ref-author">Schulz KF, Altman DG, Moher D; CONSORT Group.</span>
+    <span class="ref-title"> CONSORT 2010 Statement: updated guidelines for reporting parallel group randomised trials. </span>
+    <em>BMJ</em> 340:c332 (2010).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1136/bmj.c332" target="_blank" rel="noopener">10.1136/bmj.c332</a> · <a href="https://www.consort-statement.org/" target="_blank" rel="noopener">consort-statement.org</a></span><span data-lang="en">DOI: <a href="https://doi.org/10.1136/bmj.c332" target="_blank" rel="noopener">10.1136/bmj.c332</a> <a href="https://www.consort-statement.org/" target="_blank" rel="noopener">consort-statement.org</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag guide">✅ OBSERV.</span>
+    <span class="ref-author">von Elm E, Altman DG, Egger M, et al.</span>
+    <span class="ref-title"> Strengthening the Reporting of Observational Studies in Epidemiology (STROBE): explanation and elaboration. </span>
+    <em>PLoS Med</em> 4:e297 (2007).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1371/journal.pmed.0040297" target="_blank" rel="noopener">10.1371/journal.pmed.0040297</a> · <a href="https://www.strobe-statement.org/" target="_blank" rel="noopener">strobe-statement.org</a></span><span data-lang="en">DOI: <a href="https://doi.org/10.1371/journal.pmed.0040297" target="_blank" rel="noopener">10.1371/journal.pmed.0040297</a> <a href="https://www.strobe-statement.org/" target="_blank" rel="noopener">strobe-statement.org</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag guide">✅ SR/MA</span>
+    <span class="ref-title"><span data-lang="zh">PRISMA 2020（已列於 Step 2，<a href="#lit">參見此處</a>）。</span><span data-lang="en">PRISMA 2020 (already listed under Step 2, <a href="#lit">see here</a>).</span></span>
+    <span class="ref-meta"><span data-lang="zh"><a href="https://www.prisma-statement.org/" target="_blank" rel="noopener">prisma-statement.org</a></span><span data-lang="en"><a href="https://www.prisma-statement.org/" target="_blank" rel="noopener">prisma-statement.org</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag guide">✅ DIAGNOSTIC</span>
+    <span class="ref-author">Bossuyt PM, Reitsma JB, Bruns DE, et al.</span>
+    <span class="ref-title"> STARD 2015: An Updated List of Essential Items for Reporting Diagnostic Accuracy Studies. </span>
+    <em>BMJ</em> 351:h5527 (2015).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1136/bmj.h5527" target="_blank" rel="noopener">10.1136/bmj.h5527</a></span><span data-lang="en">DOI: <a href="https://doi.org/10.1136/bmj.h5527" target="_blank" rel="noopener">10.1136/bmj.h5527</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag guide">✅ QUALITATIVE</span>
+    <span class="ref-author">Tong A, Sainsbury P, Craig J.</span>
+    <span class="ref-title"> Consolidated criteria for reporting qualitative research (COREQ). </span>
+    <em>Int J Qual Health Care</em> 19:349-357 (2007).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1093/intqhc/mzm042" target="_blank" rel="noopener">10.1093/intqhc/mzm042</a></span><span data-lang="en">DOI: <a href="https://doi.org/10.1093/intqhc/mzm042" target="_blank" rel="noopener">10.1093/intqhc/mzm042</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag guide">✅ PREDICTION / AI</span>
+    <span class="ref-author">Collins GS, Moons KGM, Dhiman P, et al.</span>
+    <span class="ref-title"> TRIPOD+AI statement: updated guidance for reporting clinical prediction models that use regression or machine learning methods. </span>
+    <em>BMJ</em> 385:e078378 (2024).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1136/bmj-2023-078378" target="_blank" rel="noopener">10.1136/bmj-2023-078378</a> · <a href="https://www.tripod-statement.org/" target="_blank" rel="noopener">tripod-statement.org</a></span><span data-lang="en">DOI: <a href="https://doi.org/10.1136/bmj-2023-078378" target="_blank" rel="noopener">10.1136/bmj-2023-078378</a> <a href="https://www.tripod-statement.org/" target="_blank" rel="noopener">tripod-statement.org</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag guide">✅ ANIMAL</span>
+    <span class="ref-author">Percie du Sert N, Hurst V, Ahluwalia A, et al.</span>
+    <span class="ref-title"> The ARRIVE guidelines 2.0: Updated guidelines for reporting animal research. </span>
+    <em>PLoS Biol</em> 18:e3000410 (2020).
+    <span class="ref-meta"><span data-lang="zh">DOI: <a href="https://doi.org/10.1371/journal.pbio.3000410" target="_blank" rel="noopener">10.1371/journal.pbio.3000410</a> · <a href="https://arriveguidelines.org/" target="_blank" rel="noopener">arriveguidelines.org</a></span><span data-lang="en">DOI: <a href="https://doi.org/10.1371/journal.pbio.3000410" target="_blank" rel="noopener">10.1371/journal.pbio.3000410</a> <a href="https://arriveguidelines.org/" target="_blank" rel="noopener">arriveguidelines.org</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag guide">✅ CASE REPORT</span>
+    <span class="ref-author">Gagnier JJ, Kienle G, Altman DG, Moher D, Sox H, Riley D; CARE Group.</span>
+    <span class="ref-title"> The CARE guidelines: consensus-based clinical case reporting guideline development. </span>
+    <em>BMJ Case Rep</em> 2013:bcr-2013-201554 (2013).
+    <span class="ref-meta"><span data-lang="zh"><a href="https://www.care-statement.org/" target="_blank" rel="noopener">care-statement.org</a></span><span data-lang="en"><a href="https://www.care-statement.org/" target="_blank" rel="noopener">care-statement.org</a></span></span>
+  </li>
+  <li>
+    <span class="ref-tag guide">✅ EQUATOR HUB</span>
+    <span class="ref-title"><span data-lang="zh">EQUATOR Network — 全球報告指引目錄。</span><span data-lang="en">EQUATOR Network — global directory of reporting guidelines.</span></span>
+    <span class="ref-meta"><span data-lang="zh"><a href="https://www.equator-network.org/" target="_blank" rel="noopener">equator-network.org</a></span><span data-lang="en"><a href="https://www.equator-network.org/" target="_blank" rel="noopener">equator-network.org</a></span></span>
+  </li>
+</ul>
+</section>
+
+<!-- =================== Errata ==================== -->
+<section class="section section-anchor" id="errata">
+<div class="section-label" data-zh="教學註記" data-en="TUTORIAL NOTES">教學註記</div>
+<h2 data-zh="📌 教學註記與細節" data-en="📌 Tutorial Notes & Details">📌 教學註記與細節</h2>
+<p data-lang="zh">為了讓教程易讀，部分內容做了取捨。下列為主要說明：</p>
+<p data-lang="en">To keep the tutorial accessible, some content was simplified. Notes:</p>
+
+<div class="errata">
+
+  <span class="errata-label" data-zh="補充說明" data-en="Notes" style="display:inline-block;background:#e0e7ff;color:#3730a3;padding:2px 10px;border-radius:4px;font-size:.72rem;font-weight:700;letter-spacing:.5px;margin-bottom:8px">補充說明 · Notes</span><h4 data-zh="Step 5 · 樣本量公式為近似" data-en="Step 5 · Sample-size formulas are approximations">Step 5 · 樣本量公式為近似</h4>
+<p data-lang="zh">頁面內模擬器與公式皆使用常態近似 (z-score)，未考慮 t 分配的自由度修正。對小樣本 (n &lt; 30) 應改用 t 分配或 simulation-based 樣本量；對非二元 outcome（如比例、生存）建議使用 <code>pwr</code> 或 G*Power 的專屬公式。</p>
+<p data-lang="en">The simulator uses normal approximations (z-scores) without t-distribution adjustment. For small n (&lt; 30) prefer t-based or simulation-based sample size; for non-Gaussian outcomes use <code>pwr</code> or G*Power's dedicated formulas.</p>
+</div>
+
+<div class="errata">
+
+  <span class="errata-label" data-zh="補充說明" data-en="Notes" style="display:inline-block;background:#e0e7ff;color:#3730a3;padding:2px 10px;border-radius:4px;font-size:.72rem;font-weight:700;letter-spacing:.5px;margin-bottom:8px">補充說明 · Notes</span><h4 data-zh="Step 7 · GWAS 5×10⁻⁸ 的真實依據" data-en="Step 7 · The real basis of GWAS 5×10⁻⁸">Step 7 · GWAS 5×10⁻⁸ 的真實依據</h4>
+<p data-lang="zh">教程簡化為「人類基因組 ~10⁶ 個獨立 LD block」，這是普及說法。Pe'er et al. 2008 給出的數字實際為「常見變異約 1.2×10⁶ 個獨立檢定」，且僅針對歐裔人群；其他族群（如非洲裔，LD 較短）獨立檢定數更多。新一代 GWAS / WGS 研究常使用更嚴格的閾值（如 5×10⁻⁹）。</p>
+<p data-lang="en">The tutorial simplifies to "human genome has ~10⁶ independent LD blocks." Pe'er et al. 2008 actually reports ~1.2×10⁶ for common variants, and only for Europeans; populations with shorter LD (e.g., African) have more independent tests. Newer GWAS / WGS often use stricter thresholds (e.g., 5×10⁻⁹).</p>
+</div>
+
+<div class="errata">
+
+  <span class="errata-label" data-zh="補充說明" data-en="Notes" style="display:inline-block;background:#e0e7ff;color:#3730a3;padding:2px 10px;border-radius:4px;font-size:.72rem;font-weight:700;letter-spacing:.5px;margin-bottom:8px">補充說明 · Notes</span><h4 data-zh="Step 8 · FHIR R4 vs R5 遷移現況" data-en="Step 8 · FHIR R4 vs R5 migration status">Step 8 · FHIR R4 vs R5 遷移現況</h4>
+<p data-lang="zh">教程內互通範例多以 FHIR R4 (2019 Normative) 為主，因其為當前 US Core IG 與 ONC USCDI v3 的基礎；FHIR R5 雖於 2023-03 發布，但臨床系統實裝速度極慢，多數 EHR 廠商與 HL7 Argonaut Project 仍以 R4 為主流。學習者應留意：(a) R5 的 SubscriptionTopic 取代 R4 的 Subscription criteria-as-string；(b) R5 移除 MedicationStatement.context 等欄位；(c) 跨機構交換目前仍應以 R4 為交付目標，R5 視為前瞻學習。</p>
+<p data-lang="en">The tutorial's interoperability examples primarily use FHIR R4 (Normative 2019) since it underpins US Core IG and ONC USCDI v3. FHIR R5 was released 2023-03 but EHR vendor adoption lags; HL7 Argonaut Project and most production EHRs remain R4-centric. Note: (a) R5's SubscriptionTopic replaces R4's criteria-as-string Subscription; (b) R5 drops fields like MedicationStatement.context; (c) cross-institution exchange should still target R4 today, treating R5 as forward-looking study.</p>
+</div>
+
+<div class="errata">
+
+  <span class="errata-label" data-zh="補充說明" data-en="Notes" style="display:inline-block;background:#e0e7ff;color:#3730a3;padding:2px 10px;border-radius:4px;font-size:.72rem;font-weight:700;letter-spacing:.5px;margin-bottom:8px">補充說明 · Notes</span><h4 data-zh="Step 9 · OMOP CDM v5.4 vs v6 狀態" data-en="Step 9 · OMOP CDM v5.4 vs v6 status">Step 9 · OMOP CDM v5.4 vs v6 狀態</h4>
+<p data-lang="zh">教程示例 ETL 採用 OHDSI OMOP CDM v5.4 (2022 release)，包含 DRUG_EXPOSURE / CONDITION_ERA / OBSERVATION_PERIOD 等核心表格。CDM v6 草案曾於 2018 提出（將日期欄位升級為 datetime、調整 PERSON.death_datetime 至 DEATH 表），但 OHDSI 社群因下游工具相容性問題（ATLAS、Achilles、PatientLevelPrediction 等仍以 v5.x 為主）暫緩 v6 全面採用。截至 2025 Q4，v5.4 仍是事實標準；v6 GA 時程未定，建議以 v5.4 為交付目標。</p>
+<p data-lang="en">Tutorial ETL examples follow OHDSI OMOP CDM v5.4 (2022 release) with DRUG_EXPOSURE / CONDITION_ERA / OBSERVATION_PERIOD core tables. CDM v6 draft (2018) proposed upgrading date fields to datetime and moving PERSON.death_datetime to a DEATH table, but downstream tool compatibility (ATLAS, Achilles, PatientLevelPrediction still v5.x-centric) stalled adoption. As of 2025 Q4, v5.4 remains the de facto standard; v6 GA timeline is undetermined — target v5.4 for delivery.</p>
+</div>
+
+<div class="errata">
+
+  <span class="errata-label" data-zh="補充說明" data-en="Notes" style="display:inline-block;background:#e0e7ff;color:#3730a3;padding:2px 10px;border-radius:4px;font-size:.72rem;font-weight:700;letter-spacing:.5px;margin-bottom:8px">補充說明 · Notes</span><h4 data-zh="Step 10 · MIMIC-IV CITI 與 PhysioNet 認證" data-en="Step 10 · MIMIC-IV CITI &amp; PhysioNet credentialing">Step 10 · MIMIC-IV CITI 與 PhysioNet 認證</h4>
+<p data-lang="zh">Johnson et al. 2023 (Scientific Data) 發布 MIMIC-IV v2.2 後，PhysioNet 取用門檻包含：(a) 完成 CITI Program "Data or Specimens Only Research" (DSOR) 模組（非完整 Human Subjects Research，但仍需 1.5–2 小時）；(b) 簽署 PhysioNet Credentialed Health Data Use Agreement；(c) 提交 referee 推薦（通常為 PI 或學術導師）。實務常見錯誤：誤用 CITI "Biomedical Research" 模組（不被接受），或下載後將資料置於公共雲儲存 (S3 public bucket)（違反 DUA）。MIMIC-IV-ED 與 MIMIC-IV-Note 需<strong>另外</strong>申請存取，雖然共用 CITI 訓練。</p>
+<p data-lang="en">Following Johnson et al. 2023 (Scientific Data) release of MIMIC-IV v2.2, PhysioNet access requires: (a) completing CITI Program "Data or Specimens Only Research" (DSOR) module — NOT the full Human Subjects module, but still 1.5–2 hours; (b) signing the PhysioNet Credentialed Health Data Use Agreement; (c) submitting a referee endorsement (typically PI or academic mentor). Common mistakes: completing the wrong CITI "Biomedical Research" module (rejected); placing downloaded data in public cloud storage (S3 public bucket) which violates the DUA. MIMIC-IV-ED and MIMIC-IV-Note require <strong>separate</strong> access requests despite sharing the CITI training.</p>
+</div>
+
+<div class="errata">
+
+  <span class="errata-label" data-zh="補充說明" data-en="Notes" style="display:inline-block;background:#e0e7ff;color:#3730a3;padding:2px 10px;border-radius:4px;font-size:.72rem;font-weight:700;letter-spacing:.5px;margin-bottom:8px">補充說明 · Notes</span><h4 data-zh="Step 11 · ICD-10 vs ICD-11 過渡" data-en="Step 11 · ICD-10 vs ICD-11 transition">Step 11 · ICD-10 vs ICD-11 過渡</h4>
+<p data-lang="zh">教程的診斷編碼示例仍以 ICD-10-CM (美國臨床版) 與 ICD-10 WHO 為主。WHO 已於 2022-01 正式啟用 ICD-11，但全球採用緩慢：美國 CMS 尚未公告 ICD-11-CM 開發時程，預估至 2027–2030 才會強制過渡；歐盟成員國採用時程不一（德國、義大利已試點）；台灣健保署目前仍維持 ICD-10-CM/PCS 編碼。實務影響：(a) ICD-11 採用線性化（linearization）+ 後組合（postcoordination）使 code 可變長度；(b) 新增「擴展碼」(extension codes) 與「叢集」(clustering) 概念，與 ICD-10 的階層碼結構不直接 1:1 映射；(c) 跨版本對照建議用 WHO 官方 ICD-10 ↔ ICD-11 mapping table，避免自製對照表。</p>
+<p data-lang="en">Tutorial diagnosis coding examples still focus on ICD-10-CM (US clinical) and ICD-10 WHO. WHO officially launched ICD-11 in 2022-01 but global adoption is slow: US CMS has not announced an ICD-11-CM development timeline, with mandatory transition estimated 2027–2030; EU member states adopt at different paces (Germany, Italy piloted); Taiwan NHIA still uses ICD-10-CM/PCS. Practical impact: (a) ICD-11 uses linearization + postcoordination giving variable-length codes; (b) introduces "extension codes" and "clustering" concepts not directly 1:1 with ICD-10 hierarchy; (c) cross-version mapping should use WHO's official ICD-10 ↔ ICD-11 mapping table — do not roll your own.</p>
+</div>
+
+<div class="errata">
+
+  <span class="errata-label" data-zh="補充說明" data-en="Notes" style="display:inline-block;background:#e0e7ff;color:#3730a3;padding:2px 10px;border-radius:4px;font-size:.72rem;font-weight:700;letter-spacing:.5px;margin-bottom:8px">補充說明 · Notes</span><h4 data-zh="Step 12 · 臨床 NLP 領域漂移 (Wornow 2023)" data-en="Step 12 · Clinical NLP domain shift (Wornow 2023)">Step 12 · 臨床 NLP 領域漂移 (Wornow 2023)</h4>
+<p data-lang="zh">教程中介紹 ClinicalBERT、BioBERT、GatorTron 等臨床預訓練模型時，未充分強調 <strong>領域漂移 (domain shift)</strong> 問題。Wornow et al. 2023 (NEJM AI) 系統性分析顯示：(a) 在 MIMIC-III (Beth Israel ICU 2001–2012 資料) 訓練的模型，部署至同院 2020 後資料時 F1 可下降 10–15 個百分點；(b) 跨醫院遷移更嚴重（特別是書寫風格差異、模板化結構差異）；(c) 多數已發表 clinical NLP 模型缺乏外部驗證，建議 transfer learning 後仍需在目標院別 fine-tune 並計算 calibration shift。即便 LLM (GPT-4/Med-PaLM 2) 在 zero-shot 表現亮眼，仍對 ICD coding 與 medication extraction 任務存在系統性偏誤。</p>
+<p data-lang="en">When introducing ClinicalBERT, BioBERT, GatorTron and other clinical pretrained models, the tutorial under-emphasizes <strong>domain shift</strong>. Wornow et al. 2023 (NEJM AI) systematic analysis shows: (a) models trained on MIMIC-III (Beth Israel ICU 2001–2012) drop 10–15 F1 points when deployed on same-hospital post-2020 data; (b) cross-hospital transfer is worse (note-writing style, template structure differences); (c) most published clinical NLP models lack external validation — after transfer learning, fine-tune on target-site data and check calibration shift. Even LLMs (GPT-4/Med-PaLM 2) with strong zero-shot performance show systematic bias on ICD coding and medication extraction tasks.</p>
+</div>
+
+<div class="errata">
+
+  <span class="errata-label" data-zh="補充說明" data-en="Notes" style="display:inline-block;background:#e0e7ff;color:#3730a3;padding:2px 10px;border-radius:4px;font-size:.72rem;font-weight:700;letter-spacing:.5px;margin-bottom:8px">補充說明 · Notes</span><h4 data-zh="Step 13 · SDOH Z-code 低估率 (Truong 2020)" data-en="Step 13 · SDOH Z-code under-coding (Truong 2020)">Step 13 · SDOH Z-code 低估率 (Truong 2020)</h4>
+<p data-lang="zh">教程提及社會決定因素 (Social Determinants of Health, SDOH) 在 ICD-10 中以 Z55–Z65 系列 Z-codes 編碼（住房不穩、糧食不安全、社會孤立等），但<strong>嚴重低報</strong>是已知問題。Truong et al. 2020 (Population Health Management) 全國分析發現：(a) 全美 Medicare/Medicaid claims 中僅 1.6% 病患有任何 Z-code SDOH 紀錄；(b) Z59.x (住房問題) 編碼率不到實際盛行率的 5%；(c) 編碼率在 safety-net hospital 較高但仍偏低；原因包括缺乏結算誘因、護理人員與社工的編碼工作流斷層、provider 訓練不足。實務建議：(a) 若以 Z-code 推估 SDOH 暴露會嚴重低估；(b) 改採 EHR 自由文本 NLP 萃取（如 SHC SDOH Toolkit）或社區層級指標 (ADI, SVI) 連結；(c) 整體 sensitivity 通常 &lt;20%。</p>
+<p data-lang="en">The tutorial mentions Social Determinants of Health (SDOH) coded as Z55–Z65 ICD-10 Z-codes (housing instability, food insecurity, social isolation) but <strong>severe under-coding</strong> is a known issue. Truong et al. 2020 (Population Health Management) national analysis found: (a) only 1.6% of US Medicare/Medicaid claims had any Z-code SDOH entry; (b) Z59.x (housing) coding captures &lt;5% of actual prevalence; (c) rates are higher at safety-net hospitals but still low — driven by lack of reimbursement incentive, broken handoffs between nursing/social work coding workflows, and inadequate provider training. Practical guidance: (a) inferring SDOH exposure from Z-codes alone severely underestimates; (b) use EHR free-text NLP extraction (e.g., SHC SDOH Toolkit) or area-level proxies (ADI, SVI) linked to address; (c) overall sensitivity is typically &lt;20%.</p>
+</div>
+</section>
+<nav class="page-nav">
+  <a href="../index.html"><span class="nav-dir" data-zh="← 教學首頁" data-en="← Tutorial home">← 教學首頁</span><span class="nav-title" data-zh="回到主教學頁" data-en="Back to tutorial hub">回到主教學頁</span></a>
+  <a href="../biomedinfo-quiz/index.html" target="_blank" rel="noopener"><span class="nav-dir" data-zh="互動考題 →" data-en="Interactive quiz →">互動考題 →</span><span class="nav-title" data-zh="互動式考題" data-en="Interactive Quiz">互動式考題</span></a>
+</nav>
+
+</main>
+<script src="../i18n.js"></script>
+</body>
+</html>

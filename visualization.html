@@ -1,0 +1,258 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Advanced: Data Visualization — Biomedical Informatics Tutorial</title>
+<link rel="stylesheet" href="styles.css">
+</head><body>
+<nav class="top-nav"><div class="top-nav-inner">
+  <a href="index.html" class="top-nav-brand"><span>🔬</span> <span data-zh="生醫資訊研究技術" data-en="BioMed Informatics">生醫資訊研究技術</span></a>
+  <ul class="top-nav-links">
+    <li><a href="research-design.html" data-zh="設計" data-en="Design">設計</a></li>
+    <li><a href="literature-review.html" data-zh="文獻" data-en="Lit">文獻</a></li>
+    <li><a href="databases.html" data-zh="資料庫" data-en="DB">資料庫</a></li>
+    <li><a href="ethics.html" data-zh="倫理" data-en="Ethics">倫理</a></li>
+    <li><a href="sample-size.html" data-zh="樣本量" data-en="Sample">樣本量</a></li>
+    <li><a href="statistical-tests.html" data-zh="檢定" data-en="Tests">檢定</a></li>
+    <li><a href="multiple-testing.html" data-zh="多重檢定" data-en="MultTest">多重檢定</a></li>
+    <li><a href="bias-confounding.html" data-zh="偏差" data-en="Bias">偏差</a></li>
+    <li><a href="survival.html" data-zh="存活" data-en="Surv">存活</a></li>
+    <li><a href="causal-inference.html" data-zh="因果" data-en="Causal">因果</a></li>
+    <li><a href="meta-analysis.html" data-zh="Meta" data-en="Meta">Meta</a></li>
+    <li><a href="reproducibility.html" data-zh="重現" data-en="Repro">重現</a></li>
+    <li><a href="visualization.html" class="active" data-zh="視覺化" data-en="Viz">視覺化</a></li>
+    <li><a href="scientific-writing.html" data-zh="寫作" data-en="Writing">寫作</a></li>
+    <li><a href="references/index.html" data-zh="📚 參考資料" data-en="📚 References">📚 參考資料</a></li>
+  </ul>
+</div></nav>
+<div class="progress-bar-container"><div class="progress-bar" id="progressBar"></div></div>
+<header class="page-hero"><div class="step-badge">ADVANCED</div>
+<h1 data-zh="數據視覺化原則" data-en="Data Visualization Principles">數據視覺化原則</h1>
+<p class="subtitle" data-lang="zh">圖表是濃縮的論證——選對圖、用對色、誠實標尺，能讓資料說真話。</p>
+<p class="subtitle" data-lang="en">A chart is a compressed argument — pick the right type, the right colors, and honest scales, and the data tells the truth.</p>
+</header>
+<main class="content-wrap">
+
+<section class="section">
+<div class="section-label" data-zh="概覽" data-en="OVERVIEW">概覽</div>
+<h2 data-zh="為什麼好的圖比好的文字更重要？" data-en="Why are good plots often more powerful than prose?">為什麼好圖比好文字更有力？</h2>
+<div data-lang="zh">
+<p>審稿人、PI、聽眾的第一眼通常落在 Figure 1。Tufte 強調：「視覺呈現應最大化『資料-墨水比』，去掉裝飾、保留資訊」。生醫資訊圖表還承擔三個額外角色：</p>
+<ul>
+<li><strong>QC 工具：</strong>PCA、t-SNE、UMAP 在 Step 1 暴露 batch 與 outlier</li>
+<li><strong>探索工具：</strong>volcano、heatmap、KM curve 揭示效應結構</li>
+<li><strong>溝通工具：</strong>論文 Figure 1-6 是論證骨幹</li>
+</ul>
+</div>
+<div data-lang="en">
+<p>Reviewers, PIs, and audiences look at Figure 1 first. Tufte's rule: "Maximize the data-ink ratio — remove decoration, keep information." In biomedical informatics, plots play three roles:</p>
+<ul>
+<li><strong>QC tool:</strong> PCA, t-SNE, UMAP expose batch and outliers at Step 1</li>
+<li><strong>Exploratory tool:</strong> volcano, heatmap, KM curve reveal effect structures</li>
+<li><strong>Communication tool:</strong> Figures 1-6 carry the paper's argument</li>
+</ul>
+</div>
+</section>
+
+<section class="section">
+<div class="section-label" data-zh="圖型選擇" data-en="CHART TYPES">圖型選擇</div>
+<h2 data-zh="一、依資料型態選對圖型" data-en="I. Pick the Chart Type by Data Type">一、依資料選圖型</h2>
+<table class="comp-table"><thead><tr>
+<th data-zh="情境" data-en="Scenario">情境</th>
+<th data-zh="推薦圖" data-en="Recommended">推薦圖</th>
+<th data-zh="避免" data-en="Avoid">避免</th>
+</tr></thead><tbody>
+<tr><td><span data-zh="連續變數分布" data-en="Distribution of continuous">連續變數分布</span></td>
+<td><span data-zh="histogram、密度圖、boxplot、violin" data-en="Histogram, density, boxplot, violin">histogram / 密度 / boxplot / violin</span></td>
+<td><span data-zh="長條圖（除非真的是類別）" data-en="Bar chart (unless truly categorical)">長條圖</span></td></tr>
+<tr><td><span data-zh="兩連續變數關係" data-en="Two continuous">兩連續關係</span></td>
+<td><span data-zh="scatter + regression line / hexbin (大資料)" data-en="Scatter + regression / hexbin">scatter + 回歸 / hexbin</span></td>
+<td><span data-zh="3D 圖（讀者難判讀）" data-en="3D plots (hard to read)">3D 圖</span></td></tr>
+<tr><td><span data-zh="多組比較" data-en="Multi-group comparison">多組比較</span></td>
+<td>boxplot / violin + jitter / strip</td>
+<td><span data-zh="僅顯示 mean ± SD 的長條（隱藏分布）" data-en="Mean ± SD bar (hides distribution)">mean ± SD 長條</span></td></tr>
+<tr><td><span data-zh="時間趨勢" data-en="Time trend">時間趨勢</span></td>
+<td><span data-zh="line plot / 平滑曲線" data-en="Line plot / smoothed curve">line / smoothed</span></td>
+<td><span data-zh="斷裂的 y 軸" data-en="Broken y-axis">斷裂 y 軸</span></td></tr>
+<tr><td><span data-zh="比例 / 部分" data-en="Proportion / parts">比例</span></td>
+<td>stacked bar / waffle</td>
+<td><span data-zh="3D 圓餅（極差）" data-en="3D pie (terrible)">3D 圓餅</span></td></tr>
+<tr><td><span data-zh="基因表達矩陣" data-en="Gene expression matrix">基因表達矩陣</span></td>
+<td>heatmap + dendrogram</td>
+<td><span data-zh="不縮放的 raw counts heatmap" data-en="Unscaled raw counts heatmap">未縮放的 heatmap</span></td></tr>
+<tr><td><span data-zh="差異基因" data-en="DE genes">差異基因</span></td>
+<td><span data-zh="volcano (logFC vs −log p)、MA plot" data-en="Volcano (logFC vs −log p), MA plot">volcano / MA plot</span></td>
+<td><span data-zh="僅列表（缺乏整體感）" data-en="Plain table (no overview)">純表格</span></td></tr>
+<tr><td><span data-zh="存活差異" data-en="Survival">存活差異</span></td>
+<td><span data-zh="Kaplan-Meier + at-risk table" data-en="Kaplan-Meier + at-risk table">KM + at-risk 表</span></td>
+<td><span data-zh="沒有 CI / at-risk 的 KM" data-en="KM without CI or at-risk">缺 CI/at-risk 的 KM</span></td></tr>
+<tr><td><span data-zh="網絡 / 路徑" data-en="Network / pathway">網絡 / 路徑</span></td>
+<td>Cytoscape / ggraph / circos / chord</td>
+<td><span data-zh="無布局策略的 hairball" data-en="Unlaid-out 'hairball'">混亂的 hairball</span></td></tr>
+</tbody></table>
+</section>
+
+<section class="section">
+<div class="section-label" data-zh="色彩原則" data-en="COLOR PRINCIPLES">色彩原則</div>
+<h2 data-zh="二、色彩、無障礙與感知" data-en="II. Color, Accessibility &amp; Perception">二、色彩原則</h2>
+<div class="card-grid cols-2">
+<div class="card"><h4>🎨 <span data-zh="連續色板用 viridis 不要 rainbow" data-en="Use viridis, not rainbow">連續色板 viridis 不用 rainbow</span></h4>
+<div data-lang="zh"><p>Rainbow (jet) 色板在感知亮度上不單調 → 視覺扭曲、色盲不友善。Viridis、magma、cividis 都是<strong>感知均勻 + 色盲友善</strong>的現代替代方案。Matplotlib 自 2.0、ggplot 自 3.0 內建 viridis。</p></div>
+<div data-lang="en"><p>Rainbow (jet) has non-monotonic perceptual brightness → visual distortion, colorblind-unfriendly. Viridis, magma, cividis are <strong>perceptually uniform + colorblind-safe</strong>. Matplotlib (≥2.0) and ggplot (≥3.0) include viridis by default.</p></div>
+</div>
+<div class="card"><h4>👁️ <span data-zh="色盲安全比例" data-en="Colorblind-safe ratio">色盲安全比例</span></h4>
+<div data-lang="zh"><p>約 8% 男性、0.5% 女性有紅綠色盲。<strong>不要單獨依賴顏色</strong>傳達資訊——配合形狀、紋理、直接標籤。檢查工具：Coblis、Color Oracle。</p></div>
+<div data-lang="en"><p>~8% of men and 0.5% of women have red-green color blindness. <strong>Never rely on color alone</strong> — pair with shape, pattern, or direct labels. Tools: Coblis, Color Oracle.</p></div>
+</div>
+<div class="card"><h4>↗️ <span data-zh="發散色板：以 0 為中心" data-en="Diverging palette: center at 0">發散色板要置中</span></h4>
+<div data-lang="zh"><p>表達正負（如 log fold-change、相關係數）時使用 RdBu_r、coolwarm 等發散色板，並讓白色對齊到 0，否則會誤導效應方向。</p></div>
+<div data-lang="en"><p>For signed data (log FC, correlation), use diverging palettes (RdBu_r, coolwarm) with white aligned to 0 — otherwise the sign is visually misleading.</p></div>
+</div>
+<div class="card"><h4>🚫 <span data-zh="不要『斷裂』y 軸" data-en="Don't break the y-axis">不要斷裂 y 軸</span></h4>
+<div data-lang="zh"><p>把 y 軸從 80 開始畫 long bar 會放大微小差異，是經典誤導手法。除非有強烈合理原因，y 軸應從 0 起。對極端值用<strong>對數刻度</strong>而非斷裂。</p></div>
+<div data-lang="en"><p>Starting y at 80 inflates tiny differences — a classic misleading trick. y should start at 0 unless strongly justified. For extreme ranges, use a <strong>log scale</strong>, not a break.</p></div>
+</div>
+</div>
+</section>
+
+<section class="section">
+<div class="section-label" data-zh="不要做的事" data-en="ANTI-PATTERNS">不要做的事</div>
+<h2 data-zh="三、八個經典「請勿模仿」" data-en="III. Eight Visualization Anti-Patterns">三、八個請勿模仿</h2>
+<div class="card-grid cols-2">
+<div class="card"><h4>❌ <span data-zh="Dynamite bar (mean ± SD)" data-en="Dynamite plots">Dynamite bar</h4>
+<div data-lang="zh"><p>只畫 mean 與一條誤差線：完全隱藏分布、樣本量、離群值。改用 boxplot+jitter 或 violin。</p></div>
+<div data-lang="en"><p>Only shows mean and one error bar — hides distribution, n, outliers. Use boxplot + jitter or violin instead.</p></div>
+</div>
+<div class="card"><h4>❌ <span data-zh="3D pie / 3D bar" data-en="3D pie / 3D bar">3D 圓餅 / 3D 長條</span></h4>
+<div data-lang="zh"><p>3D 視角扭曲面積與長度感知，違反「資料-墨水比」原則。永遠用 2D。</p></div>
+<div data-lang="en"><p>3D distorts area and length perception, violating data-ink ratio. Use 2D — always.</p></div>
+</div>
+<div class="card"><h4>❌ <span data-zh="未標 sample size 的 boxplot" data-en="Boxplot without n">沒有 n 的 boxplot</span></h4>
+<div data-lang="zh"><p>10 vs 1000 樣本的 boxplot 看起來一樣寬。應在每組標註 n。</p></div>
+<div data-lang="en"><p>A 10-sample box and a 1000-sample box look identical. Annotate n.</p></div>
+</div>
+<div class="card"><h4>❌ <span data-zh="連續資料用長條圖" data-en="Bar chart for continuous">連續資料用長條圖</span></h4>
+<div data-lang="zh"><p>長條圖只該用於計數或頻率。連續資料用 histogram / density。</p></div>
+<div data-lang="en"><p>Bars are for counts. Continuous data → histogram / density.</p></div>
+</div>
+<div class="card"><h4>❌ <span data-zh="缺 axis label / unit" data-en="Missing labels/units">缺軸標 / 單位</span></h4>
+<div data-lang="zh"><p>「Expression」沒有單位是常見毛病。要清楚標 log<sub>2</sub> CPM、TPM、Z-score、raw counts。</p></div>
+<div data-lang="en"><p>"Expression" without units is a common sin. Label log<sub>2</sub> CPM, TPM, Z-score, or raw counts explicitly.</p></div>
+</div>
+<div class="card"><h4>❌ <span data-zh="超過 7 種顏色的線" data-en="More than 7 line colors">7 種以上線條色</span></h4>
+<div data-lang="zh"><p>人類短期記憶極限約 7 ± 2 個項目。多於 7 條線應分小圖 (facet)。</p></div>
+<div data-lang="en"><p>Working memory limit ≈ 7 ± 2. More than 7 lines → use small multiples (facets).</p></div>
+</div>
+<div class="card"><h4>❌ <span data-zh="僅秀 p 值的「**」" data-en="Only stars, no effect size">只秀 ** *** 沒效應量</span></h4>
+<div data-lang="zh"><p>p 值不能單獨衡量證據。也要呈現效應量 + CI（見 Step 6）。</p></div>
+<div data-lang="en"><p>p alone is no evidence. Show effect size + CI (see Step 6).</p></div>
+</div>
+<div class="card"><h4>❌ <span data-zh="無 CI 的 KM 曲線" data-en="KM without CI">無 CI 的 KM</span></h4>
+<div data-lang="zh"><p>KM 缺 CI 與 at-risk table 等於缺乏不確定性資訊。生醫期刊現多要求 at-risk 表。</p></div>
+<div data-lang="en"><p>KM without CIs and at-risk tables hides uncertainty. Biomed journals increasingly require at-risk tables.</p></div>
+</div>
+</div>
+</section>
+
+<section class="section">
+<div class="section-label" data-zh="程式碼" data-en="CODE">程式碼</div>
+<h2 data-zh="實作：ggplot2 / matplotlib 範例" data-en="Implementation">實作範例</h2>
+<div class="code-tabs">
+<div class="code-tab-btns">
+<button class="code-tab-btn active">R (ggplot2)</button>
+<button class="code-tab-btn">Python (matplotlib + seaborn)</button>
+</div>
+<div class="code-tab-content active"><pre><span class="kw">library</span>(<span class="func">ggplot2</span>); <span class="kw">library</span>(<span class="func">viridis</span>); <span class="kw">library</span>(<span class="func">ggpubr</span>)
+
+<span class="comment"># Boxplot + jitter + n labels (publication style)</span>
+<span class="func">ggplot</span>(df, <span class="func">aes</span>(group, value, fill=group)) +
+  <span class="func">geom_violin</span>(alpha=<span class="num">0.4</span>, trim=<span class="kw">FALSE</span>) +
+  <span class="func">geom_boxplot</span>(width=<span class="num">0.15</span>, outlier.shape=<span class="kw">NA</span>) +
+  <span class="func">geom_jitter</span>(width=<span class="num">0.1</span>, alpha=<span class="num">0.5</span>, size=<span class="num">0.7</span>) +
+  <span class="func">stat_compare_means</span>(method=<span class="str">"wilcox"</span>) +
+  <span class="func">scale_fill_viridis_d</span>(option=<span class="str">"D"</span>) +
+  <span class="func">labs</span>(y=<span class="str">"log2 TPM"</span>, x=<span class="kw">NULL</span>) +
+  <span class="func">theme_classic</span>(base_size=<span class="num">13</span>)
+
+<span class="comment"># Volcano plot</span>
+<span class="func">ggplot</span>(de, <span class="func">aes</span>(log2FC, -<span class="func">log10</span>(padj),
+              color=padj<<span class="num">0.05</span> & <span class="func">abs</span>(log2FC)><span class="num">1</span>)) +
+  <span class="func">geom_point</span>(size=<span class="num">0.8</span>) +
+  <span class="func">scale_color_manual</span>(values=<span class="func">c</span>(<span class="str">"grey70"</span>,<span class="str">"#d4a03c"</span>)) +
+  <span class="func">geom_vline</span>(xintercept=<span class="func">c</span>(-<span class="num">1</span>,<span class="num">1</span>), lty=<span class="num">2</span>) +
+  <span class="func">geom_hline</span>(yintercept=-<span class="func">log10</span>(<span class="num">0.05</span>), lty=<span class="num">2</span>) +
+  <span class="func">theme_classic</span>()</pre></div>
+<div class="code-tab-content"><pre><span class="kw">import</span> seaborn <span class="kw">as</span> sns, matplotlib.pyplot <span class="kw">as</span> plt
+
+sns.<span class="func">set_theme</span>(style=<span class="str">"ticks"</span>, palette=<span class="str">"viridis"</span>)
+
+<span class="comment"># Half-violin + box + strip</span>
+fig, ax = plt.<span class="func">subplots</span>(figsize=(<span class="num">5</span>,<span class="num">4</span>))
+sns.<span class="func">violinplot</span>(x=<span class="str">"group"</span>, y=<span class="str">"value"</span>, data=df, inner=<span class="kw">None</span>, alpha=<span class="num">0.4</span>, ax=ax)
+sns.<span class="func">boxplot</span>(x=<span class="str">"group"</span>, y=<span class="str">"value"</span>, data=df, width=<span class="num">0.2</span>, showfliers=<span class="kw">False</span>, ax=ax)
+sns.<span class="func">stripplot</span>(x=<span class="str">"group"</span>, y=<span class="str">"value"</span>, data=df, size=<span class="num">2</span>, color=<span class="str">"k"</span>, alpha=<span class="num">0.4</span>, ax=ax)
+ax.<span class="func">set</span>(ylabel=<span class="str">"log2 TPM"</span>, xlabel=<span class="str">""</span>); sns.<span class="func">despine</span>()
+
+<span class="comment"># Volcano plot</span>
+df[<span class="str">"sig"</span>] = (df[<span class="str">"padj"</span>]<<span class="num">0.05</span>) & (df[<span class="str">"logFC"</span>].<span class="func">abs</span>()><span class="num">1</span>)
+plt.<span class="func">figure</span>(figsize=(<span class="num">5</span>,<span class="num">5</span>))
+plt.<span class="func">scatter</span>(df.logFC, -np.<span class="func">log10</span>(df.padj),
+            c=df.sig.<span class="func">map</span>({<span class="kw">True</span>:<span class="str">"#d4a03c"</span>,<span class="kw">False</span>:<span class="str">"grey"</span>}),
+            s=<span class="num">4</span>, alpha=<span class="num">0.7</span>)
+plt.<span class="func">axhline</span>(-np.<span class="func">log10</span>(<span class="num">0.05</span>), ls=<span class="str">"--"</span>); plt.<span class="func">axvline</span>(<span class="num">1</span>, ls=<span class="str">"--"</span>); plt.<span class="func">axvline</span>(-<span class="num">1</span>, ls=<span class="str">"--"</span>)</pre></div>
+</div>
+</section>
+
+<section class="quiz-section">
+<h3 data-zh="📝 隨堂測驗" data-en="📝 Quick Quiz">📝 隨堂測驗</h3>
+<div class="quiz-q">
+<p data-zh="Q1. 連續資料分布最適合呈現方式為？" data-en="Q1. Best way to visualize the distribution of continuous data?">Q1. 連續資料分布用？</p>
+<div class="quiz-options">
+<div class="quiz-opt" data-correct="0"><span>A. <span data-lang="zh">3D 長條圖</span><span data-lang="en">3D bar</span></span></div>
+<div class="quiz-opt" data-correct="1"><span>B. histogram / violin / boxplot</span></div>
+<div class="quiz-opt" data-correct="0"><span>C. <span data-lang="zh">圓餅圖</span><span data-lang="en">Pie chart</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>D. <span data-lang="zh">堆疊長條</span><span data-lang="en">Stacked bar</span></span></div>
+</div>
+<div class="quiz-feedback"><span data-lang="zh">連續資料分布應呈現整體形狀（histogram/density）或四分位（boxplot/violin），不要只給平均值。</span><span data-lang="en">Distributions need to show shape (histogram/density) or quartiles (boxplot/violin), not just a mean.</span></div>
+</div>
+
+<div class="quiz-q">
+<p data-zh="Q2. 為什麼避免使用 rainbow / jet 色板？" data-en="Q2. Why avoid rainbow / jet palettes?">Q2. 為什麼避免 rainbow 色板？</p>
+<div class="quiz-options">
+<div class="quiz-opt" data-correct="0"><span>A. <span data-lang="zh">太鮮豔</span><span data-lang="en">Too vibrant</span></span></div>
+<div class="quiz-opt" data-correct="1"><span>B. <span data-lang="zh">感知亮度不均勻、色盲不友善</span><span data-lang="en">Non-uniform perceptual brightness, colorblind-unfriendly</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>C. <span data-lang="zh">檔案太大</span><span data-lang="en">Files too large</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>D. <span data-lang="zh">只能用紅綠</span><span data-lang="en">Only red/green works</span></span></div>
+</div>
+<div class="quiz-feedback"><span data-lang="zh">Rainbow 在亮度（luminance）上不單調，會在數值大小感知上造成扭曲；對紅綠色盲也不友善。Viridis 是業界標準替代品。</span><span data-lang="en">Rainbow's luminance is non-monotonic, distorting perceived magnitude and failing colorblind users. Viridis is the industry-standard alternative.</span></div>
+</div>
+
+<div class="quiz-q">
+<p data-zh="Q3. 表達 log fold-change 應選用哪種色板？" data-en="Q3. Best palette for log fold-change?">Q3. logFC 用哪種色板？</p>
+<div class="quiz-options">
+<div class="quiz-opt" data-correct="0"><span>A. <span data-lang="zh">順序色（如 viridis）</span><span data-lang="en">Sequential (e.g., viridis)</span></span></div>
+<div class="quiz-opt" data-correct="1"><span>B. <span data-lang="zh">發散色 (diverging)，白色置 0</span><span data-lang="en">Diverging, white at 0</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>C. <span data-lang="zh">分類色 (Set1)</span><span data-lang="en">Qualitative (Set1)</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>D. <span data-lang="zh">黑白</span><span data-lang="en">Black &amp; white</span></span></div>
+</div>
+<div class="quiz-feedback"><span data-lang="zh">logFC 有正負方向，要用 diverging 色板（如 RdBu_r）並讓白色對應到 0。否則正負方向會視覺混淆。</span><span data-lang="en">logFC has sign — use a diverging palette (e.g., RdBu_r) centered at 0. Otherwise sign becomes visually misleading.</span></div>
+</div>
+
+<div class="quiz-q">
+<p data-zh="Q4. 為什麼 KM 曲線要附 at-risk table？" data-en="Q4. Why include an at-risk table with KM curves?">Q4. KM 曲線為什麼要 at-risk table？</p>
+<div class="quiz-options">
+<div class="quiz-opt" data-correct="0"><span>A. <span data-lang="zh">期刊規定</span><span data-lang="en">Journal rule</span></span></div>
+<div class="quiz-opt" data-correct="1"><span>B. <span data-lang="zh">標示每個時間點還剩多少觀察值，揭露曲線可信度</span><span data-lang="en">Shows how many subjects remain at each time — reveals curve reliability</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>C. <span data-lang="zh">美觀</span><span data-lang="en">Aesthetics</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>D. <span data-lang="zh">取代 p 值</span><span data-lang="en">Replaces p-value</span></span></div>
+</div>
+<div class="quiz-feedback"><span data-lang="zh">at-risk 數量少時 KM 末端的估計波動極大，必須揭示給讀者。</span><span data-lang="en">When the at-risk set is small the KM tail is highly variable — readers need to see that.</span></div>
+</div>
+</section>
+
+<div class="page-nav">
+<a href="reproducibility.html"><span class="nav-dir" data-zh="← 上一步" data-en="← Previous">← 上一步</span><span class="nav-title" data-zh="可重現研究" data-en="Reproducibility">可重現研究</span></a>
+<a href="scientific-writing.html"><span class="nav-dir" data-zh="下一步 →" data-en="Next →">下一步 →</span><span class="nav-title" data-zh="科學寫作與發表" data-en="Scientific Writing">科學寫作與發表</span></a>
+</div>
+
+</main>
+<footer class="site-footer">© Charlene — Biomedical Informatics Research Techniques</footer>
+<script src="i18n.js"></script>
+</body></html>

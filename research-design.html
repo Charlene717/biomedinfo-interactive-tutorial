@@ -1,0 +1,334 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Step 1: Research Design — Biomedical Informatics Tutorial</title>
+<link rel="stylesheet" href="styles.css">
+</head><body>
+<nav class="top-nav"><div class="top-nav-inner">
+  <a href="index.html" class="top-nav-brand"><span>🔬</span> <span data-zh="生醫資訊研究技術" data-en="BioMed Informatics">生醫資訊研究技術</span></a>
+  <ul class="top-nav-links">
+    <li><a href="research-design.html" class="active" data-zh="設計" data-en="Design">設計</a></li>
+    <li><a href="literature-review.html" data-zh="文獻" data-en="Lit">文獻</a></li>
+    <li><a href="databases.html" data-zh="資料庫" data-en="DB">資料庫</a></li>
+    <li><a href="ethics.html" data-zh="倫理" data-en="Ethics">倫理</a></li>
+    <li><a href="sample-size.html" data-zh="樣本量" data-en="Sample">樣本量</a></li>
+    <li><a href="statistical-tests.html" data-zh="檢定" data-en="Tests">檢定</a></li>
+    <li><a href="multiple-testing.html" data-zh="多重檢定" data-en="MultTest">多重檢定</a></li>
+    <li><a href="bias-confounding.html" data-zh="偏差" data-en="Bias">偏差</a></li>
+    <li><a href="survival.html" data-zh="存活" data-en="Surv">存活</a></li>
+    <li><a href="causal-inference.html" data-zh="因果" data-en="Causal">因果</a></li>
+    <li><a href="meta-analysis.html" data-zh="Meta" data-en="Meta">Meta</a></li>
+    <li><a href="reproducibility.html" data-zh="重現" data-en="Repro">重現</a></li>
+    <li><a href="visualization.html" data-zh="視覺化" data-en="Viz">視覺化</a></li>
+    <li><a href="scientific-writing.html" data-zh="寫作" data-en="Writing">寫作</a></li>
+    <li><a href="references/index.html" data-zh="📚 參考資料" data-en="📚 References">📚 參考資料</a></li>
+  </ul>
+</div></nav>
+<div class="progress-bar-container"><div class="progress-bar" id="progressBar"></div></div>
+<header class="page-hero"><div class="step-badge">STEP 1 / 9</div>
+<h1 data-zh="研究設計與假說建立" data-en="Research Design &amp; Hypothesis">研究設計與假說建立</h1>
+<p class="subtitle" data-lang="zh">所有後續分析的成敗，始於是否提出了一個可檢驗、有臨床或生物意義的研究問題。</p>
+<p class="subtitle" data-lang="en">The success of any downstream analysis begins with formulating a testable, clinically or biologically meaningful research question.</p>
+</header>
+<main class="content-wrap">
+
+<!-- Section 1: Why -->
+<section class="section">
+<div class="section-label" data-zh="概覽" data-en="OVERVIEW">概覽</div>
+<h2 data-zh="為什麼研究設計是最先要做的事？" data-en="Why is research design the very first step?">為什麼研究設計是最先要做的事？</h2>
+<div data-lang="zh">
+<p>生醫資訊研究的常見陷阱是「資料拿到手才開始想分析」。然而<strong>研究問題本身的結構</strong>決定了你可以使用哪些統計方法、所需樣本量、以及結論能推廣到哪些族群。在資料生成（無論是 wet lab 或公開資料庫下載）之前，先把研究設計想清楚，能避免：</p>
+<ul>
+<li><strong>p-hacking</strong>：因為沒有預設假說而事後挑選顯著結果</li>
+<li><strong>HARKing</strong> (Hypothesizing After the Results are Known)：先看結果再杜撰假說</li>
+<li><strong>檢定力不足</strong>：發現效應後才驚覺樣本太少</li>
+<li><strong>無法推論到目標族群</strong>：樣本與真正關心的族群結構不符</li>
+</ul>
+</div>
+<div data-lang="en">
+<p>A common pitfall in biomedical informatics is "wait for the data, then think about analysis." But the <strong>structure of the research question itself</strong> determines which statistical methods you can use, how much sample you need, and which populations your conclusions generalize to. Settling the design <em>before</em> data generation (wet lab or public download) avoids:</p>
+<ul>
+<li><strong>p-hacking</strong>: cherry-picking significant results because no a priori hypothesis was set</li>
+<li><strong>HARKing</strong> (Hypothesizing After the Results are Known): inventing hypotheses post hoc</li>
+<li><strong>Underpowered studies</strong>: realizing only after observing an effect that the sample is too small</li>
+<li><strong>Non-generalizable conclusions</strong>: samples that don't reflect the target population</li>
+</ul>
+</div>
+<div class="callout tip"><span class="callout-icon">💡</span><div>
+<span data-lang="zh"><strong>核心原則：</strong>在打開任何資料、寫任何程式碼之前，先把研究問題、預期效應方向、主要分析變數寫下來——最好註冊到 OSF 或 ClinicalTrials.gov。這個動作把你的研究從「探索性」拉升到「確證性」的層次。</span>
+<span data-lang="en"><strong>Core principle:</strong> Before opening any data or writing any code, write down the research question, expected effect direction, and primary analysis variables — preferably register them on OSF or ClinicalTrials.gov. This single act elevates your study from "exploratory" to "confirmatory."</span>
+</div></div>
+</section>
+
+<!-- Section 2: PICO -->
+<section class="section">
+<div class="section-label" data-zh="核心框架" data-en="CORE FRAMEWORK">核心框架</div>
+<h2 data-zh="一、PICO 框架：建構可檢驗的問題" data-en="I. The PICO Framework">一、PICO 框架：建構可檢驗的問題</h2>
+<div data-lang="zh"><p><strong>PICO</strong> 是循證醫學的核心問題模板，把模糊的「我想研究 X」拆解成 4 個明確的元件，讓問題立刻變得可檢索、可分析。</p></div>
+<div data-lang="en"><p><strong>PICO</strong> is the foundational question template in evidence-based medicine. It decomposes a vague "I want to study X" into four explicit components, making the question instantly searchable and analyzable.</p></div>
+<div class="card-grid cols-2">
+<div class="card"><div class="card-icon">👤</div><h4>P — Population / Patient</h4>
+<div data-lang="zh"><p>研究對象的明確定義：年齡、性別、疾病分期、診斷標準、共病排除條件。<br><strong>範例：</strong>「第二期至第三期非小細胞肺腺癌，年齡 18-75 歲，無嚴重肝腎功能不全。」</p></div>
+<div data-lang="en"><p>Explicit definition of subjects: age, sex, disease stage, diagnostic criteria, comorbidity exclusions.<br><strong>Example:</strong> "Stage II-III non-small-cell lung adenocarcinoma, ages 18-75, without severe hepatic or renal impairment."</p></div>
+</div>
+<div class="card"><div class="card-icon">💊</div><h4>I — Intervention / Exposure</h4>
+<div data-lang="zh"><p>主要的處置、暴露、生物標記、基因突變或預測變數。<br><strong>範例：</strong>「EGFR exon 19 deletion (突變組)」或「抽菸 ≥ 20 pack-years」。</p></div>
+<div data-lang="en"><p>Primary treatment, exposure, biomarker, mutation, or predictor.<br><strong>Example:</strong> "EGFR exon 19 deletion (mutant group)" or "smoking ≥ 20 pack-years."</p></div>
+</div>
+<div class="card"><div class="card-icon">⚖️</div><h4>C — Comparison / Control</h4>
+<div data-lang="zh"><p>對照組設計：標準治療、安慰劑、無暴露族群、wild-type 組。沒有對照組就無法談「差異」或「療效」。</p></div>
+<div data-lang="en"><p>Control group design: standard therapy, placebo, unexposed population, or wild-type group. Without a comparison, there is no "difference" or "treatment effect" to speak of.</p></div>
+</div>
+<div class="card"><div class="card-icon">🎯</div><h4>O — Outcome</h4>
+<div data-lang="zh"><p>結果變數要在分析前定義清楚（primary vs. secondary endpoints）：存活時間、療效反應率、基因表達量、診斷準確率（AUC/敏感度/特異度）。</p></div>
+<div data-lang="en"><p>Define outcomes precisely before analysis (primary vs. secondary endpoints): survival time, response rate, gene expression, diagnostic accuracy (AUC/sensitivity/specificity).</p></div>
+</div>
+</div>
+<div class="callout warn"><span class="callout-icon">⚠️</span><div>
+<span data-lang="zh"><strong>進階版本：</strong>PICOT 加入「<strong>T</strong> — Timeframe」（如 5 年存活率）；PICOS 加入「<strong>S</strong> — Study design」（如 RCT, cohort, case-control）。這些變體在系統性回顧與 Meta 分析中尤其重要。</span>
+<span data-lang="en"><strong>Extended versions:</strong> PICOT adds "<strong>T</strong> — Timeframe" (e.g., 5-year survival); PICOS adds "<strong>S</strong> — Study design" (e.g., RCT, cohort, case-control). These variants are especially important in systematic reviews and meta-analyses.</span>
+</div></div>
+</section>
+
+<!-- Section 3: FINER -->
+<section class="section">
+<div class="section-label" data-zh="可行性檢核" data-en="FEASIBILITY">可行性檢核</div>
+<h2 data-zh="二、FINER 準則：研究問題是否值得做？" data-en="II. The FINER Criteria">二、FINER 準則：值得做嗎？</h2>
+<div data-lang="zh"><p>有了 PICO 問題後，再用 <strong>FINER</strong> 五個準則自我審查：</p></div>
+<div data-lang="en"><p>Once you have a PICO question, audit it against the five <strong>FINER</strong> criteria:</p></div>
+<table class="comp-table"><thead><tr>
+<th data-zh="準則" data-en="Criterion">準則</th>
+<th data-zh="意義" data-en="Meaning">意義</th>
+<th data-zh="檢視問題" data-en="Self-check">檢視問題</th>
+</tr></thead><tbody>
+<tr><td><strong>F</strong>easible</td>
+<td><span data-lang="zh">可行</span><span data-lang="en">Feasible</span></td>
+<td><span data-lang="zh">有足夠樣本、技術、經費、時間嗎？</span><span data-lang="en">Enough subjects, technical expertise, funds, and time?</span></td></tr>
+<tr><td><strong>I</strong>nteresting</td>
+<td><span data-lang="zh">有趣</span><span data-lang="en">Interesting</span></td>
+<td><span data-lang="zh">同行會關心結果嗎？無論結果是正或負？</span><span data-lang="en">Will peers care about the answer — positive or negative?</span></td></tr>
+<tr><td><strong>N</strong>ovel</td>
+<td><span data-lang="zh">新穎</span><span data-lang="en">Novel</span></td>
+<td><span data-lang="zh">能補充、駁斥或延伸既有文獻嗎？</span><span data-lang="en">Does it confirm, refute, or extend existing literature?</span></td></tr>
+<tr><td><strong>E</strong>thical</td>
+<td><span data-lang="zh">符合倫理</span><span data-lang="en">Ethical</span></td>
+<td><span data-lang="zh">IRB 會核准嗎？對受試者風險可控嗎？</span><span data-lang="en">Will the IRB approve it? Is subject risk acceptable?</span></td></tr>
+<tr><td><strong>R</strong>elevant</td>
+<td><span data-lang="zh">相關</span><span data-lang="en">Relevant</span></td>
+<td><span data-lang="zh">對臨床實務、科學知識或公共政策有貢獻嗎？</span><span data-lang="en">Does it advance clinical practice, science, or policy?</span></td></tr>
+</tbody></table>
+</section>
+
+<!-- Section 4: Study Designs -->
+<section class="section">
+<div class="section-label" data-zh="研究類型" data-en="STUDY TYPES">研究類型</div>
+<h2 data-zh="三、生醫研究的常見設計型態" data-en="III. Common Study Designs">三、生醫研究的常見設計型態</h2>
+<div data-lang="zh"><p>研究設計可分為「觀察 vs. 介入」、「橫斷 vs. 縱貫」、「個體 vs. 族群」等多個軸線。下面整理生醫資訊最常見的 6 種設計：</p></div>
+<div data-lang="en"><p>Designs span axes like "observational vs. interventional," "cross-sectional vs. longitudinal," and "individual vs. population." Below are the 6 most common designs in biomedical informatics:</p></div>
+<table class="comp-table"><thead><tr>
+<th data-zh="設計" data-en="Design">設計</th>
+<th data-zh="時間方向" data-en="Direction">時間方向</th>
+<th data-zh="優點" data-en="Strengths">優點</th>
+<th data-zh="缺點" data-en="Weaknesses">缺點</th>
+</tr></thead><tbody>
+<tr><td><strong>RCT</strong><br><span style="font-size:.8rem;color:var(--c-ink-muted)" data-zh="隨機對照試驗" data-en="Randomized trial">隨機對照試驗</span></td>
+<td><span data-lang="zh">前瞻</span><span data-lang="en">Prospective</span></td>
+<td><span data-lang="zh">因果推論最強</span><span data-lang="en">Strongest causal inference</span></td>
+<td><span data-lang="zh">昂貴、倫理限制大</span><span data-lang="en">Expensive, ethical limits</span></td></tr>
+<tr><td><strong>Cohort</strong><br><span style="font-size:.8rem;color:var(--c-ink-muted)" data-zh="世代研究" data-en="Cohort">世代研究</span></td>
+<td><span data-lang="zh">前瞻 / 回溯</span><span data-lang="en">Prospective / retrospective</span></td>
+<td><span data-lang="zh">可算 incidence；可看多重結果</span><span data-lang="en">Can calculate incidence; multiple outcomes</span></td>
+<td><span data-lang="zh">時間久；流失率高</span><span data-lang="en">Long duration; attrition</span></td></tr>
+<tr><td><strong>Case-Control</strong><br><span style="font-size:.8rem;color:var(--c-ink-muted)" data-zh="病例對照" data-en="Case-control">病例對照</span></td>
+<td><span data-lang="zh">回溯</span><span data-lang="en">Retrospective</span></td>
+<td><span data-lang="zh">適合罕見疾病；速度快</span><span data-lang="en">Good for rare diseases; fast</span></td>
+<td><span data-lang="zh">易有 recall bias 與 selection bias</span><span data-lang="en">Prone to recall &amp; selection bias</span></td></tr>
+<tr><td><strong>Cross-Sectional</strong><br><span style="font-size:.8rem;color:var(--c-ink-muted)" data-zh="橫斷研究" data-en="Cross-sectional">橫斷研究</span></td>
+<td><span data-lang="zh">單一時間點</span><span data-lang="en">One time point</span></td>
+<td><span data-lang="zh">可估 prevalence；快速</span><span data-lang="en">Estimates prevalence; fast</span></td>
+<td><span data-lang="zh">無法判斷因果方向</span><span data-lang="en">Cannot determine causal direction</span></td></tr>
+<tr><td><strong>Systematic Review / Meta-analysis</strong></td>
+<td><span data-lang="zh">綜合既有研究</span><span data-lang="en">Synthesis</span></td>
+<td><span data-lang="zh">證據等級最高（高品質情況下）</span><span data-lang="en">Highest evidence level (when well-conducted)</span></td>
+<td><span data-lang="zh">易受 publication bias 影響</span><span data-lang="en">Vulnerable to publication bias</span></td></tr>
+<tr><td><strong>In silico / Computational</strong></td>
+<td><span data-lang="zh">無時間方向</span><span data-lang="en">Atemporal</span></td>
+<td><span data-lang="zh">速度快、成本低、可重現</span><span data-lang="en">Fast, low-cost, reproducible</span></td>
+<td><span data-lang="zh">結論仍需濕實驗驗證</span><span data-lang="en">Findings need wet-lab validation</span></td></tr>
+</tbody></table>
+</section>
+
+<!-- Section 5: Interactive — PICO builder -->
+<section class="section">
+<div class="section-label" data-zh="互動練習" data-en="INTERACTIVE">互動練習</div>
+<h2 data-zh="PICO 問題建構器" data-en="PICO Question Builder">PICO 問題建構器</h2>
+<div data-lang="zh"><p>輸入你的 PICO 元件，下方會自動組合成一個結構化的研究問題與對應的 PubMed 檢索語法。</p></div>
+<div data-lang="en"><p>Enter your PICO elements below. The tool will compose them into a structured research question and a matching PubMed search query.</p></div>
+<div class="interactive-panel">
+<div class="slider-group"><label><span>P — Population</span></label><input type="text" id="picoP" value="postmenopausal women with breast cancer" style="width:100%;padding:8px 12px;border:1px solid var(--c-border);border-radius:6px;font-family:var(--font-body);"></div>
+<div class="slider-group"><label><span>I — Intervention</span></label><input type="text" id="picoI" value="tamoxifen" style="width:100%;padding:8px 12px;border:1px solid var(--c-border);border-radius:6px;font-family:var(--font-body);"></div>
+<div class="slider-group"><label><span>C — Comparison</span></label><input type="text" id="picoC" value="aromatase inhibitors" style="width:100%;padding:8px 12px;border:1px solid var(--c-border);border-radius:6px;font-family:var(--font-body);"></div>
+<div class="slider-group"><label><span>O — Outcome</span></label><input type="text" id="picoO" value="5-year disease-free survival" style="width:100%;padding:8px 12px;border:1px solid var(--c-border);border-radius:6px;font-family:var(--font-body);"></div>
+<div style="background:var(--c-surface-alt);padding:14px;border-radius:8px;margin-top:14px;">
+<p style="font-size:.85rem;color:var(--c-ink-muted);margin-bottom:6px;" data-zh="生成的研究問題：" data-en="Generated research question:">生成的研究問題：</p>
+<p style="font-family:var(--font-display);font-size:1.05rem;color:var(--c-ink);margin-bottom:12px;" id="picoQ">—</p>
+<p style="font-size:.85rem;color:var(--c-ink-muted);margin-bottom:6px;" data-zh="PubMed 檢索語法（範例）：" data-en="PubMed search query (example):">PubMed 檢索語法（範例）：</p>
+<code style="display:block;background:var(--c-code-bg);color:var(--c-code-text);padding:10px 12px;border-radius:6px;font-size:.82rem;overflow-x:auto;" id="picoQuery">—</code>
+</div>
+</div>
+<script>
+(function(){
+  const ids=['picoP','picoI','picoC','picoO'];
+  function update(){
+    const [P,I,C,O]=ids.map(id=>document.getElementById(id).value.trim());
+    const lang=(window.I18n&&window.I18n.get&&window.I18n.get())||'en';
+    const q=lang==='zh'
+      ?`在「${P}」中，「${I}」相較於「${C}」對「${O}」的影響為何？`
+      :`In ${P}, how does ${I} compared to ${C} affect ${O}?`;
+    document.getElementById('picoQ').textContent=q;
+    const query=`("${P}"[MeSH] OR "${P}"[tiab]) AND ("${I}"[tiab] OR "${I}"[MeSH]) AND ("${C}"[tiab]) AND ("${O}"[tiab])`;
+    document.getElementById('picoQuery').textContent=query;
+  }
+  ids.forEach(id=>document.getElementById(id).addEventListener('input',update));
+  document.addEventListener('langchange',update);
+  document.addEventListener('DOMContentLoaded',update);
+  update();
+})();
+</script>
+</section>
+
+<!-- Section 6: Decision tree -->
+<section class="section">
+<div class="section-label" data-zh="決策樹" data-en="DECISION TREE">決策樹</div>
+<h2 data-zh="如何選擇研究設計？" data-en="How to Choose a Study Design?">如何選擇研究設計？</h2>
+<div class="decision-tree">
+<h4 data-zh="🌳 設計選擇流程" data-en="🌳 Design Selection Flow">🌳 設計選擇流程</h4>
+<div class="dt-node"><span class="dt-q">Q1</span><span class="dt-arrow">→</span><span data-lang="zh">是否可以隨機分配介入？<strong>可以</strong> → RCT (gold standard)；<strong>不可以</strong> → 觀察性研究</span><span data-lang="en">Can you randomize the intervention? <strong>Yes</strong> → RCT (gold standard); <strong>No</strong> → observational study</span></div>
+<div class="dt-node"><span class="dt-q">Q2</span><span class="dt-arrow">→</span><span data-lang="zh">疾病很罕見？<strong>是</strong> → Case-Control（從病例反查暴露）；<strong>否</strong> → Cohort</span><span data-lang="en">Is the disease rare? <strong>Yes</strong> → Case-Control (from cases to exposure); <strong>No</strong> → Cohort</span></div>
+<div class="dt-node"><span class="dt-q">Q3</span><span class="dt-arrow">→</span><span data-lang="zh">需要快速估算盛行率？<strong>是</strong> → Cross-sectional</span><span data-lang="en">Need quick prevalence estimate? <strong>Yes</strong> → Cross-sectional</span></div>
+<div class="dt-node"><span class="dt-q">Q4</span><span class="dt-arrow">→</span><span data-lang="zh">想綜合既有文獻證據？<strong>是</strong> → Systematic Review / Meta-analysis</span><span data-lang="en">Want to synthesize existing evidence? <strong>Yes</strong> → Systematic Review / Meta-analysis</span></div>
+<div class="dt-node"><span class="dt-q">Q5</span><span class="dt-arrow">→</span><span data-lang="zh">資料已存在於 TCGA/GEO/UK Biobank？<strong>是</strong> → Secondary analysis (要特別注意 batch effect 與 cohort 特性)</span><span data-lang="en">Data already exists in TCGA/GEO/UK Biobank? <strong>Yes</strong> → Secondary analysis (watch for batch effects and cohort characteristics)</span></div>
+</div>
+</section>
+
+<!-- Section 7: Code -->
+<section class="section">
+<div class="section-label" data-zh="程式碼" data-en="CODE">程式碼</div>
+<h2 data-zh="預先註冊與假說書面化（範例）" data-en="Pre-registration &amp; Hypothesis Logging (Example)">預先註冊與假說書面化</h2>
+<div data-lang="zh"><p>把假說、主要終點與分析計畫存成版本控管的檔案，是最務實的「研究設計鎖定」步驟。下例示範以 YAML / Quarto 記錄假說，並用 R 計算所需樣本量。</p></div>
+<div data-lang="en"><p>Storing the hypothesis, primary endpoint, and analysis plan as version-controlled files is the most practical way to "lock" a design. The example below logs the hypothesis in YAML/Quarto and computes sample size in R.</p></div>
+<div class="code-tabs">
+<div class="code-tab-btns">
+<button class="code-tab-btn active">protocol.yaml</button>
+<button class="code-tab-btn">R</button>
+<button class="code-tab-btn">Python</button>
+</div>
+<div class="code-tab-content active"><pre><span class="comment"># Study protocol (version-controlled with Git)</span>
+study_id: <span class="str">"BMI-2026-001"</span>
+registration: <span class="str">"OSF.io/abcde"</span>
+hypothesis:
+  primary: <span class="str">"EGFR-mutant NSCLC patients on osimertinib have longer PFS than on erlotinib."</span>
+  direction: <span class="str">"one-sided, osimertinib > erlotinib"</span>
+population:
+  inclusion: [<span class="str">"Stage IIIB-IV NSCLC"</span>, <span class="str">"EGFR exon 19 del / L858R"</span>]
+  exclusion: [<span class="str">"prior EGFR-TKI"</span>, <span class="str">"ECOG > 2"</span>]
+intervention: <span class="str">"osimertinib 80mg QD"</span>
+comparator: <span class="str">"erlotinib 150mg QD"</span>
+primary_outcome: <span class="str">"Progression-free survival (months)"</span>
+secondary_outcomes: [<span class="str">"OS"</span>, <span class="str">"ORR"</span>, <span class="str">"adverse events grade ≥ 3"</span>]
+sample_size: 220
+analysis_plan: <span class="str">"Cox PH adjusted for age, sex, smoking. Log-rank for K-M."</span></pre></div>
+<div class="code-tab-content"><pre><span class="comment"># Sample size calculation for survival study</span>
+<span class="kw">library</span>(<span class="func">survival</span>)
+<span class="kw">library</span>(<span class="func">powerSurvEpi</span>)
+
+<span class="comment"># Expected: median PFS 18 mo (osimertinib) vs 10 mo (erlotinib)</span>
+<span class="comment"># Hazard ratio = 0.55; alpha = 0.05 (two-sided); power = 0.80</span>
+hr     <- <span class="num">0.55</span>
+median1<- <span class="num">10</span>      <span class="comment"># comparator median PFS (months)</span>
+median2<- <span class="num">18</span>      <span class="comment"># intervention median PFS</span>
+alpha  <- <span class="num">0.05</span>
+power  <- <span class="num">0.80</span>
+
+n_per_arm <- <span class="func">ssizeCT.default</span>(
+  power=power, k=<span class="num">1</span>, pE=<span class="num">0.6</span>, pC=<span class="num">0.8</span>,
+  RR=hr, alpha=alpha
+)
+<span class="func">print</span>(n_per_arm)  <span class="comment"># ≈ 110 per arm → total 220</span></pre></div>
+<div class="code-tab-content"><pre><span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">from</span> scipy.stats <span class="kw">import</span> norm
+
+<span class="comment"># Sample size for two-arm survival comparison (Schoenfeld 1981)</span>
+hr    = <span class="num">0.55</span>
+alpha = <span class="num">0.05</span>
+power = <span class="num">0.80</span>
+z_a   = norm.<span class="func">ppf</span>(<span class="num">1</span> - alpha/<span class="num">2</span>)
+z_b   = norm.<span class="func">ppf</span>(power)
+
+<span class="comment"># Expected event rate during follow-up (combined arms)</span>
+p_event = <span class="num">0.70</span>
+
+events_needed = (z_a + z_b)**<span class="num">2</span> / (np.<span class="func">log</span>(hr))**<span class="num">2</span> * <span class="num">4</span>
+n_total = events_needed / p_event
+<span class="func">print</span>(<span class="func">round</span>(n_total))  <span class="comment"># ≈ 220</span></pre></div>
+</div>
+</section>
+
+<!-- Quiz -->
+<section class="quiz-section">
+<h3 data-zh="📝 隨堂測驗" data-en="📝 Quick Quiz">📝 隨堂測驗</h3>
+
+<div class="quiz-q">
+<p data-zh="Q1. 下列哪一項<u>不屬於</u> PICO 框架的四個元件？" data-en="Q1. Which is NOT a component of the PICO framework?">Q1. 下列哪一項<u>不屬於</u> PICO 框架的四個元件？</p>
+<div class="quiz-options">
+<div class="quiz-opt" data-correct="0"><span>A. Population</span></div>
+<div class="quiz-opt" data-correct="0"><span>B. Intervention</span></div>
+<div class="quiz-opt" data-correct="1"><span>C. <strong>Cost</strong></span></div>
+<div class="quiz-opt" data-correct="0"><span>D. Outcome</span></div>
+</div>
+<div class="quiz-feedback"><span data-lang="zh">Cost 不在 PICO 中。第四個元件是 Outcome（結果指標）；C 代表 Comparison（對照組）。</span><span data-lang="en">Cost is not part of PICO. The four elements are Population, Intervention, Comparison, Outcome.</span></div>
+</div>
+
+<div class="quiz-q">
+<p data-zh="Q2. 對於罕見疾病（每 10 萬人約 1 例），最適合的觀察性設計通常是？" data-en="Q2. For a rare disease (~1 per 100,000), which observational design is usually most efficient?">Q2. 對於罕見疾病，最適合的觀察性設計？</p>
+<div class="quiz-options">
+<div class="quiz-opt" data-correct="0"><span>A. <span data-lang="zh">前瞻性世代研究</span><span data-lang="en">Prospective cohort</span></span></div>
+<div class="quiz-opt" data-correct="1"><span>B. <span data-lang="zh">病例對照 (Case-Control)</span><span data-lang="en">Case-control</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>C. <span data-lang="zh">橫斷研究</span><span data-lang="en">Cross-sectional</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>D. <span data-lang="zh">生態學研究</span><span data-lang="en">Ecological study</span></span></div>
+</div>
+<div class="quiz-feedback"><span data-lang="zh">Case-control 可從少量已知病例反查暴露因子，遠比追蹤大量健康人等病例出現有效率。</span><span data-lang="en">Case-control studies start from existing cases and look back for exposures — far more efficient than following huge healthy cohorts.</span></div>
+</div>
+
+<div class="quiz-q">
+<p data-zh="Q3. HARKing（事後造假說）會帶來哪一種主要問題？" data-en="Q3. What is the principal problem with HARKing?">Q3. HARKing 會帶來哪一種主要問題？</p>
+<div class="quiz-options">
+<div class="quiz-opt" data-correct="0"><span>A. <span data-lang="zh">樣本量不足</span><span data-lang="en">Insufficient sample size</span></span></div>
+<div class="quiz-opt" data-correct="1"><span>B. <span data-lang="zh">第一型錯誤膨脹，研究無法重現</span><span data-lang="en">Inflated Type I error and irreproducibility</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>C. <span data-lang="zh">資料隱私洩漏</span><span data-lang="en">Data privacy leak</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>D. <span data-lang="zh">違反 GDPR</span><span data-lang="en">Violation of GDPR</span></span></div>
+</div>
+<div class="quiz-feedback"><span data-lang="zh">看完結果再「補上」假說會把巧合的關聯當成發現，導致 false positive 暴增，後續研究無法重現。</span><span data-lang="en">"Fitting" a hypothesis after seeing results turns coincidences into "findings," inflating false positives and ruining reproducibility.</span></div>
+</div>
+
+<div class="quiz-q">
+<p data-zh="Q4. FINER 中的「N」代表什麼？" data-en="Q4. What does the 'N' in FINER stand for?">Q4. FINER 中的「N」代表？</p>
+<div class="quiz-options">
+<div class="quiz-opt" data-correct="0"><span>A. <span data-lang="zh">Necessary（必要的）</span><span data-lang="en">Necessary</span></span></div>
+<div class="quiz-opt" data-correct="1"><span>B. <span data-lang="zh">Novel（新穎的）</span><span data-lang="en">Novel</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>C. <span data-lang="zh">Non-invasive（非侵入性）</span><span data-lang="en">Non-invasive</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>D. <span data-lang="zh">Numeric（數值化）</span><span data-lang="en">Numeric</span></span></div>
+</div>
+<div class="quiz-feedback"><span data-lang="zh">FINER = Feasible / Interesting / <strong>Novel</strong> / Ethical / Relevant。</span><span data-lang="en">FINER = Feasible / Interesting / <strong>Novel</strong> / Ethical / Relevant.</span></div>
+</div>
+
+</section>
+
+<!-- Page nav -->
+<div class="page-nav">
+<div class="placeholder"></div>
+<a href="literature-review.html"><span class="nav-dir" data-zh="下一步 →" data-en="Next →">下一步 →</span><span class="nav-title" data-zh="文獻檢索與系統性回顧" data-en="Literature Search">文獻檢索與系統性回顧</span></a>
+</div>
+
+</main>
+<footer class="site-footer">© Charlene — Biomedical Informatics Research Techniques</footer>
+<script src="i18n.js"></script>
+</body></html>

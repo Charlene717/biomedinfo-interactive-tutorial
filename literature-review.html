@@ -1,0 +1,282 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Step 2: Literature Review — Biomedical Informatics Tutorial</title>
+<link rel="stylesheet" href="styles.css">
+</head><body>
+<nav class="top-nav"><div class="top-nav-inner">
+  <a href="index.html" class="top-nav-brand"><span>🔬</span> <span data-zh="生醫資訊研究技術" data-en="BioMed Informatics">生醫資訊研究技術</span></a>
+  <ul class="top-nav-links">
+    <li><a href="research-design.html" data-zh="設計" data-en="Design">設計</a></li>
+    <li><a href="literature-review.html" class="active" data-zh="文獻" data-en="Lit">文獻</a></li>
+    <li><a href="databases.html" data-zh="資料庫" data-en="DB">資料庫</a></li>
+    <li><a href="ethics.html" data-zh="倫理" data-en="Ethics">倫理</a></li>
+    <li><a href="sample-size.html" data-zh="樣本量" data-en="Sample">樣本量</a></li>
+    <li><a href="statistical-tests.html" data-zh="檢定" data-en="Tests">檢定</a></li>
+    <li><a href="multiple-testing.html" data-zh="多重檢定" data-en="MultTest">多重檢定</a></li>
+    <li><a href="bias-confounding.html" data-zh="偏差" data-en="Bias">偏差</a></li>
+    <li><a href="survival.html" data-zh="存活" data-en="Surv">存活</a></li>
+    <li><a href="causal-inference.html" data-zh="因果" data-en="Causal">因果</a></li>
+    <li><a href="meta-analysis.html" data-zh="Meta" data-en="Meta">Meta</a></li>
+    <li><a href="reproducibility.html" data-zh="重現" data-en="Repro">重現</a></li>
+    <li><a href="visualization.html" data-zh="視覺化" data-en="Viz">視覺化</a></li>
+    <li><a href="scientific-writing.html" data-zh="寫作" data-en="Writing">寫作</a></li>
+    <li><a href="references/index.html" data-zh="📚 參考資料" data-en="📚 References">📚 參考資料</a></li>
+  </ul>
+</div></nav>
+<div class="progress-bar-container"><div class="progress-bar" id="progressBar"></div></div>
+<header class="page-hero"><div class="step-badge">STEP 2 / 9</div>
+<h1 data-zh="文獻檢索與系統性回顧" data-en="Literature Search &amp; Systematic Review">文獻檢索與系統性回顧</h1>
+<p class="subtitle" data-lang="zh">透徹的文獻檢索是研究的起點——它告訴你已知什麼、爭議在哪、以及自己的位置。</p>
+<p class="subtitle" data-lang="en">A thorough literature search is where research begins — it tells you what is known, what is contested, and where your study sits.</p>
+</header>
+<main class="content-wrap">
+
+<section class="section">
+<div class="section-label" data-zh="概覽" data-en="OVERVIEW">概覽</div>
+<h2 data-zh="為什麼專業檢索與「隨便 Google」不同？" data-en="Why is professional search different from 'just Googling'?">為什麼專業檢索與「隨便 Google」不同？</h2>
+<div data-lang="zh">
+<p>生醫文獻每年新增 100 萬篇以上 (PubMed 收錄 3,500 萬 +)，靠關鍵字隨意搜尋會：(1) 漏掉重要的同義詞、(2) 被演算法個人化結果偏倚、(3) 無法重現。專業檢索強調 <strong>透明、完整、可重現</strong>，能讓你的綜述或 Meta 分析經得起同儕審查。</p>
+</div>
+<div data-lang="en">
+<p>Over 1 million biomedical papers are added each year (PubMed indexes 35M+). Casual keyword searches will (1) miss critical synonyms, (2) be biased by personalization, and (3) be irreproducible. Professional searching emphasizes <strong>transparency, completeness, reproducibility</strong> — letting your review or meta-analysis survive peer review.</p>
+</div>
+<div class="callout tip"><span class="callout-icon">💡</span><div>
+<span data-lang="zh"><strong>系統性回顧的金科玉律：</strong>把檢索式逐字記錄、註明檢索日期、儲存原始 .nbib 匯出檔——任何人都能在 6 個月後重現同一組結果。</span>
+<span data-lang="en"><strong>Golden rule of systematic reviews:</strong> Record the full query verbatim, note the search date, save the raw .nbib export — anyone should be able to reproduce the same hits six months later.</span>
+</div></div>
+</section>
+
+<section class="section">
+<div class="section-label" data-zh="核心資料庫" data-en="CORE DATABASES">核心資料庫</div>
+<h2 data-zh="一、五大生醫文獻資料庫" data-en="I. Five Key Biomedical Databases">一、五大生醫文獻資料庫</h2>
+<table class="comp-table"><thead><tr>
+<th data-zh="資料庫" data-en="Database">資料庫</th>
+<th data-zh="收錄範圍" data-en="Coverage">收錄範圍</th>
+<th data-zh="特色" data-en="Features">特色</th>
+</tr></thead><tbody>
+<tr><td><strong>PubMed / MEDLINE</strong></td>
+<td><span data-lang="zh">生醫、護理、牙醫，3500萬+</span><span data-lang="en">Biomed, nursing, dental, 35M+</span></td>
+<td><span data-lang="zh">MeSH 詞彙樹、免費</span><span data-lang="en">MeSH tree, free</span></td></tr>
+<tr><td><strong>Embase</strong></td>
+<td><span data-lang="zh">生醫、藥理，3400萬+</span><span data-lang="en">Biomed, pharmacology, 34M+</span></td>
+<td><span data-lang="zh">Emtree、含會議摘要、付費</span><span data-lang="en">Emtree, conference abstracts, paid</span></td></tr>
+<tr><td><strong>Web of Science</strong></td>
+<td><span data-lang="zh">跨領域，1.8億+</span><span data-lang="en">Multi-disciplinary, 180M+</span></td>
+<td><span data-lang="zh">引用追蹤、Citation Index</span><span data-lang="en">Citation tracking, indices</span></td></tr>
+<tr><td><strong>Scopus</strong></td>
+<td><span data-lang="zh">跨領域，9000萬+</span><span data-lang="en">Multi-disciplinary, 90M+</span></td>
+<td><span data-lang="zh">作者 ID、機構分析</span><span data-lang="en">Author ID, institutional analytics</span></td></tr>
+<tr><td><strong>Cochrane Library</strong></td>
+<td><span data-lang="zh">系統性回顧與 RCT</span><span data-lang="en">Systematic reviews &amp; RCTs</span></td>
+<td><span data-lang="zh">最高品質的臨床綜述</span><span data-lang="en">Highest-quality clinical reviews</span></td></tr>
+<tr><td><strong>bioRxiv / medRxiv</strong></td>
+<td><span data-lang="zh">未經審查的 preprint</span><span data-lang="en">Pre-peer-review preprints</span></td>
+<td><span data-lang="zh">最新但需自行品質判斷</span><span data-lang="en">Newest but caveat emptor</span></td></tr>
+</tbody></table>
+<div class="callout warn"><span class="callout-icon">⚠️</span><div>
+<span data-lang="zh"><strong>系統性回顧建議：</strong>至少檢索 PubMed + Embase + Cochrane 三個資料庫，否則 Cochrane 與 PRISMA 都不會認可你的綜述是「完整檢索」。</span>
+<span data-lang="en"><strong>For systematic reviews:</strong> Search at least PubMed + Embase + Cochrane. Otherwise PRISMA and Cochrane standards will not consider your search "comprehensive."</span>
+</div></div>
+</section>
+
+<section class="section">
+<div class="section-label" data-zh="檢索語法" data-en="SEARCH SYNTAX">檢索語法</div>
+<h2 data-zh="二、MeSH、布林邏輯與欄位標記" data-en="II. MeSH, Booleans, and Field Tags">二、MeSH、布林邏輯與欄位標記</h2>
+<div data-lang="zh">
+<p><strong>MeSH (Medical Subject Headings)</strong> 是美國國家醫學圖書館維護的層級式醫學主題詞彙，能解決同義詞問題：搜尋 "Heart Attack" 自動涵蓋 "Myocardial Infarction" 的所有變體。</p>
+<p><strong>布林運算符</strong>：</p>
+<ul>
+<li><code>AND</code>：兩者皆需出現（交集）</li>
+<li><code>OR</code>：任一出現即可（聯集，常用於同義詞群）</li>
+<li><code>NOT</code>：排除特定詞（謹慎使用，可能誤刪相關文章）</li>
+</ul>
+<p><strong>常用 PubMed 欄位標記</strong>：<code>[MeSH]</code>、<code>[tiab]</code>（title/abstract）、<code>[au]</code>（作者）、<code>[ta]</code>（期刊）、<code>[dp]</code>（出版年）、<code>[pt]</code>（文獻類型）。</p>
+</div>
+<div data-lang="en">
+<p><strong>MeSH (Medical Subject Headings)</strong> is the NLM's hierarchical thesaurus that solves the synonym problem: searching "Heart Attack" automatically expands to all "Myocardial Infarction" variants.</p>
+<p><strong>Boolean operators:</strong></p>
+<ul>
+<li><code>AND</code> — both must appear (intersection)</li>
+<li><code>OR</code> — either appears (union, for synonym groups)</li>
+<li><code>NOT</code> — excludes a term (use with care — may drop relevant articles)</li>
+</ul>
+<p><strong>Useful PubMed field tags:</strong> <code>[MeSH]</code>, <code>[tiab]</code> (title/abstract), <code>[au]</code>, <code>[ta]</code> (journal), <code>[dp]</code> (publication year), <code>[pt]</code> (publication type).</p>
+</div>
+
+<div class="code-tabs">
+<div class="code-tab-btns">
+<button class="code-tab-btn active">PubMed query</button>
+<button class="code-tab-btn">R (rentrez)</button>
+<button class="code-tab-btn">Python (Biopython)</button>
+</div>
+<div class="code-tab-content active"><pre><span class="comment"># Question: Does metformin improve survival in T2DM patients with cancer?</span>
+(<span class="str">"Metformin"</span>[MeSH] OR <span class="str">"metformin"</span>[tiab] OR <span class="str">"Glucophage"</span>[tiab])
+AND
+(<span class="str">"Diabetes Mellitus, Type 2"</span>[MeSH] OR <span class="str">"T2DM"</span>[tiab])
+AND
+(<span class="str">"Neoplasms"</span>[MeSH] OR <span class="str">"cancer"</span>[tiab] OR <span class="str">"tumor"</span>[tiab])
+AND
+(<span class="str">"Survival"</span>[MeSH] OR <span class="str">"mortality"</span>[tiab] OR <span class="str">"prognosis"</span>[tiab])
+AND
+(<span class="str">"2015"</span>[dp]:<span class="str">"2026"</span>[dp])
+AND
+(English[la])
+NOT
+(<span class="str">"Case Reports"</span>[pt] OR <span class="str">"Editorial"</span>[pt])</pre></div>
+<div class="code-tab-content"><pre><span class="kw">library</span>(<span class="func">rentrez</span>)
+
+query <- <span class="str">'("Metformin"[MeSH]) AND ("Neoplasms"[MeSH]) AND ("Survival"[MeSH])'</span>
+res   <- <span class="func">entrez_search</span>(db=<span class="str">"pubmed"</span>, term=query, retmax=<span class="num">500</span>, use_history=<span class="kw">TRUE</span>)
+
+<span class="comment"># Pull metadata in batches of 100</span>
+ids     <- res$ids
+records <- <span class="func">entrez_fetch</span>(db=<span class="str">"pubmed"</span>, id=ids, rettype=<span class="str">"medline"</span>, retmode=<span class="str">"text"</span>)
+<span class="func">writeLines</span>(records, <span class="str">"metformin_cancer.nbib"</span>)
+<span class="func">cat</span>(<span class="str">"Hits:"</span>, res$count, <span class="str">"\n"</span>)</pre></div>
+<div class="code-tab-content"><pre><span class="kw">from</span> Bio <span class="kw">import</span> Entrez
+
+Entrez.email = <span class="str">"you@uni.edu"</span>  <span class="comment"># NCBI requires email</span>
+query = <span class="str">'("Metformin"[MeSH]) AND ("Neoplasms"[MeSH]) AND ("Survival"[MeSH])'</span>
+
+handle = Entrez.<span class="func">esearch</span>(db=<span class="str">"pubmed"</span>, term=query, retmax=<span class="num">500</span>)
+res    = Entrez.<span class="func">read</span>(handle); handle.<span class="func">close</span>()
+ids    = res[<span class="str">"IdList"</span>]
+<span class="func">print</span>(<span class="str">f"Hits: {res['Count']}"</span>)
+
+<span class="comment"># Fetch full records</span>
+h = Entrez.<span class="func">efetch</span>(db=<span class="str">"pubmed"</span>, id=ids, rettype=<span class="str">"medline"</span>, retmode=<span class="str">"text"</span>)
+<span class="kw">with</span> <span class="func">open</span>(<span class="str">"metformin_cancer.nbib"</span>, <span class="str">"w"</span>) <span class="kw">as</span> f:
+    f.<span class="func">write</span>(h.<span class="func">read</span>())</pre></div>
+</div>
+</section>
+
+<section class="section">
+<div class="section-label" data-zh="PRISMA 流程" data-en="PRISMA WORKFLOW">PRISMA 流程</div>
+<h2 data-zh="三、PRISMA 2020 系統性回顧流程" data-en="III. PRISMA 2020 Systematic Review Workflow">三、PRISMA 2020 流程</h2>
+<div data-lang="zh"><p>PRISMA (Preferred Reporting Items for Systematic Reviews and Meta-Analyses) 是系統性回顧的<strong>報告</strong>準則。其流程圖一定要呈現四個階段的文獻數量：</p></div>
+<div data-lang="en"><p>PRISMA is the <strong>reporting</strong> guideline for systematic reviews and meta-analyses. The flow diagram must always show counts for these four stages:</p></div>
+<div class="workflow">
+<div class="workflow-step" data-step="1"><h4 data-zh="Identification（識別）" data-en="Identification">Identification</h4><p data-lang="zh">所有資料庫初始檢出的文獻總數（去重前）。</p><p data-lang="en">Total records retrieved from all databases (before deduplication).</p></div>
+<div class="workflow-step" data-step="2"><h4 data-zh="Screening（篩選）" data-en="Screening">Screening</h4><p data-lang="zh">去重後、依標題/摘要篩選；記錄排除原因。</p><p data-lang="en">After deduplication, screen by title/abstract; record exclusion reasons.</p></div>
+<div class="workflow-step" data-step="3"><h4 data-zh="Eligibility（合格）" data-en="Eligibility">Eligibility</h4><p data-lang="zh">全文評估；每篇排除文獻都要寫明原因（PICO 不符、語言、研究類型等）。</p><p data-lang="en">Full-text assessment; every exclusion must have a documented reason (PICO mismatch, language, study type, etc.).</p></div>
+<div class="workflow-step" data-step="4"><h4 data-zh="Included（納入）" data-en="Included">Included</h4><p data-lang="zh">最終納入質性綜述與/或定量合成（Meta 分析）的研究數。</p><p data-lang="en">Final number of studies included in qualitative synthesis and/or quantitative synthesis (meta-analysis).</p></div>
+</div>
+<div class="callout tip"><span class="callout-icon">💡</span><div>
+<span data-lang="zh"><strong>實用工具：</strong>Rayyan、Covidence 提供雙人盲審篩選介面；EndNote / Zotero 可去重；ROBIS / AMSTAR-2 用來評估綜述自身的偏倚風險。</span>
+<span data-lang="en"><strong>Useful tools:</strong> Rayyan and Covidence offer blinded dual-screening; EndNote/Zotero handle deduplication; ROBIS/AMSTAR-2 assess the review's own risk of bias.</span>
+</div></div>
+</section>
+
+<section class="section">
+<div class="section-label" data-zh="互動模擬" data-en="INTERACTIVE">互動模擬</div>
+<h2 data-zh="布林邏輯命中率模擬器" data-en="Boolean Hit-Rate Simulator">布林邏輯命中率模擬器</h2>
+<div data-lang="zh"><p>調整三個概念群的命中數與重疊度，觀察 AND / OR 的結果差異——這是設計檢索式時最常踩的雷。</p></div>
+<div data-lang="en"><p>Adjust the hit counts and overlaps of three concept groups to see how AND vs OR shapes the final set — the most common trap in query design.</p></div>
+<div class="interactive-panel">
+<div class="slider-group"><label><span data-zh="概念 A 命中數" data-en="Concept A hits">概念 A 命中數</span> <span id="valA">10000</span></label><input type="range" id="sA" min="1000" max="50000" value="10000" step="500"></div>
+<div class="slider-group"><label><span data-zh="概念 B 命中數" data-en="Concept B hits">概念 B 命中數</span> <span id="valB">8000</span></label><input type="range" id="sB" min="1000" max="50000" value="8000" step="500"></div>
+<div class="slider-group"><label><span data-zh="概念 C 命中數" data-en="Concept C hits">概念 C 命中數</span> <span id="valC">5000</span></label><input type="range" id="sC" min="500" max="50000" value="5000" step="500"></div>
+<div class="slider-group"><label><span data-zh="兩兩重疊率 (%)" data-en="Pairwise overlap (%)">兩兩重疊率</span> <span id="valOv">8</span>%</label><input type="range" id="sOv" min="1" max="40" value="8"></div>
+<div class="sim-stats">
+<span class="sim-stat info" id="andOut">A AND B AND C: —</span>
+<span class="sim-stat pass" id="orOut">A OR B OR C: —</span>
+</div>
+<p style="font-size:.82rem;color:var(--c-ink-muted);" data-zh="提示：用 OR 連結同義詞、用 AND 連結概念群。三個概念都用 AND 通常會把結果壓到 50~500 篇，正是 PRISMA 篩選的舒適範圍。" data-en="Tip: Use OR within synonym groups, AND between concept groups. Three concept groups joined by AND typically yields 50–500 hits — the sweet spot for PRISMA screening.">提示：用 OR 連結同義詞、用 AND 連結概念群。</p>
+</div>
+<script>
+(function(){
+  const ids=['sA','sB','sC','sOv'];
+  function calc(){
+    const A=+document.getElementById('sA').value;
+    const B=+document.getElementById('sB').value;
+    const C=+document.getElementById('sC').value;
+    const ov=+document.getElementById('sOv').value/100;
+    document.getElementById('valA').textContent=A;
+    document.getElementById('valB').textContent=B;
+    document.getElementById('valC').textContent=C;
+    document.getElementById('valOv').textContent=Math.round(ov*100);
+    // Simple inclusion-exclusion approximation
+    const pairOv=ov*Math.min(A,B,C);
+    const tripleOv=Math.round(pairOv*0.3);
+    const andHits=Math.max(0,tripleOv);
+    const orHits=Math.round(A+B+C - pairOv*3 + tripleOv);
+    document.getElementById('andOut').textContent='A AND B AND C: '+andHits.toLocaleString();
+    document.getElementById('orOut').textContent='A OR B OR C: '+orHits.toLocaleString();
+  }
+  ids.forEach(i=>document.getElementById(i).addEventListener('input',calc));
+  calc();
+})();
+</script>
+</section>
+
+<section class="section">
+<div class="section-label" data-zh="管理工具" data-en="REFERENCE MANAGERS">管理工具</div>
+<h2 data-zh="四、文獻管理工具比較" data-en="IV. Reference Manager Comparison">四、文獻管理工具比較</h2>
+<table class="comp-table"><thead><tr>
+<th>Tool</th>
+<th data-zh="優點" data-en="Pros">優點</th>
+<th data-zh="缺點" data-en="Cons">缺點</th>
+<th data-zh="適合" data-en="Best for">適合</th>
+</tr></thead><tbody>
+<tr><td><strong>Zotero</strong></td><td><span data-lang="zh">免費、開源、強瀏覽器抓取</span><span data-lang="en">Free, open-source, strong browser capture</span></td><td><span data-lang="zh">同步空間 300 MB</span><span data-lang="en">300 MB sync limit</span></td><td><span data-lang="zh">學生、個人研究</span><span data-lang="en">Students, individuals</span></td></tr>
+<tr><td><strong>EndNote</strong></td><td><span data-lang="zh">期刊樣板齊全、Word 整合</span><span data-lang="en">Rich journal templates, Word integration</span></td><td><span data-lang="zh">付費、介面陳舊</span><span data-lang="en">Paid, dated UI</span></td><td><span data-lang="zh">機構授權、傳統實驗室</span><span data-lang="en">Institutional, traditional labs</span></td></tr>
+<tr><td><strong>Mendeley</strong></td><td><span data-lang="zh">PDF 註記、社群功能</span><span data-lang="en">PDF annotation, social features</span></td><td><span data-lang="zh">Elsevier 主導、API 限制</span><span data-lang="en">Elsevier-owned, API limits</span></td><td><span data-lang="zh">PDF 為中心的工作流</span><span data-lang="en">PDF-centric workflows</span></td></tr>
+<tr><td><strong>Paperpile</strong></td><td><span data-lang="zh">Google Docs 整合佳</span><span data-lang="en">Excellent Google Docs integration</span></td><td><span data-lang="zh">付費、Chrome 限定</span><span data-lang="en">Paid, Chrome-only</span></td><td><span data-lang="zh">雲端協作寫作</span><span data-lang="en">Cloud collaborative writing</span></td></tr>
+</tbody></table>
+</section>
+
+<section class="quiz-section">
+<h3 data-zh="📝 隨堂測驗" data-en="📝 Quick Quiz">📝 隨堂測驗</h3>
+<div class="quiz-q">
+<p data-zh="Q1. 為什麼系統性回顧通常要至少檢索 3 個資料庫？" data-en="Q1. Why should a systematic review search at least 3 databases?">Q1. 為什麼系統性回顧通常要至少檢索 3 個資料庫？</p>
+<div class="quiz-options">
+<div class="quiz-opt" data-correct="1"><span>A. <span data-lang="zh">不同資料庫收錄期刊有差異，避免遺漏</span><span data-lang="en">Different databases index different journals; avoid omissions</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>B. <span data-lang="zh">這樣可以提高 IF</span><span data-lang="en">It boosts the journal's impact factor</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>C. <span data-lang="zh">3 是 PRISMA 規定的最小整數</span><span data-lang="en">3 is required by PRISMA</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>D. <span data-lang="zh">減少 publication bias</span><span data-lang="en">Reduces publication bias</span></span></div>
+</div>
+<div class="quiz-feedback"><span data-lang="zh">每個資料庫收錄期刊與會議摘要不同（如 Embase 比 PubMed 多歐洲期刊），多源檢索是「完整性」要件。</span><span data-lang="en">Each database covers different journals/conferences (e.g., Embase has more EU journals than PubMed). Multi-source searching is essential for completeness.</span></div>
+</div>
+
+<div class="quiz-q">
+<p data-zh="Q2. PubMed 欄位標記 [tiab] 代表？" data-en="Q2. What does the PubMed field tag [tiab] mean?">Q2. PubMed [tiab] 代表？</p>
+<div class="quiz-options">
+<div class="quiz-opt" data-correct="0"><span>A. <span data-lang="zh">作者所屬機構</span><span data-lang="en">Author affiliation</span></span></div>
+<div class="quiz-opt" data-correct="1"><span>B. <span data-lang="zh">標題與摘要 (title &amp; abstract)</span><span data-lang="en">Title &amp; abstract</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>C. <span data-lang="zh">期刊名稱</span><span data-lang="en">Journal title</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>D. <span data-lang="zh">出版年份</span><span data-lang="en">Publication year</span></span></div>
+</div>
+<div class="quiz-feedback"><span data-lang="zh">[tiab] = title + abstract，是同時在標題與摘要中檢索文字的常用標記。</span><span data-lang="en">[tiab] searches both the title and abstract fields.</span></div>
+</div>
+
+<div class="quiz-q">
+<p data-zh="Q3. 當需要納入「同義詞」（如 'tumor', 'tumour', 'neoplasm', 'cancer'），應使用哪個布林運算符？" data-en="Q3. Which Boolean operator should connect synonyms like 'tumor / tumour / neoplasm / cancer'?">Q3. 同義詞之間應該用哪個布林運算符？</p>
+<div class="quiz-options">
+<div class="quiz-opt" data-correct="0"><span>A. AND</span></div>
+<div class="quiz-opt" data-correct="1"><span>B. OR</span></div>
+<div class="quiz-opt" data-correct="0"><span>C. NOT</span></div>
+<div class="quiz-opt" data-correct="0"><span>D. <span data-lang="zh">XOR（互斥或）</span><span data-lang="en">XOR (exclusive or)</span></span></div>
+</div>
+<div class="quiz-feedback"><span data-lang="zh">OR 取聯集，用來連結同義詞；AND 用在不同概念群之間（如「腫瘤」AND「治療」AND「存活」）。</span><span data-lang="en">OR unions synonyms within a concept group; AND combines different concept groups (e.g., "tumor" AND "treatment" AND "survival").</span></div>
+</div>
+
+<div class="quiz-q">
+<p data-zh="Q4. PRISMA 流程圖必須呈現的四個階段順序是？" data-en="Q4. What are the four stages of the PRISMA flow diagram, in order?">Q4. PRISMA 四階段的順序？</p>
+<div class="quiz-options">
+<div class="quiz-opt" data-correct="0"><span>A. Screening → Identification → Eligibility → Included</span></div>
+<div class="quiz-opt" data-correct="1"><span>B. Identification → Screening → Eligibility → Included</span></div>
+<div class="quiz-opt" data-correct="0"><span>C. Eligibility → Identification → Included → Screening</span></div>
+<div class="quiz-opt" data-correct="0"><span>D. Included → Screening → Eligibility → Identification</span></div>
+</div>
+<div class="quiz-feedback"><span data-lang="zh">PRISMA 流程是漏斗式縮小：Identification（初始檢出） → Screening（去重+標題篩選） → Eligibility（全文評估） → Included（最終納入）。</span><span data-lang="en">PRISMA is a funnel: Identification (initial retrieval) → Screening (dedup + title/abstract) → Eligibility (full-text) → Included (final synthesis).</span></div>
+</div>
+</section>
+
+<div class="page-nav">
+<a href="research-design.html"><span class="nav-dir" data-zh="← 上一步" data-en="← Previous">← 上一步</span><span class="nav-title" data-zh="研究設計與假說" data-en="Research Design">研究設計與假說</span></a>
+<a href="databases.html"><span class="nav-dir" data-zh="下一步 →" data-en="Next →">下一步 →</span><span class="nav-title" data-zh="公開資料庫探索" data-en="Public Databases">公開資料庫探索</span></a>
+</div>
+
+</main>
+<footer class="site-footer">© Charlene — Biomedical Informatics Research Techniques</footer>
+<script src="i18n.js"></script>
+</body></html>

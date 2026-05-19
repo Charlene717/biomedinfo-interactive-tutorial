@@ -1,0 +1,214 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Step 4: Ethics &amp; Data Governance — Biomedical Informatics Tutorial</title>
+<link rel="stylesheet" href="styles.css">
+</head><body>
+<nav class="top-nav"><div class="top-nav-inner">
+  <a href="index.html" class="top-nav-brand"><span>🔬</span> <span data-zh="生醫資訊研究技術" data-en="BioMed Informatics">生醫資訊研究技術</span></a>
+  <ul class="top-nav-links">
+    <li><a href="research-design.html" data-zh="設計" data-en="Design">設計</a></li>
+    <li><a href="literature-review.html" data-zh="文獻" data-en="Lit">文獻</a></li>
+    <li><a href="databases.html" data-zh="資料庫" data-en="DB">資料庫</a></li>
+    <li><a href="ethics.html" class="active" data-zh="倫理" data-en="Ethics">倫理</a></li>
+    <li><a href="sample-size.html" data-zh="樣本量" data-en="Sample">樣本量</a></li>
+    <li><a href="statistical-tests.html" data-zh="檢定" data-en="Tests">檢定</a></li>
+    <li><a href="multiple-testing.html" data-zh="多重檢定" data-en="MultTest">多重檢定</a></li>
+    <li><a href="bias-confounding.html" data-zh="偏差" data-en="Bias">偏差</a></li>
+    <li><a href="survival.html" data-zh="存活" data-en="Surv">存活</a></li>
+    <li><a href="causal-inference.html" data-zh="因果" data-en="Causal">因果</a></li>
+    <li><a href="meta-analysis.html" data-zh="Meta" data-en="Meta">Meta</a></li>
+    <li><a href="reproducibility.html" data-zh="重現" data-en="Repro">重現</a></li>
+    <li><a href="visualization.html" data-zh="視覺化" data-en="Viz">視覺化</a></li>
+    <li><a href="scientific-writing.html" data-zh="寫作" data-en="Writing">寫作</a></li>
+    <li><a href="references/index.html" data-zh="📚 參考資料" data-en="📚 References">📚 參考資料</a></li>
+  </ul>
+</div></nav>
+<div class="progress-bar-container"><div class="progress-bar" id="progressBar"></div></div>
+<header class="page-hero"><div class="step-badge">STEP 4 / 9</div>
+<h1 data-zh="研究倫理與資料治理" data-en="Ethics &amp; Data Governance">研究倫理與資料治理</h1>
+<p class="subtitle" data-lang="zh">IRB、HIPAA、GDPR 與 FAIR 原則：在資料庫變大、AI 普及的時代，如何負責任地做研究。</p>
+<p class="subtitle" data-lang="en">IRB, HIPAA, GDPR, and FAIR: how to do responsible research in an age of big data and AI.</p>
+</header>
+<main class="content-wrap">
+
+<section class="section">
+<div class="section-label" data-zh="概覽" data-en="OVERVIEW">概覽</div>
+<h2 data-zh="為什麼倫理規範決定研究能否發表？" data-en="Why does ethics determine whether your study can be published?">為什麼倫理決定能否發表？</h2>
+<div data-lang="zh">
+<p>當代生醫研究的兩大規範來源：(1) <strong>研究倫理</strong>——保護受試者；(2) <strong>資料治理</strong>——管理資料如何被存取、共享、再利用。違反任一者，輕則 paper 被撤稿、重則機構喪失 NIH 資助資格。AI/ML 時代又新增了演算法公平性、可解釋性等議題。</p>
+</div>
+<div data-lang="en">
+<p>Modern biomedical research lives by two governance pillars: (1) <strong>research ethics</strong> — protecting subjects; (2) <strong>data governance</strong> — managing how data is accessed, shared, and reused. Violating either can mean retraction or, worse, loss of NIH funding eligibility. The AI/ML era adds algorithmic fairness and explainability concerns.</p>
+</div>
+<div class="callout danger"><span class="callout-icon">🚨</span><div>
+<span data-lang="zh"><strong>歷史教訓：</strong>Tuskegee 梅毒實驗 (1932-1972) 與 Henrietta Lacks 細胞案 (1951) 直接催生了《貝爾蒙報告》(1979) 與當代知情同意制度。</span>
+<span data-lang="en"><strong>Lessons from history:</strong> The Tuskegee syphilis study (1932-1972) and the Henrietta Lacks case (1951) directly led to the Belmont Report (1979) and modern informed consent.</span>
+</div></div>
+</section>
+
+<section class="section">
+<div class="section-label" data-zh="貝爾蒙三原則" data-en="BELMONT 3">貝爾蒙三原則</div>
+<h2 data-zh="一、貝爾蒙報告的三大倫理原則" data-en="I. The Three Principles of the Belmont Report">一、貝爾蒙三大原則</h2>
+<div class="card-grid cols-3">
+<div class="card"><div class="card-icon">🙏</div><h4>Respect for Persons</h4>
+<div data-lang="zh"><p><strong>尊重人格</strong>：受試者有自主決定權，知情同意 (Informed Consent) 須包含目的、流程、風險、退出權利。對自主性受限者（兒童、認知障礙者）需額外保護。</p></div>
+<div data-lang="en"><p>Subjects have autonomy. Informed consent must cover purpose, procedures, risks, and right to withdraw. Vulnerable populations (children, cognitively impaired) need extra protection.</p></div>
+</div>
+<div class="card"><div class="card-icon">💚</div><h4>Beneficence</h4>
+<div data-lang="zh"><p><strong>有利原則</strong>：研究的預期效益要大於風險。需做<strong>風險-效益評估</strong>，並使用最小風險的設計達成目標。</p></div>
+<div data-lang="en"><p>Expected benefits must outweigh risks. A formal risk-benefit assessment is required, and minimal-risk designs are preferred.</p></div>
+</div>
+<div class="card"><div class="card-icon">⚖️</div><h4>Justice</h4>
+<div data-lang="zh"><p><strong>正義原則</strong>：研究負擔與受益的公平分配。不能讓弱勢族群只承擔風險、未受益（避免重蹈 Tuskegee）。</p></div>
+<div data-lang="en"><p>Equitable distribution of research burdens and benefits. Vulnerable groups should not bear the risks while others reap the rewards (the Tuskegee lesson).</p></div>
+</div>
+</div>
+</section>
+
+<section class="section">
+<div class="section-label" data-zh="法規框架" data-en="REGULATORY">法規框架</div>
+<h2 data-zh="二、IRB、HIPAA 與 GDPR" data-en="II. IRB, HIPAA, and GDPR">二、IRB、HIPAA、GDPR</h2>
+<table class="comp-table"><thead><tr>
+<th data-zh="規範" data-en="Framework">規範</th>
+<th data-zh="範圍" data-en="Scope">範圍</th>
+<th data-zh="關鍵要件" data-en="Key requirements">關鍵要件</th>
+</tr></thead><tbody>
+<tr><td><strong>IRB / IEC</strong><br><span style="font-size:.8rem;color:var(--c-ink-muted)" data-zh="人體研究倫理委員會" data-en="Institutional Review Board">人體研究倫理委員會</span></td>
+<td><span data-lang="zh">所有涉及人體受試者的研究</span><span data-lang="en">All human subjects research</span></td>
+<td><span data-lang="zh">事前審查、年度回顧、SAE 通報、protocol amendment</span><span data-lang="en">Pre-approval, annual review, SAE reporting, protocol amendment</span></td></tr>
+<tr><td><strong>IACUC</strong></td>
+<td><span data-lang="zh">動物實驗</span><span data-lang="en">Animal research</span></td>
+<td><span data-lang="zh">3R 原則 (Replace / Reduce / Refine)、樣本量正當性</span><span data-lang="en">3Rs (Replace/Reduce/Refine), sample size justification</span></td></tr>
+<tr><td><strong>HIPAA</strong> (US)</td>
+<td><span data-lang="zh">美國受保護健康資訊 (PHI)</span><span data-lang="en">US Protected Health Information (PHI)</span></td>
+<td><span data-lang="zh">Safe Harbor 18 項識別資訊去除；Expert Determination 統計去識別</span><span data-lang="en">Safe Harbor (18 identifiers removed); Expert Determination de-identification</span></td></tr>
+<tr><td><strong>GDPR</strong> (EU)</td>
+<td><span data-lang="zh">處理歐盟居民個資</span><span data-lang="en">Processing data of EU residents</span></td>
+<td><span data-lang="zh">明確同意、資料最少化、被遺忘權、跨境傳輸限制</span><span data-lang="en">Explicit consent, data minimization, right to erasure, cross-border restrictions</span></td></tr>
+<tr><td><strong>人體研究法 (TW)</strong></td>
+<td><span data-lang="zh">台灣人體研究</span><span data-lang="en">Taiwan human research</span></td>
+<td><span data-lang="zh">REC 審查、研究計畫書、研究參與者同意</span><span data-lang="en">REC review, written protocol, participant consent</span></td></tr>
+<tr><td><strong>個資法 (TW)</strong></td>
+<td><span data-lang="zh">台灣個人資料保護</span><span data-lang="en">Taiwan personal data protection</span></td>
+<td><span data-lang="zh">特定目的、必要範圍、安全維護</span><span data-lang="en">Specified purpose, minimum scope, security maintenance</span></td></tr>
+</tbody></table>
+<div class="callout warn"><span class="callout-icon">⚠️</span><div>
+<span data-lang="zh"><strong>HIPAA Safe Harbor 18 項識別資訊：</strong>姓名、地址、所有日期（出生/入院等）、電話、傳真、Email、SSN、病歷號、保險號、帳號、車牌、設備識別、IP、生物識別、相片、URL、其他可識別代碼。<strong>注意：</strong>3 位數的郵遞區號若該區人口 &lt; 20,000 也需移除。</span>
+<span data-lang="en"><strong>HIPAA Safe Harbor's 18 identifiers:</strong> Names, addresses, all dates (DOB, admission, etc.), phone, fax, email, SSN, MRN, insurance, account, vehicle plate, device ID, IP, biometric, photo, URL, other identifying codes. <strong>Note:</strong> 3-digit ZIP must be removed if the area has &lt;20,000 residents.</span>
+</div></div>
+</section>
+
+<section class="section">
+<div class="section-label" data-zh="FAIR 原則" data-en="FAIR PRINCIPLES">FAIR 原則</div>
+<h2 data-zh="三、FAIR 資料原則" data-en="III. The FAIR Data Principles">三、FAIR 資料原則</h2>
+<div data-lang="zh"><p>2016 年由 Force11 提出，已成為 NIH/EU 資料管理計畫的標準：</p></div>
+<div data-lang="en"><p>Coined by Force11 in 2016, now the standard for NIH/EU data management plans:</p></div>
+<div class="card-grid cols-2">
+<div class="card"><h4>🔍 <strong>F</strong>indable</h4>
+<div data-lang="zh"><p>資料有<strong>持久識別碼</strong> (DOI、ORCID、accession number)、豐富 metadata、能被索引引擎找到。</p></div>
+<div data-lang="en"><p>Data has <strong>persistent identifiers</strong> (DOI, ORCID, accession), rich metadata, and is indexed by search engines.</p></div>
+</div>
+<div class="card"><h4>🔓 <strong>A</strong>ccessible</h4>
+<div data-lang="zh"><p>透過<strong>標準協定</strong>取得（HTTPS、API），即便資料受控、metadata 仍應公開。</p></div>
+<div data-lang="en"><p>Retrievable via <strong>standardized protocols</strong> (HTTPS, APIs). Even for controlled-access data, metadata should be public.</p></div>
+</div>
+<div class="card"><h4>🔗 <strong>I</strong>nteroperable</h4>
+<div data-lang="zh"><p>採用<strong>共通詞彙</strong> (Ontology, MeSH, HPO, SNOMED)、標準格式 (VCF, BAM, BIDS)。</p></div>
+<div data-lang="en"><p>Use <strong>shared vocabularies</strong> (ontologies, MeSH, HPO, SNOMED) and standard formats (VCF, BAM, BIDS).</p></div>
+</div>
+<div class="card"><h4>♻️ <strong>R</strong>eusable</h4>
+<div data-lang="zh"><p>明確的<strong>授權條款</strong>（CC-BY、CC0、GPL）、來源紀錄 (provenance)、社群標準。</p></div>
+<div data-lang="en"><p>Clear <strong>license</strong> (CC-BY, CC0, GPL), provenance metadata, conformance to community standards.</p></div>
+</div>
+</div>
+</section>
+
+<section class="section">
+<div class="section-label" data-zh="AI 倫理" data-en="AI ETHICS">AI 倫理</div>
+<h2 data-zh="四、生醫 AI 的新型倫理議題" data-en="IV. Emerging Ethics Issues in Biomedical AI">四、生醫 AI 倫理新議題</h2>
+<div class="card-grid cols-2">
+<div class="card"><h4>📊 <span data-zh="演算法公平性" data-en="Algorithmic fairness">演算法公平性</span></h4>
+<div data-lang="zh"><p>2019 Obermeyer 在 Science 揭露：美國醫療資源分配演算法因以「醫療支出」當作健康指標，對黑人病患低估健康風險。<br>對策：subgroup analysis、equalized odds、demographic parity 檢驗。</p></div>
+<div data-lang="en"><p>Obermeyer (Science, 2019) showed a US care-allocation algorithm systematically underrated risk in Black patients because it used cost as a health proxy.<br>Mitigations: subgroup analysis, equalized odds, demographic parity audits.</p></div>
+</div>
+<div class="card"><h4>🔁 <span data-zh="模型再識別風險" data-en="Re-identification risk">模型再識別風險</span></h4>
+<div data-lang="zh"><p>基因組資料即便去名也可能透過 SNP 組合反查到本人 (Gymrek 2013)；GAN 生成的醫學影像可能洩漏訓練樣本資訊。對策：differential privacy、k-anonymity、federated learning。</p></div>
+<div data-lang="en"><p>De-identified genomes can be linked back via SNP combinations (Gymrek 2013); GAN-generated medical images may leak training samples. Mitigations: differential privacy, k-anonymity, federated learning.</p></div>
+</div>
+<div class="card"><h4>📋 <span data-zh="知情同意的更新" data-en="Evolving informed consent">知情同意的更新</span></h4>
+<div data-lang="zh"><p>傳統一次性同意難涵蓋「未來的 AI 再分析」。新型 dynamic / broad consent 讓參與者可動態調整授權，但需配套追蹤機制。</p></div>
+<div data-lang="en"><p>One-time consent cannot anticipate future AI reanalysis. Dynamic/broad consent lets participants update permissions but requires robust tracking.</p></div>
+</div>
+<div class="card"><h4>🌍 <span data-zh="代表性偏倚" data-en="Representation bias">代表性偏倚</span></h4>
+<div data-lang="zh"><p>GWAS 樣本 ~80% 為歐裔，導致 polygenic risk score 在非歐裔表現大幅下降。對策：H3Africa、PAGE、All of Us 等多元 cohort。</p></div>
+<div data-lang="en"><p>~80% of GWAS samples are European; PRS performance drops sharply in non-European populations. Initiatives like H3Africa, PAGE, and All of Us tackle this.</p></div>
+</div>
+</div>
+</section>
+
+<section class="section">
+<div class="section-label" data-zh="實作流程" data-en="WORKFLOW">實作流程</div>
+<h2 data-zh="IRB 申請流程概要" data-en="IRB Submission Workflow">IRB 申請流程概要</h2>
+<div class="workflow">
+<div class="workflow-step" data-step="1"><h4 data-zh="判斷研究類別" data-en="Determine research category">判斷研究類別</h4><p data-lang="zh">Exempt（豁免）/ Expedited（加速）/ Full Review（完整審查）。次級分析去識別資料常屬 Exempt Category 4。</p><p data-lang="en">Exempt / Expedited / Full Review. Secondary analysis of de-identified data is often Exempt Category 4.</p></div>
+<div class="workflow-step" data-step="2"><h4 data-zh="準備文件" data-en="Prepare documents">準備文件</h4><p data-lang="zh">研究計畫書、知情同意書、招募廣告、CV、利益衝突聲明、CITI 證書。</p><p data-lang="en">Protocol, informed consent form, recruitment ads, CVs, COI disclosures, CITI training certificate.</p></div>
+<div class="workflow-step" data-step="3"><h4 data-zh="提交與審查" data-en="Submit &amp; review">提交與審查</h4><p data-lang="zh">經 IRB 預審 → 委員會審查（如需）→ 修正回覆 → 核准函。完整審查 4-8 週。</p><p data-lang="en">Pre-review → committee review (if needed) → revisions → approval letter. Full review takes 4-8 weeks.</p></div>
+<div class="workflow-step" data-step="4"><h4 data-zh="持續義務" data-en="Ongoing duties">持續義務</h4><p data-lang="zh">SAE 通報、年度回顧、計畫修訂、結案報告。</p><p data-lang="en">SAE reporting, annual review, amendments, final report.</p></div>
+</div>
+</section>
+
+<section class="quiz-section">
+<h3 data-zh="📝 隨堂測驗" data-en="📝 Quick Quiz">📝 隨堂測驗</h3>
+<div class="quiz-q">
+<p data-zh="Q1. HIPAA Safe Harbor 規定要移除幾項識別資訊？" data-en="Q1. How many identifiers must HIPAA Safe Harbor remove?">Q1. HIPAA Safe Harbor 要移除幾項？</p>
+<div class="quiz-options">
+<div class="quiz-opt" data-correct="0"><span>A. 10</span></div>
+<div class="quiz-opt" data-correct="0"><span>B. 12</span></div>
+<div class="quiz-opt" data-correct="1"><span>C. 18</span></div>
+<div class="quiz-opt" data-correct="0"><span>D. 25</span></div>
+</div>
+<div class="quiz-feedback"><span data-lang="zh">HIPAA Safe Harbor 列出 18 項必須移除的識別資訊，從姓名到 IP 都包含。</span><span data-lang="en">HIPAA Safe Harbor lists 18 identifiers — from names to IP addresses.</span></div>
+</div>
+
+<div class="quiz-q">
+<p data-zh="Q2. 貝爾蒙報告的三大原則不包括下列哪一項？" data-en="Q2. Which is NOT one of the three Belmont principles?">Q2. 貝爾蒙報告不含哪一項？</p>
+<div class="quiz-options">
+<div class="quiz-opt" data-correct="0"><span>A. Respect for Persons</span></div>
+<div class="quiz-opt" data-correct="0"><span>B. Beneficence</span></div>
+<div class="quiz-opt" data-correct="0"><span>C. Justice</span></div>
+<div class="quiz-opt" data-correct="1"><span>D. Profit</span></div>
+</div>
+<div class="quiz-feedback"><span data-lang="zh">三大原則為尊重人格、有利、正義。「利潤」並非倫理原則。</span><span data-lang="en">The three principles are Respect for Persons, Beneficence, Justice. "Profit" is not one of them.</span></div>
+</div>
+
+<div class="quiz-q">
+<p data-zh="Q3. FAIR 原則中的「I」代表？" data-en="Q3. What does the 'I' in FAIR stand for?">Q3. FAIR 中的「I」代表？</p>
+<div class="quiz-options">
+<div class="quiz-opt" data-correct="0"><span>A. Independent</span></div>
+<div class="quiz-opt" data-correct="0"><span>B. Identifiable</span></div>
+<div class="quiz-opt" data-correct="1"><span>C. Interoperable</span></div>
+<div class="quiz-opt" data-correct="0"><span>D. Indexable</span></div>
+</div>
+<div class="quiz-feedback"><span data-lang="zh">FAIR = Findable / Accessible / <strong>Interoperable</strong> / Reusable。</span><span data-lang="en">FAIR = Findable / Accessible / <strong>Interoperable</strong> / Reusable.</span></div>
+</div>
+
+<div class="quiz-q">
+<p data-zh="Q4. 在歐盟，處理歐洲居民的健康資料須遵循哪項法規？" data-en="Q4. Which regulation governs health data of EU residents?">Q4. 處理歐盟居民健康資料的規範？</p>
+<div class="quiz-options">
+<div class="quiz-opt" data-correct="0"><span>A. HIPAA</span></div>
+<div class="quiz-opt" data-correct="1"><span>B. GDPR</span></div>
+<div class="quiz-opt" data-correct="0"><span>C. FAIR</span></div>
+<div class="quiz-opt" data-correct="0"><span>D. CITI</span></div>
+</div>
+<div class="quiz-feedback"><span data-lang="zh">GDPR 為歐盟通用資料保護法規，對歐洲居民的個資處理有嚴格要求。</span><span data-lang="en">GDPR is the EU's General Data Protection Regulation, with strict rules for processing EU residents' data.</span></div>
+</div>
+</section>
+
+<div class="page-nav">
+<a href="databases.html"><span class="nav-dir" data-zh="← 上一步" data-en="← Previous">← 上一步</span><span class="nav-title" data-zh="公開資料庫" data-en="Public Databases">公開資料庫</span></a>
+<a href="sample-size.html"><span class="nav-dir" data-zh="下一步 →" data-en="Next →">下一步 →</span><span class="nav-title" data-zh="樣本量與檢定力" data-en="Sample Size &amp; Power">樣本量與檢定力</span></a>
+</div>
+
+</main>
+<footer class="site-footer">© Charlene — Biomedical Informatics Research Techniques</footer>
+<script src="i18n.js"></script>
+</body></html>

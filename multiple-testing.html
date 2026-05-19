@@ -1,0 +1,258 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Step 7: Multiple Testing Correction — Biomedical Informatics Tutorial</title>
+<link rel="stylesheet" href="styles.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+</head><body>
+<nav class="top-nav"><div class="top-nav-inner">
+  <a href="index.html" class="top-nav-brand"><span>🔬</span> <span data-zh="生醫資訊研究技術" data-en="BioMed Informatics">生醫資訊研究技術</span></a>
+  <ul class="top-nav-links">
+    <li><a href="research-design.html" data-zh="設計" data-en="Design">設計</a></li>
+    <li><a href="literature-review.html" data-zh="文獻" data-en="Lit">文獻</a></li>
+    <li><a href="databases.html" data-zh="資料庫" data-en="DB">資料庫</a></li>
+    <li><a href="ethics.html" data-zh="倫理" data-en="Ethics">倫理</a></li>
+    <li><a href="sample-size.html" data-zh="樣本量" data-en="Sample">樣本量</a></li>
+    <li><a href="statistical-tests.html" data-zh="檢定" data-en="Tests">檢定</a></li>
+    <li><a href="multiple-testing.html" class="active" data-zh="多重檢定" data-en="MultTest">多重檢定</a></li>
+    <li><a href="bias-confounding.html" data-zh="偏差" data-en="Bias">偏差</a></li>
+    <li><a href="survival.html" data-zh="存活" data-en="Surv">存活</a></li>
+    <li><a href="causal-inference.html" data-zh="因果" data-en="Causal">因果</a></li>
+    <li><a href="meta-analysis.html" data-zh="Meta" data-en="Meta">Meta</a></li>
+    <li><a href="reproducibility.html" data-zh="重現" data-en="Repro">重現</a></li>
+    <li><a href="visualization.html" data-zh="視覺化" data-en="Viz">視覺化</a></li>
+    <li><a href="scientific-writing.html" data-zh="寫作" data-en="Writing">寫作</a></li>
+    <li><a href="references/index.html" data-zh="📚 參考資料" data-en="📚 References">📚 參考資料</a></li>
+  </ul>
+</div></nav>
+<div class="progress-bar-container"><div class="progress-bar" id="progressBar"></div></div>
+<header class="page-hero"><div class="step-badge">STEP 7 / 9</div>
+<h1 data-zh="多重檢定校正" data-en="Multiple Testing Correction">多重檢定校正</h1>
+<p class="subtitle" data-lang="zh">同時做 20,000 個基因檢定？沒校正就會有上千個假陽性。FWER vs FDR 是現代組學分析的核心抉擇。</p>
+<p class="subtitle" data-lang="en">Testing 20,000 genes at once? Without correction you'd see thousands of false positives. FWER vs FDR is the core dilemma in modern omics.</p>
+</header>
+<main class="content-wrap">
+
+<section class="section">
+<div class="section-label" data-zh="概覽" data-en="OVERVIEW">概覽</div>
+<h2 data-zh="為什麼一定要校正多重檢定？" data-en="Why is correction essential?">為什麼一定要校正？</h2>
+<div data-lang="zh">
+<p>當你做 1 次檢定、α=0.05 → 至少 1 次假陽性的機率為 5%。<br>當你同時做 20,000 次（如 RNA-seq 所有基因）→ <strong>期望出現 1,000 次假陽性</strong>，且至少 1 次假陽性的機率幾乎是 100%。沒有校正的「顯著基因列表」沒有意義。</p>
+</div>
+<div data-lang="en">
+<p>One test at α=0.05 → 5% chance of one false positive.<br>20,000 simultaneous tests (e.g., RNA-seq) → <strong>1,000 expected false positives</strong>, and ~100% chance of at least one. An uncorrected "significant gene list" is meaningless.</p>
+</div>
+<div class="callout danger"><span class="callout-icon">🚨</span><div>
+<span data-lang="zh"><strong>常見錯誤：</strong>把 RNA-seq 報表的 p &lt; 0.05 直接畫熱圖 → 整張圖幾乎全是雜訊。報告應使用 <em>padj</em> / <em>q-value</em>（即校正後 p）。</span>
+<span data-lang="en"><strong>Common mistake:</strong> Drawing a heatmap of all genes with raw p &lt; 0.05 yields mostly noise. Report <em>padj</em> / <em>q-value</em> (corrected) instead.</span>
+</div></div>
+</section>
+
+<section class="section">
+<div class="section-label" data-zh="兩種錯誤率" data-en="ERROR RATES">兩種錯誤率</div>
+<h2 data-zh="一、FWER 與 FDR：要嚴格還是要靈敏？" data-en="I. FWER vs FDR: Strict or Sensitive?">一、FWER vs FDR</h2>
+<table class="comp-table"><thead><tr>
+<th>—</th>
+<th>FWER</th>
+<th>FDR</th>
+</tr></thead><tbody>
+<tr><td><span data-zh="全名" data-en="Name">全名</span></td>
+<td>Family-Wise Error Rate</td>
+<td>False Discovery Rate</td></tr>
+<tr><td><span data-zh="控制目標" data-en="Controls">控制目標</span></td>
+<td><span data-lang="zh">至少 1 次假陽性的機率</span><span data-lang="en">P(≥1 false positive)</span></td>
+<td><span data-lang="zh">假陽性佔顯著結果的比例期望值</span><span data-lang="en">Expected fraction of false positives among rejections</span></td></tr>
+<tr><td><span data-zh="代表方法" data-en="Methods">代表方法</span></td>
+<td>Bonferroni, Holm, Šidák</td>
+<td>Benjamini-Hochberg, Storey q-value</td></tr>
+<tr><td><span data-zh="嚴格度" data-en="Stringency">嚴格度</span></td>
+<td><span data-lang="zh">非常嚴格（保守）</span><span data-lang="en">Very strict (conservative)</span></td>
+<td><span data-lang="zh">較寬鬆，保留更多發現</span><span data-lang="en">More lenient, retains more discoveries</span></td></tr>
+<tr><td><span data-zh="適用情境" data-en="When to use">適用</span></td>
+<td><span data-lang="zh">GWAS、確證性試驗、少數但關鍵的檢定</span><span data-lang="en">GWAS, confirmatory trials, few but crucial tests</span></td>
+<td><span data-lang="zh">組學探索（RNA-seq, ChIP-seq）、篩選候選</span><span data-lang="en">Omics screening (RNA-seq, ChIP-seq), candidate selection</span></td></tr>
+</tbody></table>
+<div class="callout tip"><span class="callout-icon">💡</span><div>
+<span data-lang="zh"><strong>記憶法：</strong>FWER = 「<u>一個</u>都不要錯」；FDR = 「<u>大部分</u>是真的就好」。RNA-seq 寧可放過 1,000 個真基因，也不要 50 個假陽性 → 用 FDR。GWAS 怕假陽性害大家追錯目標 → 用 FWER (Bonferroni)。</span>
+<span data-lang="en"><strong>Mnemonic:</strong> FWER = "<u>not even one</u> false call"; FDR = "<u>most</u> of my hits should be real." RNA-seq prefers FDR (10% noise acceptable). GWAS prefers FWER (Bonferroni) — false leads are costly.</span>
+</div></div>
+</section>
+
+<section class="section">
+<div class="section-label" data-zh="主要方法" data-en="METHODS">主要方法</div>
+<h2 data-zh="二、五大校正方法" data-en="II. Five Key Correction Methods">二、五大方法</h2>
+<div class="card-grid cols-2">
+<div class="card"><h4>🔒 Bonferroni</h4>
+<div data-lang="zh"><p>最簡單最嚴格：α* = α / m，其中 m = 檢定次數。控制 FWER，但極保守，會大幅降低檢定力。基因組學若用會幾乎找不到任何顯著結果。</p></div>
+<div data-lang="en"><p>Simplest and strictest: α* = α / m, where m = number of tests. Controls FWER but very conservative — kills statistical power. Genome-wide use yields almost no hits.</p></div>
+</div>
+<div class="card"><h4>📉 Holm-Bonferroni</h4>
+<div data-lang="zh"><p>Step-down 版 Bonferroni：將 p 值排序，第 i 小用 α/(m-i+1) 比較。比 Bonferroni 多一點檢定力，但仍控制 FWER。</p></div>
+<div data-lang="en"><p>Step-down Bonferroni: sort p-values; for the i-th smallest, compare to α/(m-i+1). Slightly more powerful, still FWER-controlling.</p></div>
+</div>
+<div class="card"><h4>📊 Benjamini-Hochberg (BH)</h4>
+<div data-lang="zh"><p>1995 年提出，控制 FDR 的金標準。將 p 值排序，找最大的 i 使 p<sub>(i)</sub> ≤ i·α/m，拒絕前 i 個。簡單、強大、廣泛使用。RNA-seq DESeq2 / edgeR 預設方法。</p></div>
+<div data-lang="en"><p>Proposed in 1995. Gold-standard for FDR. Sort p-values; find largest i s.t. p<sub>(i)</sub> ≤ i·α/m, then reject the top i. Simple, powerful, ubiquitous. The default in DESeq2 / edgeR.</p></div>
+</div>
+<div class="card"><h4>🌊 Storey q-value</h4>
+<div data-lang="zh"><p>2002 年提出，比 BH 進一步：估計「真實虛無比例 π₀」後再校正，當 H₀ 比例不接近 100% 時更靈敏。R 套件 <code>qvalue</code>。</p></div>
+<div data-lang="en"><p>Proposed in 2002. Extends BH by estimating the proportion of true nulls (π₀); more sensitive when not all H₀ are true. R package <code>qvalue</code>.</p></div>
+</div>
+<div class="card"><h4>🧬 <span data-zh="GWAS 通用 α=5×10⁻⁸" data-en="GWAS-wide α=5×10⁻⁸">GWAS 通用 α=5×10⁻⁸</span></h4>
+<div data-lang="zh"><p>不算嚴格意義的「方法」，而是約定俗成的閾值：0.05 / 10⁶（人類基因組獨立 LD block 數）。等同於針對全基因組的 Bonferroni。</p></div>
+<div data-lang="en"><p>Not strictly a "method" — a community convention: 0.05 / 10⁶ (independent LD blocks). Effectively a genome-wide Bonferroni.</p></div>
+</div>
+<div class="card"><h4>🎯 <span data-zh="permutation 置換檢定" data-en="Permutation testing">置換檢定</span></h4>
+<div data-lang="zh"><p>打亂 group label 重算統計量，建立 null distribution。常用於 GSEA、ChIP-seq peak calling。能處理檢定間相關性。</p></div>
+<div data-lang="en"><p>Shuffle group labels and recompute the statistic to build a null distribution. Used in GSEA, ChIP-seq peak calling. Handles correlated tests well.</p></div>
+</div>
+</div>
+</section>
+
+<section class="section">
+<div class="section-label" data-zh="互動模擬" data-en="INTERACTIVE">互動模擬</div>
+<h2 data-zh="校正方法比較模擬器" data-en="Correction Method Comparison">校正方法比較</h2>
+<div class="interactive-panel">
+<div class="slider-group"><label><span data-zh="檢定總數 m" data-en="Total tests m">檢定總數 m</span> <span id="valM">1000</span></label><input type="range" id="sM" min="20" max="20000" value="1000" step="50"></div>
+<div class="slider-group"><label><span data-zh="預設顯著水準 α" data-en="α level">α</span> <span id="valAlpha">0.05</span></label><input type="range" id="sAlpha" min="0.001" max="0.10" value="0.05" step="0.005"></div>
+<div class="sim-stats">
+<span class="sim-stat fail" id="fpUncorr">— FP if uncorrected</span>
+<span class="sim-stat info" id="bonfT">Bonferroni α*: —</span>
+<span class="sim-stat pass" id="bhCutoff">BH α* (rank 10): —</span>
+</div>
+<div class="chart-container"><canvas id="bhChart"></canvas></div>
+<p style="font-size:.82rem;color:var(--c-ink-muted);text-align:center;" data-zh="圖：BH 校正的「拒絕線」y = i·α/m，p 值若落在線下即顯著。" data-en="Plot: BH 'rejection line' y = i·α/m. p-values below the line are significant.">圖：BH 校正的拒絕線</p>
+</div>
+<script>
+(function(){
+  let chart=null;
+  function up(){
+    const m=+document.getElementById('sM').value;
+    const a=+document.getElementById('sAlpha').value;
+    document.getElementById('valM').textContent=m;
+    document.getElementById('valAlpha').textContent=a.toFixed(3);
+    document.getElementById('fpUncorr').textContent=Math.round(m*a)+' FP if uncorrected';
+    document.getElementById('bonfT').textContent='Bonferroni α* = '+(a/m).toExponential(2);
+    document.getElementById('bhCutoff').textContent='BH α* (rank 10): '+(10*a/m).toExponential(2);
+    // Plot rejection line for first 50 ranks (or m if smaller)
+    const k=Math.min(50,m);
+    const ranks=[]; const lineY=[]; const sim=[];
+    // Simulate p-values: mix of nulls (uniform) + 5% alts (small p)
+    const nAlt=Math.max(2,Math.round(m*0.05));
+    const ps=[];
+    for(let i=0;i<m;i++){
+      if(i<nAlt) ps.push(Math.random()*0.01);
+      else ps.push(Math.random());
+    }
+    ps.sort((x,y)=>x-y);
+    for(let i=1;i<=k;i++){
+      ranks.push(i);
+      lineY.push(i*a/m);
+      sim.push(ps[i-1]);
+    }
+    if(chart){
+      chart.data.labels=ranks;
+      chart.data.datasets[0].data=sim;
+      chart.data.datasets[1].data=lineY;
+      chart.update();
+      return;
+    }
+    const ctx=document.getElementById('bhChart').getContext('2d');
+    chart=new Chart(ctx,{type:'line',data:{labels:ranks,datasets:[
+      {label:'Sorted p-values',data:sim,borderColor:'#1a6b5a',pointRadius:3,fill:false},
+      {label:'BH line y=i·α/m',data:lineY,borderColor:'#d4a03c',borderDash:[6,4],pointRadius:0,fill:false}
+    ]},options:{responsive:true,maintainAspectRatio:false,scales:{y:{type:'logarithmic',title:{display:true,text:'p-value (log)'}},x:{title:{display:true,text:'Rank i'}}}}});
+  }
+  document.addEventListener('DOMContentLoaded',()=>{
+    ['sM','sAlpha'].forEach(i=>document.getElementById(i).addEventListener('input',up));
+    up();
+  });
+})();
+</script>
+</section>
+
+<section class="section">
+<div class="section-label" data-zh="程式碼" data-en="CODE">程式碼</div>
+<h2 data-zh="實作：常用校正方法" data-en="Implementation">實作範例</h2>
+<div class="code-tabs">
+<div class="code-tab-btns">
+<button class="code-tab-btn active">R</button>
+<button class="code-tab-btn">Python</button>
+</div>
+<div class="code-tab-content active"><pre><span class="comment"># p.adjust supports: holm, hochberg, hommel, bonferroni, BH (=fdr), BY, none</span>
+pvals <- <span class="func">c</span>(<span class="num">1e-7</span>,<span class="num">0.001</span>,<span class="num">0.02</span>,<span class="num">0.04</span>,<span class="num">0.05</span>,<span class="num">0.6</span>)
+padj_bonf <- <span class="func">p.adjust</span>(pvals, method=<span class="str">"bonferroni"</span>)
+padj_bh   <- <span class="func">p.adjust</span>(pvals, method=<span class="str">"BH"</span>)
+<span class="func">data.frame</span>(p=pvals, bonf=padj_bonf, BH=padj_bh)
+
+<span class="comment"># Storey q-value (estimates pi0)</span>
+<span class="kw">library</span>(<span class="func">qvalue</span>)
+q <- <span class="func">qvalue</span>(pvals)
+<span class="func">summary</span>(q); <span class="func">plot</span>(q)</pre></div>
+<div class="code-tab-content"><pre><span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">from</span> statsmodels.stats.multitest <span class="kw">import</span> multipletests
+
+pvals = np.<span class="func">array</span>([<span class="num">1e-7</span>,<span class="num">0.001</span>,<span class="num">0.02</span>,<span class="num">0.04</span>,<span class="num">0.05</span>,<span class="num">0.6</span>])
+<span class="comment"># method: bonferroni, holm, hommel, fdr_bh, fdr_by, fdr_tsbh (two-stage)</span>
+rej, padj_bh, _, _ = <span class="func">multipletests</span>(pvals, alpha=<span class="num">0.05</span>, method=<span class="str">"fdr_bh"</span>)
+rej, padj_bonf,_,_ = <span class="func">multipletests</span>(pvals, alpha=<span class="num">0.05</span>, method=<span class="str">"bonferroni"</span>)
+
+<span class="kw">for</span> p, pb, pbh <span class="kw">in</span> <span class="func">zip</span>(pvals, padj_bonf, padj_bh):
+    <span class="func">print</span>(<span class="str">f"p={p:.2e}  bonf={pb:.2e}  BH={pbh:.2e}"</span>)</pre></div>
+</div>
+</section>
+
+<section class="quiz-section">
+<h3 data-zh="📝 隨堂測驗" data-en="📝 Quick Quiz">📝 隨堂測驗</h3>
+<div class="quiz-q">
+<p data-zh="Q1. 同時做 10,000 個獨立檢定，α=0.05，未校正下期望假陽性數？" data-en="Q1. 10,000 independent tests at α=0.05 — expected false positives?">Q1. 10,000 個檢定，α=0.05，FP？</p>
+<div class="quiz-options">
+<div class="quiz-opt" data-correct="0"><span>A. 50</span></div>
+<div class="quiz-opt" data-correct="1"><span>B. 500</span></div>
+<div class="quiz-opt" data-correct="0"><span>C. 5,000</span></div>
+<div class="quiz-opt" data-correct="0"><span>D. 0.05</span></div>
+</div>
+<div class="quiz-feedback"><span data-lang="zh">期望 FP ≈ m × α = 10,000 × 0.05 = 500。</span><span data-lang="en">Expected FP ≈ m × α = 10,000 × 0.05 = 500.</span></div>
+</div>
+
+<div class="quiz-q">
+<p data-zh="Q2. RNA-seq 差異表達分析最常用的校正方法是？" data-en="Q2. The most common correction for RNA-seq DE analysis is:">Q2. RNA-seq DE 最常用校正？</p>
+<div class="quiz-options">
+<div class="quiz-opt" data-correct="0"><span>A. Bonferroni</span></div>
+<div class="quiz-opt" data-correct="1"><span>B. Benjamini-Hochberg (FDR)</span></div>
+<div class="quiz-opt" data-correct="0"><span>C. Holm</span></div>
+<div class="quiz-opt" data-correct="0"><span>D. <span data-lang="zh">不校正</span><span data-lang="en">No correction</span></span></div>
+</div>
+<div class="quiz-feedback"><span data-lang="zh">RNA-seq 是「探索性」分析，研究者願意接受 10% 左右的假陽性以保留發現 → BH FDR。DESeq2/edgeR 預設即 BH。</span><span data-lang="en">RNA-seq is exploratory — researchers tolerate ~10% false positives to retain discoveries → BH FDR. DESeq2/edgeR default to BH.</span></div>
+</div>
+
+<div class="quiz-q">
+<p data-zh="Q3. Bonferroni 與 BH 的主要差別是？" data-en="Q3. Key difference between Bonferroni and BH?">Q3. Bonferroni vs BH 的差別？</p>
+<div class="quiz-options">
+<div class="quiz-opt" data-correct="0"><span>A. <span data-lang="zh">兩者控制相同錯誤率</span><span data-lang="en">Both control the same error rate</span></span></div>
+<div class="quiz-opt" data-correct="1"><span>B. <span data-lang="zh">Bonferroni 控 FWER，BH 控 FDR；後者更靈敏</span><span data-lang="en">Bonferroni controls FWER, BH controls FDR — BH is more sensitive</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>C. <span data-lang="zh">Bonferroni 更靈敏</span><span data-lang="en">Bonferroni is more sensitive</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>D. <span data-lang="zh">兩者完全等價</span><span data-lang="en">Both are equivalent</span></span></div>
+</div>
+<div class="quiz-feedback"><span data-lang="zh">Bonferroni 防的是「任何一個」假陽性（嚴格）；BH 容忍少量假陽性以保留更多真陽性（靈敏）。</span><span data-lang="en">Bonferroni guards against any false positive (strict); BH tolerates a small fraction to retain more true discoveries (sensitive).</span></div>
+</div>
+
+<div class="quiz-q">
+<p data-zh="Q4. GWAS 全基因組顯著閾值 5×10⁻⁸ 對應的校正方法是？" data-en="Q4. GWAS-wide threshold 5×10⁻⁸ corresponds to:">Q4. GWAS 5×10⁻⁸ 對應的校正是？</p>
+<div class="quiz-options">
+<div class="quiz-opt" data-correct="1"><span>A. <span data-lang="zh">針對 ~10⁶ 個獨立 LD block 的 Bonferroni</span><span data-lang="en">Bonferroni for ~10⁶ independent LD blocks</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>B. Benjamini-Hochberg FDR</span></div>
+<div class="quiz-opt" data-correct="0"><span>C. Storey q-value</span></div>
+<div class="quiz-opt" data-correct="0"><span>D. <span data-lang="zh">沒有校正</span><span data-lang="en">No correction</span></span></div>
+</div>
+<div class="quiz-feedback"><span data-lang="zh">人類基因組約有 10⁶ 個獨立 LD block，0.05/10⁶ = 5×10⁻⁸ 即族群尺度 Bonferroni 閾值。</span><span data-lang="en">The human genome has ~10⁶ independent LD blocks; 0.05/10⁶ = 5×10⁻⁸ is the genome-wide Bonferroni threshold.</span></div>
+</div>
+</section>
+
+<div class="page-nav">
+<a href="statistical-tests.html"><span class="nav-dir" data-zh="← 上一步" data-en="← Previous">← 上一步</span><span class="nav-title" data-zh="統計檢定" data-en="Hypothesis Testing">統計檢定</span></a>
+<a href="bias-confounding.html"><span class="nav-dir" data-zh="下一步 →" data-en="Next →">下一步 →</span><span class="nav-title" data-zh="偏差與批次效應" data-en="Bias &amp; Confounding">偏差與批次效應</span></a>
+</div>
+
+</main>
+<footer class="site-footer">© Charlene — Biomedical Informatics Research Techniques</footer>
+<script src="i18n.js"></script>
+</body></html>

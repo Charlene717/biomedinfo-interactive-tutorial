@@ -1,0 +1,317 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Step 9: Survival Analysis — Biomedical Informatics Tutorial</title>
+<link rel="stylesheet" href="styles.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+</head><body>
+<nav class="top-nav"><div class="top-nav-inner">
+  <a href="index.html" class="top-nav-brand"><span>🔬</span> <span data-zh="生醫資訊研究技術" data-en="BioMed Informatics">生醫資訊研究技術</span></a>
+  <ul class="top-nav-links">
+    <li><a href="research-design.html" data-zh="設計" data-en="Design">設計</a></li>
+    <li><a href="literature-review.html" data-zh="文獻" data-en="Lit">文獻</a></li>
+    <li><a href="databases.html" data-zh="資料庫" data-en="DB">資料庫</a></li>
+    <li><a href="ethics.html" data-zh="倫理" data-en="Ethics">倫理</a></li>
+    <li><a href="sample-size.html" data-zh="樣本量" data-en="Sample">樣本量</a></li>
+    <li><a href="statistical-tests.html" data-zh="檢定" data-en="Tests">檢定</a></li>
+    <li><a href="multiple-testing.html" data-zh="多重檢定" data-en="MultTest">多重檢定</a></li>
+    <li><a href="bias-confounding.html" data-zh="偏差" data-en="Bias">偏差</a></li>
+    <li><a href="survival.html" class="active" data-zh="存活" data-en="Surv">存活</a></li>
+    <li><a href="causal-inference.html" data-zh="因果" data-en="Causal">因果</a></li>
+    <li><a href="meta-analysis.html" data-zh="Meta" data-en="Meta">Meta</a></li>
+    <li><a href="reproducibility.html" data-zh="重現" data-en="Repro">重現</a></li>
+    <li><a href="visualization.html" data-zh="視覺化" data-en="Viz">視覺化</a></li>
+    <li><a href="scientific-writing.html" data-zh="寫作" data-en="Writing">寫作</a></li>
+    <li><a href="references/index.html" data-zh="📚 參考資料" data-en="📚 References">📚 參考資料</a></li>
+  </ul>
+</div></nav>
+<div class="progress-bar-container"><div class="progress-bar" id="progressBar"></div></div>
+<header class="page-hero"><div class="step-badge">STEP 9 / 9</div>
+<h1 data-zh="存活分析" data-en="Survival Analysis">存活分析</h1>
+<p class="subtitle" data-lang="zh">時間到事件（time-to-event）資料的核心方法：Kaplan-Meier、log-rank 與 Cox 比例風險模型。</p>
+<p class="subtitle" data-lang="en">Core methods for time-to-event data: Kaplan-Meier, log-rank, and Cox proportional hazards.</p>
+</header>
+<main class="content-wrap">
+
+<section class="section">
+<div class="section-label" data-zh="概覽" data-en="OVERVIEW">概覽</div>
+<h2 data-zh="存活資料的特殊性" data-en="What's Special About Survival Data?">存活資料的特殊性</h2>
+<div data-lang="zh">
+<p>存活分析處理的資料變數有兩個元件：(1) <strong>時間</strong>（從某起點到事件發生）；(2) <strong>事件指標</strong>（是否觀察到事件）。它不能用普通迴歸處理，因為：</p>
+<ul>
+<li><strong>Censoring（設限）：</strong>研究結束時許多人「還沒事件發生」——這仍是有資訊的觀察</li>
+<li><strong>時間非常態：</strong>存活時間分布常呈右偏</li>
+<li><strong>追蹤時間不等長</strong></li>
+</ul>
+<p>「事件」可以是死亡、復發、感染、戒菸成功等。雖然方法源自工程的「故障時間」分析，但生醫場域是最大應用領域。</p>
+</div>
+<div data-lang="en">
+<p>Survival data has two parts: (1) <strong>time</strong> (from start to event); (2) <strong>event indicator</strong>. It can't use ordinary regression because:</p>
+<ul>
+<li><strong>Censoring:</strong> many subjects haven't had the event yet at study end — still informative</li>
+<li><strong>Non-normal:</strong> survival times are right-skewed</li>
+<li><strong>Unequal follow-up</strong></li>
+</ul>
+<p>"Events" may be death, recurrence, infection, smoking cessation — biomedicine is the largest user despite engineering origins.</p>
+</div>
+<div class="callout tip"><span class="callout-icon">💡</span><div>
+<span data-lang="zh"><strong>Censoring 不是缺失值！</strong>它是「至少存活到某時間」的資訊，存活分析方法能正確利用。直接刪除 censored 資料會產生嚴重偏差。</span>
+<span data-lang="en"><strong>Censoring is not missing data!</strong> It says "survived at least until t" — survival methods use this correctly. Dropping censored rows badly biases results.</span>
+</div></div>
+</section>
+
+<section class="section">
+<div class="section-label" data-zh="核心概念" data-en="CORE CONCEPTS">核心概念</div>
+<h2 data-zh="一、存活函數、風險函數與設限" data-en="I. Survival Function, Hazard Function &amp; Censoring">一、存活函數與風險函數</h2>
+<div class="card-grid cols-3">
+<div class="card"><h4>S(t) — Survival</h4>
+<div data-lang="zh"><p>存活至時間 t 仍未發生事件的機率：S(t) = P(T &gt; t)。S(0)=1，並單調下降至 0。Kaplan-Meier 是估計 S(t) 的標準方法。</p></div>
+<div data-lang="en"><p>Probability of surviving past time t: S(t) = P(T &gt; t). S(0)=1, monotonically decreasing to 0. Kaplan-Meier estimates S(t).</p></div>
+</div>
+<div class="card"><h4>h(t) — Hazard</h4>
+<div data-lang="zh"><p>瞬時風險：給定存活至 t，在下一刻發生事件的條件機率率。Cox 模型直接對 hazard 建模。</p></div>
+<div data-lang="en"><p>Instantaneous risk: conditional on surviving to t, rate of event in the next instant. Cox models h(t) directly.</p></div>
+</div>
+<div class="card"><h4>Censoring</h4>
+<div data-lang="zh"><p>研究結束、退出或失訪時尚未發生事件 → right-censored。需假設 censoring 機制獨立於風險（即 informative censoring 會破壞估計）。</p></div>
+<div data-lang="en"><p>No event by study end / dropout / loss-to-follow-up → right-censored. Methods assume censoring is independent of risk (informative censoring breaks estimates).</p></div>
+</div>
+</div>
+</section>
+
+<section class="section">
+<div class="section-label" data-zh="Kaplan-Meier" data-en="KAPLAN-MEIER">Kaplan-Meier</div>
+<h2 data-zh="二、Kaplan-Meier 估計與 log-rank 檢定" data-en="II. Kaplan-Meier &amp; Log-Rank Test">二、Kaplan-Meier 與 log-rank</h2>
+<div data-lang="zh">
+<p><strong>Kaplan-Meier (KM)</strong> 在每個觀察到的事件時間更新存活機率：<br>
+S(t<sub>i</sub>) = S(t<sub>i-1</sub>) × (1 - d<sub>i</sub>/n<sub>i</sub>)，其中 d<sub>i</sub> 是 t<sub>i</sub> 的死亡數、n<sub>i</sub> 是當時 at risk 的人數。<br>
+KM 曲線呈現「階梯下降」，每次階梯處有事件發生，小垂線「|」表示 censoring。</p>
+<p><strong>Log-rank 檢定</strong>比較兩條或多條 KM 曲線：在每個事件時間比較「觀察到的死亡數」與「在 H₀（兩組風險相同）下期望的死亡數」，加總後得到 chi-square 統計量。</p>
+</div>
+<div data-lang="en">
+<p><strong>Kaplan-Meier (KM)</strong> updates survival at each observed event:<br>
+S(t<sub>i</sub>) = S(t<sub>i-1</sub>) × (1 − d<sub>i</sub>/n<sub>i</sub>), where d<sub>i</sub> = deaths at t<sub>i</sub>, n<sub>i</sub> = at-risk count.<br>
+The KM curve is a step function — each step is an event; vertical ticks mark censoring.</p>
+<p><strong>Log-rank test</strong> compares two or more KM curves: at each event time, compare observed vs expected deaths under H₀ (equal hazards), then sum into a chi-square.</p>
+</div>
+<div class="callout warn"><span class="callout-icon">⚠️</span><div>
+<span data-lang="zh"><strong>log-rank 的限制：</strong>若兩條曲線會交叉（hazard 比例違反），log-rank 檢定力大降。改用 Renyi、Fleming-Harrington、或 Restricted Mean Survival Time (RMST) 比較。</span>
+<span data-lang="en"><strong>Log-rank caveat:</strong> If curves cross (proportional hazards violated), log-rank loses power. Use Renyi, Fleming-Harrington, or RMST comparisons instead.</span>
+</div></div>
+</section>
+
+<section class="section">
+<div class="section-label" data-zh="互動模擬" data-en="INTERACTIVE">互動模擬</div>
+<h2 data-zh="KM 曲線模擬器" data-en="KM Curve Simulator">KM 曲線模擬器</h2>
+<div class="interactive-panel">
+<div class="slider-group"><label><span data-zh="處理組 HR vs 對照" data-en="Treatment HR vs control">處理組 HR</span> <span id="valHR">0.6</span></label><input type="range" id="sHR" min="0.2" max="2.5" value="0.6" step="0.05"></div>
+<div class="slider-group"><label><span data-zh="樣本量 (每組)" data-en="n per arm">每組樣本量</span> <span id="valN">100</span></label><input type="range" id="sN" min="20" max="500" value="100" step="10"></div>
+<div class="sim-stats">
+<span class="sim-stat info" id="medianC">Median control: —</span>
+<span class="sim-stat pass" id="medianT">Median treatment: —</span>
+<span class="sim-stat fail" id="logrankP">Log-rank p: —</span>
+</div>
+<div class="chart-container"><canvas id="kmChart"></canvas></div>
+</div>
+<script>
+(function(){
+  // Simple KM simulation
+  function simExp(n,hazard){
+    const t=[];
+    for(let i=0;i<n;i++){
+      const u=Math.random();
+      t.push(-Math.log(u)/hazard);
+    }
+    return t;
+  }
+  function km(times,maxT=60){
+    const sorted=times.slice().sort((a,b)=>a-b);
+    let s=1; const xs=[0], ys=[1];
+    const n=sorted.length;
+    sorted.forEach((t,i)=>{
+      if(t>maxT) return;
+      s*=(n-i-1+(n-i-1>0?0:0))/(n-i); // KM step (no censoring in this sim)
+      s=Math.max(0,s);
+      xs.push(t); ys.push(s);
+    });
+    xs.push(maxT); ys.push(s);
+    return {xs,ys};
+  }
+  function quantile(times,q){
+    const s=times.slice().sort((a,b)=>a-b);
+    return s[Math.floor(q*s.length)];
+  }
+  let chart=null;
+  function up(){
+    const hr=+document.getElementById('sHR').value;
+    const n=+document.getElementById('sN').value;
+    document.getElementById('valHR').textContent=hr.toFixed(2);
+    document.getElementById('valN').textContent=n;
+    const lambdaC=1/15;       // control median ≈ 15 mo
+    const lambdaT=lambdaC*hr;
+    const tC=simExp(n,lambdaC);
+    const tT=simExp(n,lambdaT);
+    const kmC=km(tC), kmT=km(tT);
+    document.getElementById('medianC').textContent='Median ctrl: '+quantile(tC,0.5).toFixed(1)+' mo';
+    document.getElementById('medianT').textContent='Median trt: '+quantile(tT,0.5).toFixed(1)+' mo';
+    // Approximate log-rank p via z statistic on log HR
+    const events=2*n;
+    const z=Math.log(hr)*Math.sqrt(events/4);
+    const p=2*(1-0.5*(1+(z>=0?1:-1)*Math.sqrt(1-Math.exp(-2*z*z/Math.PI))));
+    document.getElementById('logrankP').textContent='Log-rank p ≈ '+(Math.abs(p)<1e-4?'<0.0001':p.toFixed(4));
+    if(chart){
+      chart.data.datasets[0].data=kmC.xs.map((x,i)=>({x,y:kmC.ys[i]}));
+      chart.data.datasets[1].data=kmT.xs.map((x,i)=>({x,y:kmT.ys[i]}));
+      chart.update(); return;
+    }
+    const ctx=document.getElementById('kmChart').getContext('2d');
+    chart=new Chart(ctx,{type:'line',data:{datasets:[
+      {label:'Control',data:kmC.xs.map((x,i)=>({x,y:kmC.ys[i]})),borderColor:'#c0392b',stepped:true,fill:false,pointRadius:0},
+      {label:'Treatment',data:kmT.xs.map((x,i)=>({x,y:kmT.ys[i]})),borderColor:'#1a6b5a',stepped:true,fill:false,pointRadius:0}
+    ]},options:{responsive:true,maintainAspectRatio:false,parsing:false,scales:{x:{type:'linear',min:0,max:60,title:{display:true,text:'Months'}},y:{min:0,max:1,title:{display:true,text:'S(t)'}}}}});
+  }
+  document.addEventListener('DOMContentLoaded',()=>{
+    ['sHR','sN'].forEach(i=>document.getElementById(i).addEventListener('input',up));
+    up();
+  });
+})();
+</script>
+</section>
+
+<section class="section">
+<div class="section-label" data-zh="Cox 模型" data-en="COX MODEL">Cox 模型</div>
+<h2 data-zh="三、Cox 比例風險模型" data-en="III. Cox Proportional Hazards">三、Cox 模型</h2>
+<div data-lang="zh">
+<p>當需要同時控制多個共變數（如年齡、性別、分期），改用 Cox 模型：</p>
+<p style="font-family:var(--font-mono);background:var(--c-surface-alt);padding:12px;border-radius:6px;text-align:center;">h(t | X) = h<sub>0</sub>(t) · exp(β<sub>1</sub>X<sub>1</sub> + β<sub>2</sub>X<sub>2</sub> + … + β<sub>k</sub>X<sub>k</sub>)</p>
+<p>其中 h<sub>0</sub>(t) 為基線風險（不需指定形狀，semi-parametric）；exp(β) 即為對應變數每增加 1 單位的<strong>hazard ratio (HR)</strong>。</p>
+<p><strong>核心假設：比例風險 (PH assumption)</strong>——兩組或不同共變數值的風險比隨時間維持<strong>定值</strong>。檢驗方式：</p>
+<ul>
+<li>Schoenfeld residuals 檢定 (<code>cox.zph</code>)</li>
+<li>log-log plot：log(-log S(t)) vs log(t) 應平行</li>
+<li>時間互動項顯著表示違反 PH</li>
+</ul>
+<p>違反 PH 時的對策：分層 Cox、時間相依共變數、加速失敗時間 (AFT) 模型、Restricted Mean Survival Time。</p>
+</div>
+<div data-lang="en">
+<p>To adjust for multiple covariates (age, sex, stage), use the Cox model:</p>
+<p style="font-family:var(--font-mono);background:var(--c-surface-alt);padding:12px;border-radius:6px;text-align:center;">h(t | X) = h<sub>0</sub>(t) · exp(β<sub>1</sub>X<sub>1</sub> + β<sub>2</sub>X<sub>2</sub> + … + β<sub>k</sub>X<sub>k</sub>)</p>
+<p>where h<sub>0</sub>(t) is the baseline hazard (unspecified shape — semi-parametric); exp(β) is the <strong>hazard ratio (HR)</strong> per unit increase in X.</p>
+<p><strong>Key assumption — Proportional Hazards:</strong> the hazard ratio is <strong>constant over time</strong>. Check via:</p>
+<ul>
+<li>Schoenfeld residuals test (<code>cox.zph</code>)</li>
+<li>log-log plot: log(-log S(t)) vs log(t) should be parallel</li>
+<li>Significant time-interaction terms violate PH</li>
+</ul>
+<p>If PH is violated: stratified Cox, time-varying covariates, AFT models, RMST.</p>
+</div>
+</section>
+
+<section class="section">
+<div class="section-label" data-zh="程式碼" data-en="CODE">程式碼</div>
+<h2 data-zh="實作：survival + lifelines" data-en="Implementation">實作範例</h2>
+<div class="code-tabs">
+<div class="code-tab-btns">
+<button class="code-tab-btn active">R (survival)</button>
+<button class="code-tab-btn">Python (lifelines)</button>
+</div>
+<div class="code-tab-content active"><pre><span class="kw">library</span>(<span class="func">survival</span>); <span class="kw">library</span>(<span class="func">survminer</span>)
+data(<span class="func">lung</span>)   <span class="comment"># NCCTG lung cancer</span>
+
+<span class="comment"># 1. Kaplan-Meier</span>
+fit <- <span class="func">survfit</span>(<span class="func">Surv</span>(time, status) ~ sex, data=lung)
+<span class="func">ggsurvplot</span>(fit, pval=<span class="kw">TRUE</span>, conf.int=<span class="kw">TRUE</span>, risk.table=<span class="kw">TRUE</span>)
+
+<span class="comment"># 2. Log-rank test</span>
+<span class="func">survdiff</span>(<span class="func">Surv</span>(time, status) ~ sex, data=lung)
+
+<span class="comment"># 3. Cox PH</span>
+cox <- <span class="func">coxph</span>(<span class="func">Surv</span>(time, status) ~ age + sex + ph.ecog, data=lung)
+<span class="func">summary</span>(cox)   <span class="comment"># exp(coef) = HR with 95% CI and p</span>
+
+<span class="comment"># 4. PH assumption check</span>
+zph <- <span class="func">cox.zph</span>(cox)
+<span class="func">print</span>(zph); <span class="func">plot</span>(zph)</pre></div>
+<div class="code-tab-content"><pre><span class="kw">from</span> lifelines <span class="kw">import</span> KaplanMeierFitter, CoxPHFitter
+<span class="kw">from</span> lifelines.statistics <span class="kw">import</span> logrank_test
+<span class="kw">import</span> pandas <span class="kw">as</span> pd
+
+df = pd.<span class="func">read_csv</span>(<span class="str">"lung.csv"</span>)   <span class="comment"># columns: time, status, age, sex, ph.ecog</span>
+
+<span class="comment"># 1. KM</span>
+kmf = <span class="func">KaplanMeierFitter</span>()
+<span class="kw">for</span> name, grp <span class="kw">in</span> df.<span class="func">groupby</span>(<span class="str">"sex"</span>):
+    kmf.<span class="func">fit</span>(grp[<span class="str">"time"</span>], grp[<span class="str">"status"</span>], label=<span class="str">f"sex={name}"</span>)
+    kmf.<span class="func">plot_survival_function</span>()
+
+<span class="comment"># 2. Log-rank</span>
+m = df[<span class="str">"sex"</span>]==<span class="num">1</span>
+r = <span class="func">logrank_test</span>(df.time[m], df.time[~m],
+                 event_observed_A=df.status[m],
+                 event_observed_B=df.status[~m])
+<span class="func">print</span>(r.p_value)
+
+<span class="comment"># 3. Cox PH</span>
+cph = <span class="func">CoxPHFitter</span>()
+cph.<span class="func">fit</span>(df, duration_col=<span class="str">"time"</span>, event_col=<span class="str">"status"</span>)
+cph.<span class="func">print_summary</span>()
+
+<span class="comment"># 4. PH check</span>
+cph.<span class="func">check_assumptions</span>(df, p_value_threshold=<span class="num">0.05</span>)</pre></div>
+</div>
+</section>
+
+<section class="quiz-section">
+<h3 data-zh="📝 隨堂測驗" data-en="📝 Quick Quiz">📝 隨堂測驗</h3>
+<div class="quiz-q">
+<p data-zh="Q1. 「Censored 觀察」應如何處理？" data-en="Q1. How should censored observations be handled?">Q1. Censored 觀察應如何處理？</p>
+<div class="quiz-options">
+<div class="quiz-opt" data-correct="0"><span>A. <span data-lang="zh">直接刪除</span><span data-lang="en">Drop them</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>B. <span data-lang="zh">補成最大時間</span><span data-lang="en">Impute with max time</span></span></div>
+<div class="quiz-opt" data-correct="1"><span>C. <span data-lang="zh">用存活分析方法（KM/Cox）正確利用</span><span data-lang="en">Properly handled by survival methods (KM/Cox)</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>D. <span data-lang="zh">用平均存活時間取代</span><span data-lang="en">Replace with mean survival</span></span></div>
+</div>
+<div class="quiz-feedback"><span data-lang="zh">Censoring 是「至少存活到 t」的部分資訊，KM 與 Cox 透過 at-risk 集合正確使用。直接刪除會嚴重低估存活機率。</span><span data-lang="en">Censoring carries the information "survived at least to t." KM and Cox handle it via the at-risk set. Dropping severely underestimates survival.</span></div>
+</div>
+
+<div class="quiz-q">
+<p data-zh="Q2. Cox 模型的核心假設是？" data-en="Q2. Cox model's key assumption is:">Q2. Cox 模型的核心假設？</p>
+<div class="quiz-options">
+<div class="quiz-opt" data-correct="0"><span>A. <span data-lang="zh">事件時間呈常態</span><span data-lang="en">Normality of event times</span></span></div>
+<div class="quiz-opt" data-correct="1"><span>B. <span data-lang="zh">比例風險（HR 隨時間定值）</span><span data-lang="en">Proportional hazards (HR constant over time)</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>C. <span data-lang="zh">基線風險為指數分配</span><span data-lang="en">Baseline hazard is exponential</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>D. <span data-lang="zh">大樣本</span><span data-lang="en">Large sample size</span></span></div>
+</div>
+<div class="quiz-feedback"><span data-lang="zh">Cox 模型不對基線 hazard 形狀做假設（semi-parametric），但要求各組 HR 隨時間維持定值，即「比例風險」假設。</span><span data-lang="en">Cox is semi-parametric — no assumption on baseline hazard shape — but requires constant HR over time: the PH assumption.</span></div>
+</div>
+
+<div class="quiz-q">
+<p data-zh="Q3. HR = 0.5 代表？" data-en="Q3. HR = 0.5 means:">Q3. HR = 0.5 代表？</p>
+<div class="quiz-options">
+<div class="quiz-opt" data-correct="0"><span>A. <span data-lang="zh">存活時間多一半</span><span data-lang="en">Survival time doubles</span></span></div>
+<div class="quiz-opt" data-correct="1"><span>B. <span data-lang="zh">任一時刻的瞬時風險為對照組的一半</span><span data-lang="en">Instantaneous risk is half that of control at any time</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>C. <span data-lang="zh">50% 病人會存活</span><span data-lang="en">50% of patients survive</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>D. <span data-lang="zh">p 值為 0.5</span><span data-lang="en">p-value is 0.5</span></span></div>
+</div>
+<div class="quiz-feedback"><span data-lang="zh">HR 是 hazard 的比例，反映「相對」風險，並非絕對存活率。HR=0.5 意指任一時刻處理組的瞬時風險為對照組的 50%。</span><span data-lang="en">HR is the ratio of hazards — relative risk, not absolute survival. HR=0.5 means the treatment's instantaneous risk is 50% of control's at every time.</span></div>
+</div>
+
+<div class="quiz-q">
+<p data-zh="Q4. 兩條 KM 曲線交叉時，log-rank 檢定通常會？" data-en="Q4. When KM curves cross, log-rank typically:">Q4. KM 曲線交叉時 log-rank 會？</p>
+<div class="quiz-options">
+<div class="quiz-opt" data-correct="0"><span>A. <span data-lang="zh">檢定力提升</span><span data-lang="en">Gain power</span></span></div>
+<div class="quiz-opt" data-correct="1"><span>B. <span data-lang="zh">檢定力大降</span><span data-lang="en">Lose power substantially</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>C. <span data-lang="zh">永遠拒絕 H₀</span><span data-lang="en">Always reject H₀</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>D. <span data-lang="zh">沒有影響</span><span data-lang="en">No effect</span></span></div>
+</div>
+<div class="quiz-feedback"><span data-lang="zh">log-rank 對 PH 違反敏感，曲線交叉表示早晚期 HR 不同，會在加總時抵消，導致檢定力大降。改用 RMST 或加權 log-rank。</span><span data-lang="en">Log-rank assumes PH; crossing curves mean early/late HRs differ and cancel out, killing power. Use RMST or weighted log-rank instead.</span></div>
+</div>
+</section>
+
+<div class="page-nav">
+<a href="bias-confounding.html"><span class="nav-dir" data-zh="← 上一步" data-en="← Previous">← 上一步</span><span class="nav-title" data-zh="偏差與批次效應" data-en="Bias">偏差與批次效應</span></a>
+<a href="causal-inference.html"><span class="nav-dir" data-zh="下一步 →" data-en="Next →">下一步 →</span><span class="nav-title" data-zh="因果推論" data-en="Causal Inference">因果推論</span></a>
+</div>
+
+</main>
+<footer class="site-footer">© Charlene — Biomedical Informatics Research Techniques</footer>
+<script src="i18n.js"></script>
+</body></html>

@@ -1,0 +1,241 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Advanced: Scientific Writing &amp; Publishing — Biomedical Informatics Tutorial</title>
+<link rel="stylesheet" href="styles.css">
+</head><body>
+<nav class="top-nav"><div class="top-nav-inner">
+  <a href="index.html" class="top-nav-brand"><span>🔬</span> <span data-zh="生醫資訊研究技術" data-en="BioMed Informatics">生醫資訊研究技術</span></a>
+  <ul class="top-nav-links">
+    <li><a href="research-design.html" data-zh="設計" data-en="Design">設計</a></li>
+    <li><a href="literature-review.html" data-zh="文獻" data-en="Lit">文獻</a></li>
+    <li><a href="databases.html" data-zh="資料庫" data-en="DB">資料庫</a></li>
+    <li><a href="ethics.html" data-zh="倫理" data-en="Ethics">倫理</a></li>
+    <li><a href="sample-size.html" data-zh="樣本量" data-en="Sample">樣本量</a></li>
+    <li><a href="statistical-tests.html" data-zh="檢定" data-en="Tests">檢定</a></li>
+    <li><a href="multiple-testing.html" data-zh="多重檢定" data-en="MultTest">多重檢定</a></li>
+    <li><a href="bias-confounding.html" data-zh="偏差" data-en="Bias">偏差</a></li>
+    <li><a href="survival.html" data-zh="存活" data-en="Surv">存活</a></li>
+    <li><a href="causal-inference.html" data-zh="因果" data-en="Causal">因果</a></li>
+    <li><a href="meta-analysis.html" data-zh="Meta" data-en="Meta">Meta</a></li>
+    <li><a href="reproducibility.html" data-zh="重現" data-en="Repro">重現</a></li>
+    <li><a href="visualization.html" data-zh="視覺化" data-en="Viz">視覺化</a></li>
+    <li><a href="scientific-writing.html" class="active" data-zh="寫作" data-en="Writing">寫作</a></li>
+    <li><a href="references/index.html" data-zh="📚 參考資料" data-en="📚 References">📚 參考資料</a></li>
+  </ul>
+</div></nav>
+<div class="progress-bar-container"><div class="progress-bar" id="progressBar"></div></div>
+<header class="page-hero"><div class="step-badge">ADVANCED</div>
+<h1 data-zh="科學寫作與發表" data-en="Scientific Writing &amp; Publishing">科學寫作與發表</h1>
+<p class="subtitle" data-lang="zh">IMRaD 結構、期刊選擇、同儕審查、預印本、作者貢獻——把研究變成可流通的學術產出。</p>
+<p class="subtitle" data-lang="en">IMRaD structure, journal choice, peer review, preprints, authorship — turn your research into a circulating scientific product.</p>
+</header>
+<main class="content-wrap">
+
+<section class="section">
+<div class="section-label" data-zh="概覽" data-en="OVERVIEW">概覽</div>
+<h2 data-zh="科學寫作的目的" data-en="The Purpose of Scientific Writing">科學寫作的目的</h2>
+<div data-lang="zh">
+<p>研究做完不等於完成。論文的目的是讓<strong>陌生讀者在 30 分鐘內</strong>理解你做了什麼、為什麼重要、結論是否可信。三個核心原則：</p>
+<ul>
+<li><strong>清晰 (Clarity)：</strong>主動句、短句、定義術語</li>
+<li><strong>誠實 (Honesty)：</strong>不誇大、報告限制與否定結果</li>
+<li><strong>可重現 (Reproducibility)：</strong>讓他人能跟你的步驟做出相同結果</li>
+</ul>
+</div>
+<div data-lang="en">
+<p>Doing the research isn't enough. A paper exists so a <strong>stranger can understand in 30 minutes</strong> what you did, why it matters, and whether to trust the conclusion. Three principles:</p>
+<ul>
+<li><strong>Clarity:</strong> active voice, short sentences, define terms</li>
+<li><strong>Honesty:</strong> don't overstate; report limitations and negative results</li>
+<li><strong>Reproducibility:</strong> readers can reproduce your steps</li>
+</ul>
+</div>
+</section>
+
+<section class="section">
+<div class="section-label" data-zh="IMRaD" data-en="IMRaD">IMRaD 結構</div>
+<h2 data-zh="一、IMRaD 標準結構" data-en="I. The IMRaD Structure">一、IMRaD 標準結構</h2>
+<div class="workflow">
+<div class="workflow-step" data-step="I"><h4>Introduction</h4><p data-lang="zh">採「漏斗」結構：寬→窄。第一段：領域背景 + 重要性；中段：既有知識缺口；最後段：本研究的目標與假設（呼應 PICO）。長度約 3-4 段。</p><p data-lang="en">"Funnel" structure: broad → narrow. Para 1: field + significance; middle: gap in knowledge; final para: this study's aim &amp; hypothesis (echo PICO). 3-4 paragraphs.</p></div>
+<div class="workflow-step" data-step="M"><h4>Methods</h4><p data-lang="zh">夠詳細到能讓他人重做——資料來源、樣本特徵、處理方法、統計分析、軟體版本、code/data 可取得性。Subsections 常包括：Study design、Participants、Data sources、Statistical analysis。</p><p data-lang="en">Detailed enough to repeat — data sources, sample characteristics, processing, statistical analysis, software versions, code/data availability. Subsections: Study design, Participants, Data sources, Statistical analysis.</p></div>
+<div class="workflow-step" data-step="R"><h4>Results</h4><p data-lang="zh"><strong>只報告結果、不解讀</strong>。從整體 cohort 特徵（Table 1）→ 主要結果（Figure 1-3）→ 次要 / 敏感度分析。每個 figure 配獨立段落。所有 p 值搭配效應量與 CI。</p><p data-lang="en"><strong>Report results only — no interpretation.</strong> Cohort characteristics (Table 1) → primary results (Figure 1-3) → secondary / sensitivity. One paragraph per figure. Every p with effect size + CI.</p></div>
+<div class="workflow-step" data-step="aD"><h4>Discussion</h4><p data-lang="zh">「倒漏斗」結構：窄→寬。第一段：主要發現摘要；中段：與既有文獻對照、可能機制；倒數第二段：<strong>限制 (Limitations)</strong>；最後：意義與未來方向。</p><p data-lang="en">"Inverted funnel": narrow → broad. Para 1: main findings summary; middle: comparison with prior work, potential mechanisms; penultimate: <strong>Limitations</strong>; final: implications and future directions.</p></div>
+</div>
+</section>
+
+<section class="section">
+<div class="section-label" data-zh="期刊選擇" data-en="JOURNAL CHOICE">期刊選擇</div>
+<h2 data-zh="二、期刊選擇策略" data-en="II. Journal Selection Strategy">二、期刊選擇</h2>
+<table class="comp-table"><thead><tr>
+<th data-zh="維度" data-en="Dimension">維度</th>
+<th data-zh="考量" data-en="Consideration">考量</th>
+</tr></thead><tbody>
+<tr><td><span data-zh="範圍 (Scope)" data-en="Scope">範圍</span></td>
+<td><span data-lang="zh">期刊範圍是否涵蓋你的研究主題？讀「Aims &amp; Scope」與近 6 個月文章類型。</span><span data-lang="en">Does the scope cover your topic? Read "Aims &amp; Scope" and articles from the last 6 months.</span></td></tr>
+<tr><td><span data-zh="受眾 (Audience)" data-en="Audience">受眾</span></td>
+<td><span data-lang="zh">你希望誰讀到？臨床醫師（NEJM、JAMA）vs 基礎研究 (Cell、Nature) vs 跨域 (PLOS Biology) vs 領域專業 (Bioinformatics、Genome Biology)。</span><span data-lang="en">Who do you want as readers? Clinicians (NEJM/JAMA) vs basic science (Cell/Nature) vs interdisciplinary (PLOS Biology) vs domain (Bioinformatics, Genome Biology).</span></td></tr>
+<tr><td><span data-zh="影響因子 (IF)" data-en="Impact factor">影響因子</span></td>
+<td><span data-lang="zh">IF 是粗略指標但有限制：能反映期刊整體被引用率，不代表你的文章品質。也參考 CiteScore、SNIP、SJR。</span><span data-lang="en">A rough indicator with caveats: reflects overall citations, not your article's quality. Also consult CiteScore, SNIP, SJR.</span></td></tr>
+<tr><td><span data-zh="OA 模式" data-en="OA model">OA 模式</span></td>
+<td><span data-lang="zh">Gold OA（作者付 APC）、Green OA（自存 preprint）、Diamond OA（免費）。NIH / 多家機構強制要求公開存取。</span><span data-lang="en">Gold OA (APC), Green OA (self-archive preprint), Diamond OA (free). NIH and many funders mandate OA.</span></td></tr>
+<tr><td><span data-zh="同儕審查時間" data-en="Time to decision">審查時間</span></td>
+<td><span data-lang="zh">中位審查時間（很多期刊已公佈）；deadline 緊迫時優先考量。</span><span data-lang="en">Median time-to-decision (many journals publish this); critical if you have deadlines.</span></td></tr>
+<tr><td><span data-zh="掠奪性期刊風險" data-en="Predatory risk">掠奪性風險</span></td>
+<td><span data-lang="zh">避開 Beall's List、Cabells Predatory Reports 上的期刊。同儕審查不嚴、收費快、來歷不明。</span><span data-lang="en">Avoid journals on Beall's List or Cabells' Predatory Reports — sketchy review, fast fees, dubious provenance.</span></td></tr>
+</tbody></table>
+</section>
+
+<section class="section">
+<div class="section-label" data-zh="同儕審查" data-en="PEER REVIEW">同儕審查</div>
+<h2 data-zh="三、同儕審查與 revision 策略" data-en="III. Peer Review &amp; Revision Strategy">三、同儕審查策略</h2>
+<div class="card-grid cols-2">
+<div class="card"><h4>📨 <span data-zh="提交準備" data-en="Submission preparation">提交準備</span></h4>
+<div data-lang="zh"><p>Cover letter（強調貢獻 + 重要性）；建議 / 排除審稿人；遵守 author guidelines（字數、格式、checklist 如 STROBE / CONSORT / ARRIVE）。</p></div>
+<div data-lang="en"><p>Cover letter (highlight contribution + significance); suggest/exclude reviewers; follow author guidelines (length, format, checklists like STROBE/CONSORT/ARRIVE).</p></div>
+</div>
+<div class="card"><h4>🔄 <span data-zh="決定信解讀" data-en="Decision letter">決定信解讀</span></h4>
+<div data-lang="zh"><p>Accept / Minor revision / Major revision / Reject &amp; resubmit / Reject。Major 並不可怕，是讓研究變得更好的機會。回覆要逐點 (point-by-point)。</p></div>
+<div data-lang="en"><p>Accept / Minor / Major / Reject &amp; resubmit / Reject. Major revision isn't bad — it's an opportunity. Reply point-by-point.</p></div>
+</div>
+<div class="card"><h4>📝 <span data-zh="Response letter" data-en="Response letter">回應信</span></h4>
+<div data-lang="zh"><p>結構：<em>Reviewer comment</em>（原文引用） → <em>Our response</em>（如何回應）→ <em>Changes in manuscript</em>（具體修改處及頁碼）。即使不同意審稿人，也要禮貌、有依據地辯駁。</p></div>
+<div data-lang="en"><p>Structure: <em>Reviewer comment</em> (quoted verbatim) → <em>Our response</em> → <em>Changes in manuscript</em> (with location). Disagreeing? Be polite and back it with evidence.</p></div>
+</div>
+<div class="card"><h4>⚠️ <span data-zh="幾項禁忌" data-en="Don'ts">幾項禁忌</span></h4>
+<div data-lang="zh"><p>不要：忽略某條評語、惱怒回應、同時投多家（duplicate submission）、不對 reviewer 表達感謝。Salami publishing（一個資料拆好幾篇）也是嚴重學術倫理問題。</p></div>
+<div data-lang="en"><p>Don't: ignore comments, respond in anger, simultaneous submission (duplicate), forget to thank reviewers. Salami publishing (slicing one dataset across many papers) is a serious ethical issue.</p></div>
+</div>
+</div>
+</section>
+
+<section class="section">
+<div class="section-label" data-zh="作者貢獻" data-en="AUTHORSHIP">作者貢獻</div>
+<h2 data-zh="四、作者標準與貢獻聲明" data-en="IV. Authorship &amp; Contribution">四、作者標準與貢獻</h2>
+<div data-lang="zh">
+<p><strong>ICMJE 四項作者準則</strong>（必須全部符合）：</p>
+<ol>
+<li>對研究構思、設計、資料取得或分析有實質貢獻</li>
+<li>撰寫或關鍵性修訂稿件</li>
+<li>同意最終投稿版本</li>
+<li>對研究內容負責，能解答相關問題</li>
+</ol>
+<p><strong>CRediT 14 項分類</strong>：Conceptualization、Methodology、Software、Validation、Formal analysis、Investigation、Resources、Data curation、Writing - original draft、Writing - review &amp; editing、Visualization、Supervision、Project administration、Funding acquisition。每位作者明確標示貢獻。</p>
+<p><strong>ORCID</strong>（Open Researcher and Contributor ID）：永久學者身份碼，全球通用。</p>
+</div>
+<div data-lang="en">
+<p><strong>ICMJE four authorship criteria</strong> (all must be met):</p>
+<ol>
+<li>Substantial contribution to conception, design, data acquisition, or analysis</li>
+<li>Drafting or critically revising the manuscript</li>
+<li>Final approval of the version to be published</li>
+<li>Accountability for all aspects of the work</li>
+</ol>
+<p><strong>CRediT 14 roles</strong>: Conceptualization, Methodology, Software, Validation, Formal analysis, Investigation, Resources, Data curation, Writing - original draft, Writing - review &amp; editing, Visualization, Supervision, Project administration, Funding acquisition. Each author's contributions are explicit.</p>
+<p><strong>ORCID</strong> (Open Researcher and Contributor ID): a persistent global researcher identifier.</p>
+</div>
+</section>
+
+<section class="section">
+<div class="section-label" data-zh="預印本" data-en="PREPRINTS">預印本</div>
+<h2 data-zh="五、預印本與開放科學" data-en="V. Preprints &amp; Open Science">五、預印本與開放科學</h2>
+<div data-lang="zh">
+<p><strong>Preprint：</strong>未經同儕審查的研究稿件，公開於 bioRxiv / medRxiv / arXiv 等平台。優點：</p>
+<ul>
+<li>第一時間佔據優先權</li>
+<li>立即取得社群回饋</li>
+<li>研究成果不被審查流程拖延</li>
+<li>計算學者可在預印本上引用最新方法</li>
+</ul>
+<p>注意事項：（1）大部分主流期刊允許 preprint，但少數仍視為「事先發表」；投稿前查詢期刊 preprint policy。（2）預印本仍可後來於同儕審查期刊出版，DOI 不衝突。</p>
+<p><strong>開放科學三柱：</strong>Open Access（論文）+ Open Data（資料）+ Open Code（程式碼）。FAIR + 預先註冊 + 註冊報告 (Registered Reports) 是趨勢。</p>
+</div>
+<div data-lang="en">
+<p><strong>Preprint:</strong> a manuscript shared publicly before peer review on bioRxiv / medRxiv / arXiv. Benefits:</p>
+<ul>
+<li>Immediate priority claim</li>
+<li>Real-time community feedback</li>
+<li>Output not held hostage by review delays</li>
+<li>Computational scientists can cite cutting-edge methods</li>
+</ul>
+<p>Caveats: (1) Most mainstream journals allow preprints, but a few still consider them "prior publication" — check journal policy first. (2) Preprints can later be peer-review-published; DOIs don't conflict.</p>
+<p><strong>Three pillars of open science:</strong> Open Access (paper) + Open Data + Open Code. FAIR + pre-registration + Registered Reports are the direction of travel.</p>
+</div>
+</section>
+
+<section class="section">
+<div class="section-label" data-zh="檢查表" data-en="CHECKLIST">檢查表</div>
+<h2 data-zh="六、各研究類型的 EQUATOR 報告指引" data-en="VI. EQUATOR Reporting Guidelines">六、EQUATOR 報告指引</h2>
+<table class="comp-table"><thead><tr>
+<th data-zh="研究類型" data-en="Study type">研究類型</th>
+<th data-zh="指引" data-en="Guideline">指引</th>
+</tr></thead><tbody>
+<tr><td><span data-zh="隨機對照試驗" data-en="Randomized trial">隨機對照試驗</span></td><td>CONSORT</td></tr>
+<tr><td><span data-zh="觀察性研究 (cohort/case-control/cross-section)" data-en="Observational">觀察性研究</span></td><td>STROBE</td></tr>
+<tr><td><span data-zh="系統性回顧 / Meta-analysis" data-en="Systematic review / Meta-analysis">系統性回顧</span></td><td>PRISMA</td></tr>
+<tr><td><span data-zh="診斷準確性" data-en="Diagnostic accuracy">診斷準確性</span></td><td>STARD</td></tr>
+<tr><td><span data-zh="質性研究" data-en="Qualitative">質性研究</span></td><td>COREQ</td></tr>
+<tr><td><span data-zh="預測模型 / ML" data-en="Prediction / ML">預測模型</span></td><td>TRIPOD-AI</td></tr>
+<tr><td><span data-zh="動物實驗" data-en="Animal research">動物實驗</span></td><td>ARRIVE 2.0</td></tr>
+<tr><td><span data-zh="個案報告" data-en="Case report">個案報告</span></td><td>CARE</td></tr>
+</tbody></table>
+<div class="callout tip"><span class="callout-icon">💡</span><div>
+<span data-lang="zh"><strong>所有指引集中於 <a href="https://www.equator-network.org/" target="_blank">equator-network.org</a></strong>。論文投稿前依研究類型查表，能大幅減少審查時被指出「缺少資訊」。</span>
+<span data-lang="en"><strong>All checklists are catalogued at <a href="https://www.equator-network.org/" target="_blank">equator-network.org</a></strong>. Consulting the right one before submission saves reviewer rejections for "missing information."</span>
+</div></div>
+</section>
+
+<section class="quiz-section">
+<h3 data-zh="📝 隨堂測驗" data-en="📝 Quick Quiz">📝 隨堂測驗</h3>
+<div class="quiz-q">
+<p data-zh="Q1. IMRaD 中的「D」代表？" data-en="Q1. What does the 'D' in IMRaD stand for?">Q1. IMRaD 中「D」是？</p>
+<div class="quiz-options">
+<div class="quiz-opt" data-correct="0"><span>A. Data</span></div>
+<div class="quiz-opt" data-correct="1"><span>B. Discussion</span></div>
+<div class="quiz-opt" data-correct="0"><span>C. Design</span></div>
+<div class="quiz-opt" data-correct="0"><span>D. Diagnosis</span></div>
+</div>
+<div class="quiz-feedback"><span data-lang="zh">IMRaD = Introduction / Methods / Results / and Discussion，是生醫論文的核心結構。</span><span data-lang="en">IMRaD = Introduction / Methods / Results / and Discussion — the core biomedical paper structure.</span></div>
+</div>
+
+<div class="quiz-q">
+<p data-zh="Q2. 觀察性研究（cohort / case-control）的報告指引是？" data-en="Q2. Reporting guideline for observational studies?">Q2. 觀察性研究的指引？</p>
+<div class="quiz-options">
+<div class="quiz-opt" data-correct="0"><span>A. CONSORT</span></div>
+<div class="quiz-opt" data-correct="1"><span>B. STROBE</span></div>
+<div class="quiz-opt" data-correct="0"><span>C. PRISMA</span></div>
+<div class="quiz-opt" data-correct="0"><span>D. ARRIVE</span></div>
+</div>
+<div class="quiz-feedback"><span data-lang="zh">STROBE 是 cohort、case-control、cross-sectional 研究的標準報告指引。CONSORT 為 RCT、PRISMA 為系統性回顧、ARRIVE 為動物實驗。</span><span data-lang="en">STROBE covers cohort, case-control, cross-sectional. CONSORT = RCTs; PRISMA = SRs; ARRIVE = animal research.</span></div>
+</div>
+
+<div class="quiz-q">
+<p data-zh="Q3. ICMJE 四項作者準則中，下列哪一項不在內？" data-en="Q3. Which is NOT one of ICMJE's four authorship criteria?">Q3. 下列哪項不是 ICMJE 作者準則？</p>
+<div class="quiz-options">
+<div class="quiz-opt" data-correct="0"><span>A. <span data-lang="zh">對研究有實質貢獻</span><span data-lang="en">Substantial contribution</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>B. <span data-lang="zh">參與撰寫或關鍵修訂</span><span data-lang="en">Drafting / critical revision</span></span></div>
+<div class="quiz-opt" data-correct="1"><span>C. <span data-lang="zh">提供經費支持</span><span data-lang="en">Provided funding</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>D. <span data-lang="zh">同意最終版本並負責</span><span data-lang="en">Final approval and accountability</span></span></div>
+</div>
+<div class="quiz-feedback"><span data-lang="zh">僅提供經費不能列為作者（應放 Acknowledgements）。ICMJE 四準則為：貢獻、撰寫/修訂、同意版本、負責。</span><span data-lang="en">Funding alone doesn't make you an author (acknowledge instead). The four ICMJE criteria are: contribution, drafting/revision, final approval, accountability.</span></div>
+</div>
+
+<div class="quiz-q">
+<p data-zh="Q4. 預印本 (preprint) 主要的價值是？" data-en="Q4. Preprint's main value:">Q4. 預印本主要價值？</p>
+<div class="quiz-options">
+<div class="quiz-opt" data-correct="0"><span>A. <span data-lang="zh">取代同儕審查</span><span data-lang="en">Replaces peer review</span></span></div>
+<div class="quiz-opt" data-correct="1"><span>B. <span data-lang="zh">快速建立優先權與取得社群回饋</span><span data-lang="en">Quickly establish priority and gather feedback</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>C. <span data-lang="zh">省去寫期刊版本</span><span data-lang="en">Skip the journal version</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>D. <span data-lang="zh">增加 IF</span><span data-lang="en">Boost impact factor</span></span></div>
+</div>
+<div class="quiz-feedback"><span data-lang="zh">預印本讓研究在審查期間就被引用、批評、修正。它不取代同儕審查，而是補位於審查之前。</span><span data-lang="en">Preprints surface research during peer review for early citation, critique, and refinement — they don't replace peer review.</span></div>
+</div>
+</section>
+
+<div class="page-nav">
+<a href="visualization.html"><span class="nav-dir" data-zh="← 上一步" data-en="← Previous">← 上一步</span><span class="nav-title" data-zh="數據視覺化" data-en="Data Visualization">數據視覺化</span></a>
+<a href="index.html"><span class="nav-dir" data-zh="↑ 回到目錄" data-en="↑ Back to Home">↑ 回到目錄</span><span class="nav-title" data-zh="完成全部 14 章！" data-en="Completed all 14 topics!">完成全部 14 章！</span></a>
+</div>
+
+</main>
+<footer class="site-footer">© Charlene — Biomedical Informatics Research Techniques</footer>
+<script src="i18n.js"></script>
+</body></html>

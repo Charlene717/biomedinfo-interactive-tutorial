@@ -1,0 +1,275 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Advanced: Causal Inference — Biomedical Informatics Tutorial</title>
+<link rel="stylesheet" href="styles.css">
+</head><body>
+<nav class="top-nav"><div class="top-nav-inner">
+  <a href="index.html" class="top-nav-brand"><span>🔬</span> <span data-zh="生醫資訊研究技術" data-en="BioMed Informatics">生醫資訊研究技術</span></a>
+  <ul class="top-nav-links">
+    <li><a href="research-design.html" data-zh="設計" data-en="Design">設計</a></li>
+    <li><a href="literature-review.html" data-zh="文獻" data-en="Lit">文獻</a></li>
+    <li><a href="databases.html" data-zh="資料庫" data-en="DB">資料庫</a></li>
+    <li><a href="ethics.html" data-zh="倫理" data-en="Ethics">倫理</a></li>
+    <li><a href="sample-size.html" data-zh="樣本量" data-en="Sample">樣本量</a></li>
+    <li><a href="statistical-tests.html" data-zh="檢定" data-en="Tests">檢定</a></li>
+    <li><a href="multiple-testing.html" data-zh="多重檢定" data-en="MultTest">多重檢定</a></li>
+    <li><a href="bias-confounding.html" data-zh="偏差" data-en="Bias">偏差</a></li>
+    <li><a href="survival.html" data-zh="存活" data-en="Surv">存活</a></li>
+    <li><a href="causal-inference.html" class="active" data-zh="因果" data-en="Causal">因果</a></li>
+    <li><a href="meta-analysis.html" data-zh="Meta" data-en="Meta">Meta</a></li>
+    <li><a href="reproducibility.html" data-zh="重現" data-en="Repro">重現</a></li>
+    <li><a href="visualization.html" data-zh="視覺化" data-en="Viz">視覺化</a></li>
+    <li><a href="scientific-writing.html" data-zh="寫作" data-en="Writing">寫作</a></li>
+    <li><a href="references/index.html" data-zh="📚 參考資料" data-en="📚 References">📚 參考資料</a></li>
+  </ul>
+</div></nav>
+<div class="progress-bar-container"><div class="progress-bar" id="progressBar"></div></div>
+<header class="page-hero"><div class="step-badge">ADVANCED</div>
+<h1 data-zh="因果推論" data-en="Causal Inference">因果推論</h1>
+<p class="subtitle" data-lang="zh">從「相關」到「因果」需要額外假設與設計——DAG、傾向分數、工具變數、孟德爾隨機化。</p>
+<p class="subtitle" data-lang="en">Moving from "association" to "causation" needs extra assumptions and design — DAGs, propensity scores, IVs, Mendelian randomization.</p>
+</header>
+<main class="content-wrap">
+
+<section class="section">
+<div class="section-label" data-zh="概覽" data-en="OVERVIEW">概覽</div>
+<h2 data-zh="為什麼需要因果推論框架？" data-en="Why Do We Need a Causal Framework?">為什麼需要因果框架？</h2>
+<div data-lang="zh">
+<p>傳統統計學的箴言：「相關不等於因果」。但生醫研究的目標往往就是因果——「服用 metformin 是否<em>導致</em>癌症風險下降？」。當隨機試驗不可行（倫理、成本、罕見結果）時，必須在觀察資料上做因果推論。</p>
+<p>核心框架：<strong>Potential Outcomes (Neyman-Rubin)</strong> 與 <strong>Structural Causal Models (Pearl)</strong>。兩者本質等價，但 Rubin 框架偏重統計估計、Pearl 框架偏重圖論辨識。</p>
+</div>
+<div data-lang="en">
+<p>"Correlation ≠ causation," but biomedical research is often <em>about</em> causation — "Does metformin <em>cause</em> reduced cancer risk?". When RCTs aren't feasible (ethics, cost, rare outcomes), causal inference on observational data is needed.</p>
+<p>Two frameworks: <strong>Potential Outcomes (Neyman-Rubin)</strong> and <strong>Structural Causal Models (Pearl)</strong>. Equivalent at the foundation; Rubin focuses on statistical estimation, Pearl on graph-theoretic identification.</p>
+</div>
+</section>
+
+<section class="section">
+<div class="section-label" data-zh="DAG" data-en="DAG">DAG</div>
+<h2 data-zh="一、有向無環圖 (DAG)" data-en="I. Directed Acyclic Graphs (DAGs)">一、DAG 因果圖</h2>
+<div data-lang="zh">
+<p>DAG 是一張箭頭圖：節點是變數，箭頭代表「直接因果」。透過 DAG 我們能用 <strong>back-door criterion</strong> 判斷需要調整哪些變數才能去除干擾偏倚。三種結構特別重要：</p>
+</div>
+<div data-lang="en">
+<p>A DAG is an arrow diagram: nodes are variables, arrows are direct causal effects. The <strong>back-door criterion</strong> tells us which variables to adjust for to remove confounding bias. Three structures are crucial:</p>
+</div>
+<div class="card-grid cols-3">
+<div class="card"><h4 data-zh="🔱 Confounder（鏈/分岔）" data-en="🔱 Confounder (fork)">🔱 Confounder</h4>
+<div class="dag-box">A ← C → Y</div>
+<div data-lang="zh"><p>C 同時影響 A 與 Y → <strong>必須</strong> 調整 C 才能識別 A→Y 因果。</p></div>
+<div data-lang="en"><p>C affects both A and Y → <strong>must</strong> adjust for C to identify A→Y causal effect.</p></div>
+</div>
+<div class="card"><h4 data-zh="🌉 Mediator（中介）" data-en="🌉 Mediator (chain)">🌉 Mediator</h4>
+<div class="dag-box">A → M → Y</div>
+<div data-lang="zh"><p>M 是 A 影響 Y 的中介。<strong>不要</strong> 調整 M（會切斷因果路徑、低估總效應）。</p></div>
+<div data-lang="en"><p>M lies on the causal path. <strong>Do NOT</strong> adjust for M (it blocks the path and biases the total effect).</p></div>
+</div>
+<div class="card"><h4 data-zh="🎯 Collider（碰撞）" data-en="🎯 Collider">🎯 Collider</h4>
+<div class="dag-box">A → K ← Y</div>
+<div data-lang="zh"><p>K 是 A 與 Y 共同的下游結果。<strong>調整反而會引入假關聯</strong>。例：住院 = A(吸菸)+Y(肺癌) 的 collider。</p></div>
+<div data-lang="en"><p>K is a common effect. <strong>Adjusting creates spurious associations</strong> (e.g., hospitalization is a collider of A=smoking and Y=lung cancer).</p></div>
+</div>
+</div>
+<div class="callout tip"><span class="callout-icon">💡</span><div>
+<span data-lang="zh"><strong>實用工具：</strong>用 <a href="https://www.dagitty.net/" target="_blank">dagitty.net</a> 線上畫 DAG，會自動告訴你哪些變數要調整、哪些不要。</span>
+<span data-lang="en"><strong>Useful tool:</strong> <a href="https://www.dagitty.net/" target="_blank">dagitty.net</a> draws DAGs and automatically suggests which variables to adjust for.</span>
+</div></div>
+</section>
+
+<section class="section">
+<div class="section-label" data-zh="傾向分數" data-en="PROPENSITY SCORE">傾向分數</div>
+<h2 data-zh="二、傾向分數方法" data-en="II. Propensity Score Methods">二、傾向分數方法</h2>
+<div data-lang="zh">
+<p>當觀察性研究中「處置 (treatment)」並非隨機分配，<strong>傾向分數 (PS)</strong> 估計每個個體接受處置的條件機率：</p>
+<p style="font-family:var(--font-mono);background:var(--c-surface-alt);padding:12px;border-radius:6px;text-align:center;">PS(X) = P(T = 1 | X) — 通常用 logistic regression 或 ML 模型估</p>
+<p>PS 後可用四種策略平衡兩組：</p>
+<ul>
+<li><strong>Matching：</strong>對每個處置者配對一名 PS 接近的對照（1:1 或 1:k）</li>
+<li><strong>Stratification：</strong>依 PS 分位數分層後比較</li>
+<li><strong>IPTW (Inverse Probability of Treatment Weighting)：</strong>給每人 1/PS 或 1/(1-PS) 權重</li>
+<li><strong>Covariate adjustment：</strong>把 PS 當作回歸共變數</li>
+</ul>
+<p><strong>檢驗 balance：</strong>配對後比較共變數的 <strong>Standardized Mean Difference (SMD)</strong>，&lt; 0.1 為 well-balanced。</p>
+</div>
+<div data-lang="en">
+<p>When treatment isn't randomly assigned, the <strong>propensity score (PS)</strong> estimates each subject's probability of being treated:</p>
+<p style="font-family:var(--font-mono);background:var(--c-surface-alt);padding:12px;border-radius:6px;text-align:center;">PS(X) = P(T = 1 | X) — fit with logistic regression or ML</p>
+<p>Use PS to balance groups via four strategies:</p>
+<ul>
+<li><strong>Matching:</strong> match each treated with a control at similar PS (1:1 or 1:k)</li>
+<li><strong>Stratification:</strong> bin by PS quintiles, compare within each</li>
+<li><strong>IPTW:</strong> weight by 1/PS (treated) or 1/(1-PS) (control)</li>
+<li><strong>Covariate adjustment:</strong> use PS as a regression covariate</li>
+</ul>
+<p><strong>Check balance:</strong> compare covariates' <strong>Standardized Mean Difference (SMD)</strong>; &lt; 0.1 is well-balanced.</p>
+</div>
+<div class="callout warn"><span class="callout-icon">⚠️</span><div>
+<span data-lang="zh"><strong>PS 不能解決未測量的干擾因子。</strong>它只是把「觀察到」的共變數平衡到接近 RCT 的狀態。對未測量的混淆，需要工具變數或敏感度分析。</span>
+<span data-lang="en"><strong>PS does NOT handle unmeasured confounders.</strong> It only balances <em>observed</em> covariates. For unmeasured confounding, use instrumental variables or sensitivity analyses (E-value).</span>
+</div></div>
+</section>
+
+<section class="section">
+<div class="section-label" data-zh="工具變數" data-en="IV / MR">工具變數</div>
+<h2 data-zh="三、工具變數與孟德爾隨機化" data-en="III. Instrumental Variables &amp; Mendelian Randomization">三、工具變數與孟德爾隨機化</h2>
+<div data-lang="zh">
+<p><strong>工具變數 (Instrumental Variable, IV)</strong> 是滿足三項假設的變數 Z：</p>
+<ol>
+<li><strong>相關性</strong>：Z 影響暴露 A（Z 不能是無用的）</li>
+<li><strong>排除限制</strong>：Z 只能透過 A 影響 Y，無其他路徑</li>
+<li><strong>獨立性</strong>：Z 不受未觀察 confounder 影響</li>
+</ol>
+<p>典型例子：經濟學的「征兵抽籤號碼」。在生醫上最重要的應用是<strong>孟德爾隨機化 (Mendelian Randomization, MR)</strong>——利用基因 variant 作為暴露（如 BMI）的 IV。</p>
+<p>為什麼基因 SNP 是好的 IV？因為：</p>
+<ul>
+<li>受精時隨機分配（Mendel 第二定律）</li>
+<li>固定一生不被暴露反向影響</li>
+<li>與大部分混淆因子（社經、行為）獨立</li>
+</ul>
+<p>常用 MR 方法：<strong>two-sample MR</strong> 結合 GWAS 結果（如 SNP→BMI 與 SNP→CHD 兩組獨立 cohort）。R 套件：<code>TwoSampleMR</code>、<code>MendelianRandomization</code>。</p>
+</div>
+<div data-lang="en">
+<p>An <strong>Instrumental Variable (IV)</strong> Z satisfies three conditions:</p>
+<ol>
+<li><strong>Relevance:</strong> Z affects exposure A</li>
+<li><strong>Exclusion restriction:</strong> Z affects Y only through A</li>
+<li><strong>Independence:</strong> Z is independent of unmeasured confounders</li>
+</ol>
+<p>Canonical example: military draft lottery numbers. In biomedicine, the key application is <strong>Mendelian Randomization (MR)</strong> — using genetic variants as IVs for an exposure (e.g., BMI).</p>
+<p>Why SNPs make good IVs:</p>
+<ul>
+<li>Randomly assigned at conception (Mendel's 2nd law)</li>
+<li>Fixed for life — exposure cannot reverse-cause genotype</li>
+<li>Independent of most behavioral/socio confounders</li>
+</ul>
+<p>Common MR: <strong>two-sample MR</strong> combines GWAS results (SNP→BMI and SNP→CHD from separate cohorts). R packages: <code>TwoSampleMR</code>, <code>MendelianRandomization</code>.</p>
+</div>
+</section>
+
+<section class="section">
+<div class="section-label" data-zh="決策樹" data-en="DECISION TREE">決策樹</div>
+<h2 data-zh="如何選擇因果推論方法？" data-en="Choosing a Causal Method">如何選擇方法？</h2>
+<div class="decision-tree">
+<h4 data-zh="🌳 流程" data-en="🌳 Flow">🌳 流程</h4>
+<div class="dt-node"><span class="dt-q">Q1</span><span class="dt-arrow">→</span><span data-lang="zh">可以隨機分配？<strong>是</strong> → RCT（最佳）</span><span data-lang="en">Can randomize? <strong>Yes</strong> → RCT (best)</span></div>
+<div class="dt-node"><span class="dt-q">Q2</span><span class="dt-arrow">→</span><span data-lang="zh">所有干擾因子都觀察到？<strong>是</strong> → 多變量回歸 / 傾向分數</span><span data-lang="en">All confounders observed? <strong>Yes</strong> → multivariable regression / PS</span></div>
+<div class="dt-node"><span class="dt-q">Q3</span><span class="dt-arrow">→</span><span data-lang="zh">有未觀察干擾但有 IV？<strong>是</strong> → IV / 2SLS / MR</span><span data-lang="en">Unmeasured confounding but have an IV? <strong>Yes</strong> → IV / 2SLS / MR</span></div>
+<div class="dt-node"><span class="dt-q">Q4</span><span class="dt-arrow">→</span><span data-lang="zh">有自然實驗或政策變化？<strong>是</strong> → Difference-in-Differences / Regression Discontinuity</span><span data-lang="en">Natural experiment / policy change? <strong>Yes</strong> → DiD / RDD</span></div>
+<div class="dt-node"><span class="dt-q">Q5</span><span class="dt-arrow">→</span><span data-lang="zh">時間相依、有「治療-混淆-治療」結構？<strong>是</strong> → G-methods (G-formula, MSM)</span><span data-lang="en">Time-varying treatment with treatment-confounder feedback? <strong>Yes</strong> → G-methods (G-formula, MSM)</span></div>
+</div>
+</section>
+
+<section class="section">
+<div class="section-label" data-zh="程式碼" data-en="CODE">程式碼</div>
+<h2 data-zh="實作：MatchIt + TwoSampleMR" data-en="Implementation: MatchIt + TwoSampleMR">實作範例</h2>
+<div class="code-tabs">
+<div class="code-tab-btns">
+<button class="code-tab-btn active">R — MatchIt</button>
+<button class="code-tab-btn">R — TwoSampleMR</button>
+<button class="code-tab-btn">Python — DoWhy</button>
+</div>
+<div class="code-tab-content active"><pre><span class="kw">library</span>(<span class="func">MatchIt</span>); <span class="kw">library</span>(<span class="func">cobalt</span>)
+
+<span class="comment"># 1. Fit propensity score and match</span>
+m <- <span class="func">matchit</span>(treat ~ age + sex + bmi + smoking,
+             data=df, method=<span class="str">"nearest"</span>, distance=<span class="str">"logit"</span>, ratio=<span class="num">1</span>)
+<span class="func">summary</span>(m)
+<span class="func">love.plot</span>(m, thresholds=<span class="num">0.1</span>)   <span class="comment"># SMD plot</span>
+
+<span class="comment"># 2. Estimate treatment effect on matched data</span>
+matched <- <span class="func">match.data</span>(m)
+<span class="kw">library</span>(<span class="func">survey</span>)
+des <- <span class="func">svydesign</span>(ids=~<span class="num">1</span>, weights=~weights, data=matched)
+<span class="func">svyglm</span>(outcome ~ treat, design=des) |> <span class="func">summary</span>()</pre></div>
+<div class="code-tab-content"><pre><span class="kw">library</span>(<span class="func">TwoSampleMR</span>)
+
+<span class="comment"># Exposure: BMI GWAS (Locke 2015); Outcome: CHD (CARDIoGRAMplusC4D)</span>
+exp <- <span class="func">extract_instruments</span>(<span class="str">"ieu-a-2"</span>)
+out <- <span class="func">extract_outcome_data</span>(snps=exp$SNP, outcomes=<span class="str">"ieu-a-7"</span>)
+dat <- <span class="func">harmonise_data</span>(exp, out)
+
+res <- <span class="func">mr</span>(dat)   <span class="comment"># IVW, MR-Egger, weighted median, etc.</span>
+<span class="func">print</span>(res); <span class="func">mr_scatter_plot</span>(res, dat)
+
+<span class="comment"># Sensitivity</span>
+<span class="func">mr_pleiotropy_test</span>(dat)
+<span class="func">mr_heterogeneity</span>(dat)</pre></div>
+<div class="code-tab-content"><pre><span class="kw">from</span> dowhy <span class="kw">import</span> CausalModel
+
+model = <span class="func">CausalModel</span>(
+  data=df,
+  treatment=<span class="str">"treat"</span>,
+  outcome=<span class="str">"outcome"</span>,
+  graph=<span class="str">"""digraph {
+    age -> treat; age -> outcome;
+    sex -> treat; sex -> outcome;
+    treat -> outcome;
+  }"""</span>
+)
+ident = model.<span class="func">identify_effect</span>()
+est   = model.<span class="func">estimate_effect</span>(ident,
+        method_name=<span class="str">"backdoor.propensity_score_matching"</span>)
+<span class="func">print</span>(est.value)
+
+<span class="comment"># Refute estimate to check robustness</span>
+ref = model.<span class="func">refute_estimate</span>(ident, est,
+       method_name=<span class="str">"placebo_treatment_refuter"</span>)
+<span class="func">print</span>(ref)</pre></div>
+</div>
+</section>
+
+<section class="quiz-section">
+<h3 data-zh="📝 隨堂測驗" data-en="📝 Quick Quiz">📝 隨堂測驗</h3>
+<div class="quiz-q">
+<p data-zh="Q1. 在 DAG「A → M → Y」中，應該調整 M 嗎？" data-en="Q1. In the DAG A → M → Y, should we adjust for M?">Q1. A → M → Y 中要調整 M 嗎？</p>
+<div class="quiz-options">
+<div class="quiz-opt" data-correct="0"><span>A. <span data-lang="zh">應該調整</span><span data-lang="en">Yes, adjust</span></span></div>
+<div class="quiz-opt" data-correct="1"><span>B. <span data-lang="zh">不應該調整 — M 是中介，會切斷因果路徑</span><span data-lang="en">No — M is a mediator; adjusting blocks the path</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>C. <span data-lang="zh">只在大樣本下調整</span><span data-lang="en">Only with large n</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>D. <span data-lang="zh">看 p 值決定</span><span data-lang="en">Depends on p-value</span></span></div>
+</div>
+<div class="quiz-feedback"><span data-lang="zh">中介變數調整會切斷 A→Y 的因果路徑，導致總效應估計偏低（甚至完全消失）。</span><span data-lang="en">Adjusting for a mediator blocks the A→Y causal path, biasing the total effect toward zero.</span></div>
+</div>
+
+<div class="quiz-q">
+<p data-zh="Q2. 傾向分數方法的最大限制是？" data-en="Q2. Propensity score's biggest limitation:">Q2. 傾向分數的最大限制？</p>
+<div class="quiz-options">
+<div class="quiz-opt" data-correct="0"><span>A. <span data-lang="zh">計算太慢</span><span data-lang="en">Slow computation</span></span></div>
+<div class="quiz-opt" data-correct="1"><span>B. <span data-lang="zh">無法處理未觀察的干擾因子</span><span data-lang="en">Cannot handle unmeasured confounders</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>C. <span data-lang="zh">只能用 logistic regression</span><span data-lang="en">Only works with logistic regression</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>D. <span data-lang="zh">不能配 IPTW</span><span data-lang="en">Incompatible with IPTW</span></span></div>
+</div>
+<div class="quiz-feedback"><span data-lang="zh">PS 只平衡「觀察到」的共變數，無法解決未觀察混淆。需配合敏感度分析（如 E-value）或 IV 方法。</span><span data-lang="en">PS only balances observed covariates. Unmeasured confounding requires sensitivity analysis (E-value) or IV methods.</span></div>
+</div>
+
+<div class="quiz-q">
+<p data-zh="Q3. 孟德爾隨機化 (MR) 之所以可信，是因為 SNP 作為 IV 滿足？" data-en="Q3. Why are SNPs good IVs in Mendelian randomization?">Q3. SNP 為什麼是好的 IV？</p>
+<div class="quiz-options">
+<div class="quiz-opt" data-correct="0"><span>A. <span data-lang="zh">SNP 與表型相關性極高</span><span data-lang="en">SNPs correlate strongly with phenotype</span></span></div>
+<div class="quiz-opt" data-correct="1"><span>B. <span data-lang="zh">受精時隨機分配且固定一生，與行為混淆獨立</span><span data-lang="en">Randomly assigned at conception, fixed for life, independent of behavioral confounders</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>C. <span data-lang="zh">每個 SNP 都是因果變異</span><span data-lang="en">Every SNP is causal</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>D. <span data-lang="zh">SNP 直接影響疾病</span><span data-lang="en">SNPs affect disease directly</span></span></div>
+</div>
+<div class="quiz-feedback"><span data-lang="zh">SNP 的隨機分配與一生固定性，使它類似 RCT 中的「隨機處置」，避免反向因果與大部分混淆。</span><span data-lang="en">Random allocation at conception and lifetime fixity mimic an RCT's random treatment, avoiding reverse causation and most confounding.</span></div>
+</div>
+
+<div class="quiz-q">
+<p data-zh="Q4. Collider bias 通常發生於？" data-en="Q4. Collider bias arises when:">Q4. Collider bias 發生在？</p>
+<div class="quiz-options">
+<div class="quiz-opt" data-correct="0"><span>A. <span data-lang="zh">未調整干擾因子</span><span data-lang="en">Failing to adjust for confounders</span></span></div>
+<div class="quiz-opt" data-correct="1"><span>B. <span data-lang="zh">調整了被兩變數共同影響的下游節點</span><span data-lang="en">Adjusting for a common effect of two variables</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>C. <span data-lang="zh">使用 Cox 模型</span><span data-lang="en">Using a Cox model</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>D. <span data-lang="zh">樣本量太小</span><span data-lang="en">Small sample size</span></span></div>
+</div>
+<div class="quiz-feedback"><span data-lang="zh">Collider 是兩變數共同的下游節點，調整它會在原本獨立的兩變數間引入假關聯。</span><span data-lang="en">A collider is the common effect of two variables; conditioning on it induces a spurious association between them.</span></div>
+</div>
+</section>
+
+<div class="page-nav">
+<a href="survival.html"><span class="nav-dir" data-zh="← 上一步" data-en="← Previous">← 上一步</span><span class="nav-title" data-zh="存活分析" data-en="Survival Analysis">存活分析</span></a>
+<a href="meta-analysis.html"><span class="nav-dir" data-zh="下一步 →" data-en="Next →">下一步 →</span><span class="nav-title" data-zh="Meta 分析" data-en="Meta-analysis">Meta 分析</span></a>
+</div>
+
+</main>
+<footer class="site-footer">© Charlene — Biomedical Informatics Research Techniques</footer>
+<script src="i18n.js"></script>
+</body></html>

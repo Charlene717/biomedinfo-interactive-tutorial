@@ -1,0 +1,274 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Advanced: Meta-analysis — Biomedical Informatics Tutorial</title>
+<link rel="stylesheet" href="styles.css">
+</head><body>
+<nav class="top-nav"><div class="top-nav-inner">
+  <a href="index.html" class="top-nav-brand"><span>🔬</span> <span data-zh="生醫資訊研究技術" data-en="BioMed Informatics">生醫資訊研究技術</span></a>
+  <ul class="top-nav-links">
+    <li><a href="research-design.html" data-zh="設計" data-en="Design">設計</a></li>
+    <li><a href="literature-review.html" data-zh="文獻" data-en="Lit">文獻</a></li>
+    <li><a href="databases.html" data-zh="資料庫" data-en="DB">資料庫</a></li>
+    <li><a href="ethics.html" data-zh="倫理" data-en="Ethics">倫理</a></li>
+    <li><a href="sample-size.html" data-zh="樣本量" data-en="Sample">樣本量</a></li>
+    <li><a href="statistical-tests.html" data-zh="檢定" data-en="Tests">檢定</a></li>
+    <li><a href="multiple-testing.html" data-zh="多重檢定" data-en="MultTest">多重檢定</a></li>
+    <li><a href="bias-confounding.html" data-zh="偏差" data-en="Bias">偏差</a></li>
+    <li><a href="survival.html" data-zh="存活" data-en="Surv">存活</a></li>
+    <li><a href="causal-inference.html" data-zh="因果" data-en="Causal">因果</a></li>
+    <li><a href="meta-analysis.html" class="active" data-zh="Meta" data-en="Meta">Meta</a></li>
+    <li><a href="reproducibility.html" data-zh="重現" data-en="Repro">重現</a></li>
+    <li><a href="visualization.html" data-zh="視覺化" data-en="Viz">視覺化</a></li>
+    <li><a href="scientific-writing.html" data-zh="寫作" data-en="Writing">寫作</a></li>
+    <li><a href="references/index.html" data-zh="📚 參考資料" data-en="📚 References">📚 參考資料</a></li>
+  </ul>
+</div></nav>
+<div class="progress-bar-container"><div class="progress-bar" id="progressBar"></div></div>
+<header class="page-hero"><div class="step-badge">ADVANCED</div>
+<h1 data-zh="Meta 分析" data-en="Meta-analysis">Meta 分析與系統性回顧</h1>
+<p class="subtitle" data-lang="zh">把多項既有研究的證據以統計方法綜合，得到效應的更精確估計與一致性評估。</p>
+<p class="subtitle" data-lang="en">Statistically combine evidence from multiple studies to obtain a more precise effect estimate and assess consistency.</p>
+</header>
+<main class="content-wrap">
+
+<section class="section">
+<div class="section-label" data-zh="概覽" data-en="OVERVIEW">概覽</div>
+<h2 data-zh="Meta 分析的本質與優勢" data-en="The Essence of Meta-analysis">Meta 分析的本質</h2>
+<div data-lang="zh">
+<p>Meta-analysis 是把多個獨立研究的效應量「加權平均」的統計方法，常作為系統性回顧的定量合成步驟。它的優勢是：</p>
+<ul>
+<li><strong>提高檢定力：</strong>合併樣本，能偵測單一研究無法揭露的小效應</li>
+<li><strong>提高精確度：</strong>縮窄信賴區間</li>
+<li><strong>探索異質性：</strong>各研究效應一致還是分歧？</li>
+<li><strong>偵測偏倚：</strong>發表偏倚、小樣本研究效應</li>
+</ul>
+<p>證據等級金字塔頂端：<strong>高品質系統性回顧/Meta-analysis &gt; RCT &gt; cohort &gt; case-control &gt; case series &gt; expert opinion</strong>。</p>
+</div>
+<div data-lang="en">
+<p>Meta-analysis is the statistical pooling of effect sizes from independent studies, typically the quantitative arm of a systematic review. Strengths:</p>
+<ul>
+<li><strong>Greater power</strong> — pool subjects to detect small effects single studies miss</li>
+<li><strong>Greater precision</strong> — narrower CIs</li>
+<li><strong>Heterogeneity probe</strong> — are studies consistent or divergent?</li>
+<li><strong>Bias detection</strong> — publication bias, small-study effects</li>
+</ul>
+<p>Top of the evidence pyramid: <strong>well-conducted SR/MA &gt; RCT &gt; cohort &gt; case-control &gt; case series &gt; expert opinion</strong>.</p>
+</div>
+</section>
+
+<section class="section">
+<div class="section-label" data-zh="模型選擇" data-en="MODEL CHOICE">模型選擇</div>
+<h2 data-zh="一、固定效應 vs 隨機效應" data-en="I. Fixed vs Random Effects">一、固定效應 vs 隨機效應</h2>
+<table class="comp-table"><thead><tr>
+<th>—</th>
+<th data-zh="固定效應 (Fixed)" data-en="Fixed Effect">固定效應</th>
+<th data-zh="隨機效應 (Random)" data-en="Random Effects">隨機效應</th>
+</tr></thead><tbody>
+<tr><td><span data-zh="假設" data-en="Assumption">假設</span></td>
+<td><span data-lang="zh">所有研究的「真效應」皆相同</span><span data-lang="en">All studies share one true effect</span></td>
+<td><span data-lang="zh">真效應在研究間有分布</span><span data-lang="en">True effects vary across studies (distribution)</span></td></tr>
+<tr><td><span data-zh="權重來源" data-en="Weights">權重來源</span></td>
+<td><span data-lang="zh">僅 within-study variance</span><span data-lang="en">Within-study variance only</span></td>
+<td><span data-lang="zh">within + between-study variance (τ²)</span><span data-lang="en">Within + between (τ²)</span></td></tr>
+<tr><td><span data-zh="信賴區間" data-en="CI">信賴區間</span></td>
+<td><span data-lang="zh">較窄</span><span data-lang="en">Narrower</span></td>
+<td><span data-lang="zh">較寬（保守）</span><span data-lang="en">Wider (conservative)</span></td></tr>
+<tr><td><span data-zh="適用" data-en="When">適用</span></td>
+<td><span data-lang="zh">研究設計、族群極相似時</span><span data-lang="en">Studies very similar</span></td>
+<td><span data-lang="zh">大部分臨床 / 流行病學 Meta</span><span data-lang="en">Most clinical / epi metas</span></td></tr>
+</tbody></table>
+<div class="callout tip"><span class="callout-icon">💡</span><div>
+<span data-lang="zh"><strong>實用建議：</strong>當你不確定該用哪個模型時，<strong>預設用隨機效應</strong>——更保守、更貼近現實世界研究設計差異。Cochrane 2025 也建議優先用隨機效應。</span>
+<span data-lang="en"><strong>Practical advice:</strong> When unsure, <strong>default to random effects</strong> — more conservative, more realistic. Cochrane 2025 also recommends random effects as the default.</span>
+</div></div>
+</section>
+
+<section class="section">
+<div class="section-label" data-zh="森林圖" data-en="FOREST PLOT">森林圖</div>
+<h2 data-zh="二、森林圖的解讀" data-en="II. Reading a Forest Plot">二、森林圖的解讀</h2>
+<div data-lang="zh">
+<p>森林圖是 Meta 分析的標準視覺化，每行代表一項研究：</p>
+<ul>
+<li><strong>方塊大小</strong>反映該研究的權重（通常正比於 1/variance）</li>
+<li><strong>方塊位置</strong>是效應點估計</li>
+<li><strong>橫線</strong>是 95% CI</li>
+<li>底部<strong>菱形</strong>代表合併估計與其 CI，中心 = 合併效應，寬度 = CI</li>
+<li><strong>垂直線</strong>（OR=1 或 SMD=0）是「沒有效應」線</li>
+</ul>
+</div>
+<div data-lang="en">
+<p>The forest plot is meta-analysis's signature graphic. Each row is a study:</p>
+<ul>
+<li><strong>Square size</strong> reflects study weight (typically ∝ 1/variance)</li>
+<li><strong>Square position</strong> is the point estimate</li>
+<li><strong>Horizontal line</strong> is the 95% CI</li>
+<li>The <strong>diamond</strong> at the bottom is the pooled estimate (center) and its CI (width)</li>
+<li><strong>Vertical line</strong> (OR=1 or SMD=0) is the "no-effect" line</li>
+</ul>
+</div>
+
+<div style="background:var(--c-surface);padding:20px;border:1px solid var(--c-border-light);border-radius:var(--radius-lg);margin:20px 0;">
+<p style="font-weight:600;margin-bottom:12px;text-align:center;" data-zh="範例森林圖 (隨機效應)" data-en="Example forest plot (random effects)">範例森林圖 (隨機效應)</p>
+<div class="forest-plot"><span>Study</span><span>OR</span><span>95% CI</span><span>Weight</span></div>
+<div class="forest-plot"><span>Smith 2018</span><span style="color:var(--c-accent-dark);font-weight:600;">0.78</span><span>0.62-0.97</span><span>22%</span></div>
+<div class="forest-plot"><span>Lee 2019</span><span style="color:var(--c-accent-dark);font-weight:600;">0.85</span><span>0.71-1.02</span><span>28%</span></div>
+<div class="forest-plot"><span>Garcia 2020</span><span style="color:var(--c-accent-dark);font-weight:600;">0.66</span><span>0.45-0.97</span><span>14%</span></div>
+<div class="forest-plot"><span>Wang 2021</span><span style="color:var(--c-accent-dark);font-weight:600;">0.81</span><span>0.69-0.95</span><span>36%</span></div>
+<div class="forest-plot" style="background:var(--c-accent-light);font-weight:700;border-bottom:none;padding:14px 8px;border-radius:6px;margin-top:8px;"><span>Pooled (RE)</span><span style="color:var(--c-accent-dark);">0.80</span><span>0.72-0.89</span><span>100%</span></div>
+<p style="font-size:.82rem;color:var(--c-ink-muted);margin-top:12px;" data-zh="I² = 12% (低異質性)；τ² = 0.003；測試 H₀: τ² = 0, p = 0.31。" data-en="I² = 12% (low heterogeneity); τ² = 0.003; test H₀: τ² = 0, p = 0.31.">I² = 12% (低異質性)；τ² = 0.003。</p>
+</div>
+</section>
+
+<section class="section">
+<div class="section-label" data-zh="異質性" data-en="HETEROGENEITY">異質性</div>
+<h2 data-zh="三、異質性與發表偏倚" data-en="III. Heterogeneity &amp; Publication Bias">三、異質性與發表偏倚</h2>
+<div class="card-grid cols-2">
+<div class="card"><h4>📊 I² <span data-zh="（異質性百分比）" data-en="(heterogeneity %)">異質性百分比</span></h4>
+<div data-lang="zh"><p>研究間變異佔總變異的比例。Higgins 2003 經驗法則：<br>• 0-40% 低<br>• 30-60% 中<br>• 50-90% 大<br>• 75-100% 極大</p><p>I² 高時應做<strong>次群組分析</strong>或<strong>meta-regression</strong> 找原因，或考慮不合併。</p></div>
+<div data-lang="en"><p>Fraction of total variation due to between-study heterogeneity. Higgins 2003 rule of thumb:<br>• 0-40% low<br>• 30-60% moderate<br>• 50-90% substantial<br>• 75-100% considerable</p><p>High I² → run <strong>subgroup analysis</strong> or <strong>meta-regression</strong>; consider not pooling.</p></div>
+</div>
+<div class="card"><h4>📐 τ² <span data-zh="（研究間變異數）" data-en="(between-study variance)">研究間變異</span></h4>
+<div data-lang="zh"><p>絕對尺度的研究間真效應變異數。常用 REML 或 DerSimonian-Laird 估計。τ² → √τ² 可用「預測區間 (PI)」呈現「新研究的真效應可能落在哪」。</p></div>
+<div data-lang="en"><p>The between-study variance on the absolute scale. Typically estimated by REML or DerSimonian-Laird. Use √τ² to derive a <strong>prediction interval (PI)</strong> — "where would a new study's true effect lie?"</p></div>
+</div>
+<div class="card"><h4>📊 Funnel plot</h4>
+<div data-lang="zh"><p>效應量 (x 軸) vs 精確度 / SE (y 軸)。對稱漏斗形 = 無偏；單側缺塊 = 可能有發表偏倚（小規模、效應小的負面結果未發表）。配合 Egger 檢定。</p></div>
+<div data-lang="en"><p>Effect size (x) vs precision/SE (y). Symmetric funnel = unbiased; missing side = potential publication bias (small null studies unpublished). Pair with Egger's test.</p></div>
+</div>
+<div class="card"><h4>🛠 <span data-zh="校正方法" data-en="Bias-correction methods">校正方法</span></h4>
+<div data-lang="zh"><p>Trim-and-fill、PET-PEESE、Selection models。提醒：這些方法都是<strong>診斷+敏感度分析</strong>，無法完全「修復」缺失研究。</p></div>
+<div data-lang="en"><p>Trim-and-fill, PET-PEESE, selection models. Caveat: these are <strong>diagnostics + sensitivity</strong>, not full repairs for missing studies.</p></div>
+</div>
+</div>
+</section>
+
+<section class="section">
+<div class="section-label" data-zh="證據評級" data-en="GRADE">證據評級</div>
+<h2 data-zh="四、GRADE 證據評級" data-en="IV. GRADE Evidence Rating">四、GRADE 證據評級</h2>
+<div data-lang="zh">
+<p>GRADE (Grading of Recommendations Assessment, Development and Evaluation) 是評估證據品質的國際標準，從 4 個等級（High / Moderate / Low / Very Low）描述對效應估計的信心度。</p>
+<p>RCT 起始為 High，可被 5 因素<strong>下調</strong>：</p>
+<ol>
+<li>研究偏倚風險 (Risk of bias)</li>
+<li>結果不一致 (Inconsistency, I² 高)</li>
+<li>間接性 (Indirectness, PICO 不完全對應)</li>
+<li>精確度不足 (Imprecision, CI 過寬)</li>
+<li>發表偏倚 (Publication bias)</li>
+</ol>
+<p>觀察性研究起始為 Low，可被 3 因素<strong>上調</strong>：大效應、劑量-反應、調整後仍存在效應。</p>
+</div>
+<div data-lang="en">
+<p>GRADE rates evidence in four tiers (High / Moderate / Low / Very Low). RCTs start High and can be downgraded by:</p>
+<ol>
+<li>Risk of bias</li>
+<li>Inconsistency (high I²)</li>
+<li>Indirectness (PICO mismatch)</li>
+<li>Imprecision (wide CI)</li>
+<li>Publication bias</li>
+</ol>
+<p>Observational studies start Low and can be upgraded by large effect, dose-response, or residual effect after adjustment.</p>
+</div>
+</section>
+
+<section class="section">
+<div class="section-label" data-zh="程式碼" data-en="CODE">程式碼</div>
+<h2 data-zh="實作：metafor / meta" data-en="Implementation: metafor / meta">實作範例</h2>
+<div class="code-tabs">
+<div class="code-tab-btns">
+<button class="code-tab-btn active">R (meta)</button>
+<button class="code-tab-btn">R (metafor)</button>
+<button class="code-tab-btn">Python (PythonMeta)</button>
+</div>
+<div class="code-tab-content active"><pre><span class="kw">library</span>(<span class="func">meta</span>)
+<span class="comment"># Binary outcomes (RR, OR, risk diff)</span>
+m <- <span class="func">metabin</span>(event.e=df$e_t, n.e=df$n_t,
+             event.c=df$e_c, n.c=df$n_c,
+             studlab=df$study,
+             sm=<span class="str">"OR"</span>, method=<span class="str">"MH"</span>, common=<span class="kw">TRUE</span>, random=<span class="kw">TRUE</span>)
+<span class="func">summary</span>(m)
+<span class="func">forest</span>(m, label.e=<span class="str">"Treatment"</span>, label.c=<span class="str">"Control"</span>)
+<span class="func">funnel</span>(m); <span class="func">metabias</span>(m, method=<span class="str">"linreg"</span>)</pre></div>
+<div class="code-tab-content"><pre><span class="kw">library</span>(<span class="func">metafor</span>)
+
+<span class="comment"># Compute log OR + variance</span>
+dat <- <span class="func">escalc</span>(measure=<span class="str">"OR"</span>, ai=tpos, bi=tneg,
+              ci=cpos, di=cneg, data=df)
+
+<span class="comment"># Random-effects with REML</span>
+res <- <span class="func">rma</span>(yi, vi, data=dat, method=<span class="str">"REML"</span>)
+<span class="func">summary</span>(res)        <span class="comment"># tau^2, I^2, pooled OR</span>
+<span class="func">forest</span>(res, atransf=exp, slab=dat$study)
+<span class="func">funnel</span>(res); <span class="func">regtest</span>(res, model=<span class="str">"lm"</span>)
+
+<span class="comment"># Meta-regression by year</span>
+<span class="func">rma</span>(yi, vi, mods=~year, data=dat)</pre></div>
+<div class="code-tab-content"><pre><span class="kw">import</span> PythonMeta <span class="kw">as</span> PM
+
+stng = {
+  <span class="str">"datatype"</span>:<span class="str">"CATE"</span>,    <span class="comment"># categorical (event counts)</span>
+  <span class="str">"models"</span>:<span class="str">"Random"</span>, <span class="str">"algorithm"</span>:<span class="str">"DL"</span>,
+  <span class="str">"effect"</span>:<span class="str">"OR"</span>
+}
+m = PM.<span class="func">Meta</span>()
+m.<span class="func">datatype</span>=<span class="str">"CATE"</span>; m.<span class="func">data</span> = PM.<span class="func">readfile</span>(<span class="str">"data.csv"</span>)
+m.<span class="func">subgroup</span>=<span class="kw">None</span>
+result = m.<span class="func">meta</span>(stng)
+m.<span class="func">forest</span>(stng, result); m.<span class="func">funnel</span>(stng, result)</pre></div>
+</div>
+</section>
+
+<section class="quiz-section">
+<h3 data-zh="📝 隨堂測驗" data-en="📝 Quick Quiz">📝 隨堂測驗</h3>
+<div class="quiz-q">
+<p data-zh="Q1. I² = 80% 應該如何解讀？" data-en="Q1. How to interpret I² = 80%?">Q1. I² = 80% 怎麼解讀？</p>
+<div class="quiz-options">
+<div class="quiz-opt" data-correct="0"><span>A. <span data-lang="zh">80% 研究效應為陽性</span><span data-lang="en">80% of studies are positive</span></span></div>
+<div class="quiz-opt" data-correct="1"><span>B. <span data-lang="zh">大幅異質性——研究間真效應差異顯著</span><span data-lang="en">Substantial heterogeneity — true effects vary considerably</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>C. <span data-lang="zh">合併效應有 80% 信心</span><span data-lang="en">80% confidence in pooled effect</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>D. <span data-lang="zh">80% 樣本量已收集</span><span data-lang="en">80% of subjects recruited</span></span></div>
+</div>
+<div class="quiz-feedback"><span data-lang="zh">I² 是「研究間變異」佔總變異的比例。80% 顯示真效應在研究間差異顯著，需做次群組或 meta-regression。</span><span data-lang="en">I² is the fraction of total variation due to heterogeneity. 80% indicates substantial between-study variance; run subgroup analysis or meta-regression.</span></div>
+</div>
+
+<div class="quiz-q">
+<p data-zh="Q2. 漏斗圖非對稱通常暗示？" data-en="Q2. An asymmetric funnel plot typically suggests:">Q2. 漏斗圖非對稱暗示？</p>
+<div class="quiz-options">
+<div class="quiz-opt" data-correct="0"><span>A. <span data-lang="zh">大樣本問題</span><span data-lang="en">Issues with large samples</span></span></div>
+<div class="quiz-opt" data-correct="1"><span>B. <span data-lang="zh">可能存在發表偏倚或小規模研究效應</span><span data-lang="en">Possible publication bias or small-study effects</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>C. <span data-lang="zh">隨機效應模型錯誤</span><span data-lang="en">Wrong random-effects model</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>D. <span data-lang="zh">研究數不足</span><span data-lang="en">Too few studies</span></span></div>
+</div>
+<div class="quiz-feedback"><span data-lang="zh">漏斗圖橫軸效應、縱軸精確度，非對稱常見原因是小規模、效應陰性的研究未發表。配合 Egger 檢定。</span><span data-lang="en">A funnel plot maps effect against precision. Asymmetry commonly arises from missing small null studies. Confirm with Egger's test.</span></div>
+</div>
+
+<div class="quiz-q">
+<p data-zh="Q3. 何時應優先使用「隨機效應」模型？" data-en="Q3. When prefer random-effects?">Q3. 何時用隨機效應？</p>
+<div class="quiz-options">
+<div class="quiz-opt" data-correct="1"><span>A. <span data-lang="zh">研究的人口、處置、設計有合理差異時</span><span data-lang="en">Studies vary in population, intervention, or design</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>B. <span data-lang="zh">所有研究設計完全相同時</span><span data-lang="en">All studies are identical</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>C. <span data-lang="zh">資料是基因組學</span><span data-lang="en">Data is genomic</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>D. <span data-lang="zh">永遠不該用</span><span data-lang="en">Never use it</span></span></div>
+</div>
+<div class="quiz-feedback"><span data-lang="zh">當不確定時 Cochrane 建議預設隨機效應，因現實研究幾乎都有差異。固定效應假設過嚴。</span><span data-lang="en">Cochrane recommends random effects as the default, because real-world studies almost always differ. Fixed-effect's assumption is too strict.</span></div>
+</div>
+
+<div class="quiz-q">
+<p data-zh="Q4. GRADE 中 RCT 起始評為哪一級？" data-en="Q4. GRADE starting rating for RCTs?">Q4. GRADE 中 RCT 起始評？</p>
+<div class="quiz-options">
+<div class="quiz-opt" data-correct="1"><span>A. High</span></div>
+<div class="quiz-opt" data-correct="0"><span>B. Moderate</span></div>
+<div class="quiz-opt" data-correct="0"><span>C. Low</span></div>
+<div class="quiz-opt" data-correct="0"><span>D. Very Low</span></div>
+</div>
+<div class="quiz-feedback"><span data-lang="zh">RCT 因設計強度而起始於 High，可因偏倚風險、不一致、間接性、精確度、發表偏倚下調。</span><span data-lang="en">RCTs start at High due to design strength, downgradable for risk of bias, inconsistency, indirectness, imprecision, publication bias.</span></div>
+</div>
+</section>
+
+<div class="page-nav">
+<a href="causal-inference.html"><span class="nav-dir" data-zh="← 上一步" data-en="← Previous">← 上一步</span><span class="nav-title" data-zh="因果推論" data-en="Causal Inference">因果推論</span></a>
+<a href="reproducibility.html"><span class="nav-dir" data-zh="下一步 →" data-en="Next →">下一步 →</span><span class="nav-title" data-zh="可重現研究" data-en="Reproducible Research">可重現研究</span></a>
+</div>
+
+</main>
+<footer class="site-footer">© Charlene — Biomedical Informatics Research Techniques</footer>
+<script src="i18n.js"></script>
+</body></html>

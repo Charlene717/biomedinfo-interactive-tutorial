@@ -1,0 +1,289 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Step 5: Sample Size &amp; Power — Biomedical Informatics Tutorial</title>
+<link rel="stylesheet" href="styles.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+</head><body>
+<nav class="top-nav"><div class="top-nav-inner">
+  <a href="index.html" class="top-nav-brand"><span>🔬</span> <span data-zh="生醫資訊研究技術" data-en="BioMed Informatics">生醫資訊研究技術</span></a>
+  <ul class="top-nav-links">
+    <li><a href="research-design.html" data-zh="設計" data-en="Design">設計</a></li>
+    <li><a href="literature-review.html" data-zh="文獻" data-en="Lit">文獻</a></li>
+    <li><a href="databases.html" data-zh="資料庫" data-en="DB">資料庫</a></li>
+    <li><a href="ethics.html" data-zh="倫理" data-en="Ethics">倫理</a></li>
+    <li><a href="sample-size.html" class="active" data-zh="樣本量" data-en="Sample">樣本量</a></li>
+    <li><a href="statistical-tests.html" data-zh="檢定" data-en="Tests">檢定</a></li>
+    <li><a href="multiple-testing.html" data-zh="多重檢定" data-en="MultTest">多重檢定</a></li>
+    <li><a href="bias-confounding.html" data-zh="偏差" data-en="Bias">偏差</a></li>
+    <li><a href="survival.html" data-zh="存活" data-en="Surv">存活</a></li>
+    <li><a href="causal-inference.html" data-zh="因果" data-en="Causal">因果</a></li>
+    <li><a href="meta-analysis.html" data-zh="Meta" data-en="Meta">Meta</a></li>
+    <li><a href="reproducibility.html" data-zh="重現" data-en="Repro">重現</a></li>
+    <li><a href="visualization.html" data-zh="視覺化" data-en="Viz">視覺化</a></li>
+    <li><a href="scientific-writing.html" data-zh="寫作" data-en="Writing">寫作</a></li>
+    <li><a href="references/index.html" data-zh="📚 參考資料" data-en="📚 References">📚 參考資料</a></li>
+  </ul>
+</div></nav>
+<div class="progress-bar-container"><div class="progress-bar" id="progressBar"></div></div>
+<header class="page-hero"><div class="step-badge">STEP 5 / 9</div>
+<h1 data-zh="樣本量與統計檢定力" data-en="Sample Size &amp; Statistical Power">樣本量與統計檢定力</h1>
+<p class="subtitle" data-lang="zh">α、β、效應量與樣本量四者互為條件。理解這四者的關係，能避免「白做研究」或「過度浪費資源」。</p>
+<p class="subtitle" data-lang="en">α, β, effect size, and sample size are mutually constraining. Master their relationship to avoid wasted studies — or wasted resources.</p>
+</header>
+<main class="content-wrap">
+
+<section class="section">
+<div class="section-label" data-zh="概覽" data-en="OVERVIEW">概覽</div>
+<h2 data-zh="為什麼樣本量計算是 IRB 與審稿人必看的章節？" data-en="Why is sample size the first thing the IRB and reviewers read?">為什麼樣本量計算這麼重要？</h2>
+<div data-lang="zh">
+<p>樣本量太少 → <strong>檢定力不足</strong>，真有的效應抓不到（type II error 升高）。<br>樣本量太多 → <strong>浪費受試者時間、實驗經費、倫理負擔</strong>，甚至偵測到「統計顯著但臨床無意義」的微小差異。<br>因此 ICH-E9、CONSORT、STROBE、ARRIVE 等指引都要求論文與計畫書「事前」報告樣本量計算依據。</p>
+</div>
+<div data-lang="en">
+<p>Too few subjects → <strong>underpowered</strong> studies miss real effects (high type II error).<br>Too many → <strong>waste of subjects, money, and ethical burden</strong>, plus detection of statistically significant but clinically meaningless differences.<br>ICH-E9, CONSORT, STROBE, and ARRIVE all require a <em>pre-specified</em> sample size justification.</p>
+</div>
+</section>
+
+<section class="section">
+<div class="section-label" data-zh="四要素" data-en="FOUR FACTORS">四要素</div>
+<h2 data-zh="一、四個互相牽動的參數" data-en="I. The Four Mutually Constraining Parameters">一、四個互相牽動的參數</h2>
+<div class="card-grid cols-2">
+<div class="card"><h4>α — <span data-zh="顯著水準（型一錯誤）" data-en="Significance level (Type I error)">顯著水準</span></h4>
+<div data-lang="zh"><p>當虛無假設 H₀ 為真時錯誤拒絕的機率。常設 0.05。雙尾比單尾保守。基因組研究常用 5×10⁻⁸（Bonferroni-corrected for ~1M tests）。</p></div>
+<div data-lang="en"><p>The probability of falsely rejecting H₀ when true. Typically 0.05. Two-sided is more conservative than one-sided. Genome-wide studies use 5×10⁻⁸ (Bonferroni for ~1M tests).</p></div>
+</div>
+<div class="card"><h4>β — <span data-zh="型二錯誤；1-β = 檢定力" data-en="Type II error; 1-β = power">型二錯誤；1-β = 檢定力</span></h4>
+<div data-lang="zh"><p>當 H₁ 為真卻沒拒絕 H₀ 的機率。標準是 80% 檢定力 (β=0.2)，臨床試驗常用 90%。</p></div>
+<div data-lang="en"><p>Probability of failing to reject H₀ when H₁ is true. Standard target is 80% power (β=0.2); clinical trials often use 90%.</p></div>
+</div>
+<div class="card"><h4>Effect size — <span data-zh="效應量" data-en="Effect size">效應量</span></h4>
+<div data-lang="zh"><p>差異的大小。Cohen's d (連續變數)、OR/RR (二元變數)、HR (存活)、ρ (相關)。<strong>越小越難偵測，需越大樣本</strong>。</p></div>
+<div data-lang="en"><p>Magnitude of the difference. Cohen's d (continuous), OR/RR (binary), HR (survival), ρ (correlation). <strong>Smaller effects → larger samples needed.</strong></p></div>
+</div>
+<div class="card"><h4>n — <span data-zh="樣本量" data-en="Sample size">樣本量</span></h4>
+<div data-lang="zh"><p>每組樣本數（unbalanced 設計需額外考慮 allocation ratio）。並非「越大越好」，要平衡資源、倫理與效應的臨床意義。</p></div>
+<div data-lang="en"><p>Per-arm sample size (consider allocation ratio for unbalanced designs). More is not always better — balance resources, ethics, and the clinical meaning of the effect.</p></div>
+</div>
+</div>
+<div class="callout tip"><span class="callout-icon">💡</span><div>
+<span data-lang="zh"><strong>互相牽動：</strong>固定其中三個，第四個就唯一決定。最常見的「給定 α、β、效應 → 算 n」即此邏輯。</span>
+<span data-lang="en"><strong>Mutual constraint:</strong> Fix any three, and the fourth is uniquely determined. The standard "given α, β, effect size → compute n" follows this logic.</span>
+</div></div>
+</section>
+
+<section class="section">
+<div class="section-label" data-zh="互動模擬" data-en="INTERACTIVE">互動模擬</div>
+<h2 data-zh="檢定力曲線模擬器" data-en="Power Curve Simulator">檢定力曲線模擬器</h2>
+<div data-lang="zh"><p>拖動滑桿觀察「樣本量 vs. 檢定力」曲線在不同效應量下的變化。注意：當效應量減半，所需樣本量約 4 倍。</p></div>
+<div data-lang="en"><p>Drag the sliders to see how "sample size vs power" shifts with effect size. Note: halving the effect size roughly quadruples the required sample.</p></div>
+<div class="interactive-panel">
+<div class="slider-group"><label><span>α</span> <span id="valAlpha">0.05</span></label><input type="range" id="sAlpha" min="0.001" max="0.10" value="0.05" step="0.005"></div>
+<div class="slider-group"><label><span data-zh="Cohen's d (效應量)" data-en="Cohen's d (effect size)">Cohen's d</span> <span id="valD">0.5</span></label><input type="range" id="sD" min="0.1" max="1.5" value="0.5" step="0.05"></div>
+<div class="sim-stats">
+<span class="sim-stat info" id="nFor80">n for 80% power: —</span>
+<span class="sim-stat info" id="nFor90">n for 90% power: —</span>
+</div>
+<div class="chart-container"><canvas id="powerChart"></canvas></div>
+</div>
+<script>
+(function(){
+  // Approximate normal CDF
+  function pnorm(z){
+    const t=1/(1+0.2316419*Math.abs(z));
+    const d=0.3989423*Math.exp(-z*z/2);
+    let p=d*t*(0.3193815+t*(-0.3565638+t*(1.781478+t*(-1.821256+t*1.330274))));
+    return z<0?p:1-p;
+  }
+  function qnorm(p){ // inverse normal — Beasley-Springer-Moro approx
+    const a=[-39.6968302866538,220.946098424521,-275.928510446969,138.357751867269,-30.6647980661472,2.50662827745924];
+    const b=[-54.4760987982241,161.585836858041,-155.698979859887,66.8013118877197,-13.2806815528857];
+    const c=[-0.00778489400243029,-0.322396458041136,-2.40075827716184,-2.54973253934373,4.37466414146497,2.93816398269878];
+    const d=[0.00778469570904146,0.32246712907004,2.445134137143,3.75440866190742];
+    const pl=0.02425,pu=1-pl;
+    let q,r;
+    if(p<pl){ q=Math.sqrt(-2*Math.log(p)); return (((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5])/((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1); }
+    if(p<=pu){ q=p-0.5; r=q*q; return (((((a[0]*r+a[1])*r+a[2])*r+a[3])*r+a[4])*r+a[5])*q/(((((b[0]*r+b[1])*r+b[2])*r+b[3])*r+b[4])*r+1); }
+    q=Math.sqrt(-2*Math.log(1-p)); return -(((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5])/((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1);
+  }
+  function powerFor(n,d,a){ // two-sample t-test, equal n; normal approx
+    const z_a=qnorm(1-a/2);
+    const z=d*Math.sqrt(n/2) - z_a;
+    return pnorm(z);
+  }
+  function nFor(power,d,a){
+    const z_a=qnorm(1-a/2), z_b=qnorm(power);
+    return 2*Math.pow((z_a+z_b)/d,2);
+  }
+  let chart=null;
+  function update(){
+    const a=+document.getElementById('sAlpha').value;
+    const d=+document.getElementById('sD').value;
+    document.getElementById('valAlpha').textContent=a.toFixed(3);
+    document.getElementById('valD').textContent=d.toFixed(2);
+    const ns=[]; const ps=[];
+    for(let n=5;n<=300;n+=5){ ns.push(n); ps.push(powerFor(n,d,a)); }
+    document.getElementById('nFor80').textContent='n for 80% power: ≈ '+Math.ceil(nFor(0.80,d,a))+' /arm';
+    document.getElementById('nFor90').textContent='n for 90% power: ≈ '+Math.ceil(nFor(0.90,d,a))+' /arm';
+    if(chart){ chart.data.labels=ns; chart.data.datasets[0].data=ps; chart.update(); return; }
+    const ctx=document.getElementById('powerChart').getContext('2d');
+    chart=new Chart(ctx,{type:'line',data:{labels:ns,datasets:[{label:'Power',data:ps,borderColor:'#1a6b5a',backgroundColor:'rgba(26,107,90,.1)',fill:true,tension:0.3,pointRadius:0}]},options:{responsive:true,maintainAspectRatio:false,scales:{y:{min:0,max:1,title:{display:true,text:'Power (1-β)'}},x:{title:{display:true,text:'n per arm'}}},plugins:{legend:{display:false}}}});
+  }
+  document.addEventListener('DOMContentLoaded',()=>{
+    ['sAlpha','sD'].forEach(i=>document.getElementById(i).addEventListener('input',update));
+    update();
+  });
+})();
+</script>
+</section>
+
+<section class="section">
+<div class="section-label" data-zh="常用公式" data-en="FORMULAS">常用公式</div>
+<h2 data-zh="二、常見研究設計的樣本量公式" data-en="II. Sample Size Formulas for Common Designs">二、常見設計的樣本量公式</h2>
+<table class="comp-table"><thead><tr>
+<th data-zh="設計" data-en="Design">設計</th>
+<th data-zh="公式 (per group)" data-en="Formula (per group)">公式</th>
+<th data-zh="關鍵輸入" data-en="Key inputs">關鍵輸入</th>
+</tr></thead><tbody>
+<tr><td><span data-zh="兩組平均差 (t-test)" data-en="Two-sample t-test">兩組平均差 (t-test)</span></td>
+<td><code>n = 2(z<sub>α/2</sub>+z<sub>β</sub>)²σ² / Δ²</code></td>
+<td><span data-zh="差異 Δ、SD σ" data-en="Difference Δ, SD σ">Δ, σ</span></td></tr>
+<tr><td><span data-zh="兩組比例 (chi-square)" data-en="Two-proportion test">兩組比例</span></td>
+<td><code>n = (z<sub>α/2</sub>+z<sub>β</sub>)²·[p₁(1-p₁)+p₂(1-p₂)] / (p₁-p₂)²</code></td>
+<td><span data-zh="兩組比例 p₁, p₂" data-en="Proportions p₁, p₂">p₁, p₂</span></td></tr>
+<tr><td><span data-zh="存活 (Schoenfeld)" data-en="Survival (Schoenfeld)">存活 (Schoenfeld)</span></td>
+<td><code>events = 4(z<sub>α/2</sub>+z<sub>β</sub>)² / (ln HR)²</code></td>
+<td><span data-zh="HR、事件率" data-en="HR, event rate">HR, event rate</span></td></tr>
+<tr><td><span data-zh="GWAS" data-en="GWAS">GWAS</span></td>
+<td><span data-zh="模擬 / GAS Power Calculator" data-en="Simulation / GAS Power Calculator">模擬</span></td>
+<td><span data-zh="MAF、OR、α=5e-8" data-en="MAF, OR, α=5e-8">MAF, OR, α=5×10⁻⁸</span></td></tr>
+<tr><td><span data-zh="ML 分類 (AUC)" data-en="ML classification (AUC)">ML 分類</span></td>
+<td><span data-zh="learning curve / Hanley-McNeil" data-en="Learning curve / Hanley-McNeil">學習曲線 / Hanley-McNeil</span></td>
+<td><span data-zh="目標 AUC、特徵維度" data-en="Target AUC, feature dim">目標 AUC、維度</span></td></tr>
+</tbody></table>
+</section>
+
+<section class="section">
+<div class="section-label" data-zh="程式碼" data-en="CODE">程式碼</div>
+<h2 data-zh="實作：用 pwr 與 statsmodels 算樣本量" data-en="Implementation: pwr &amp; statsmodels">實作範例</h2>
+<div class="code-tabs">
+<div class="code-tab-btns">
+<button class="code-tab-btn active">R (pwr)</button>
+<button class="code-tab-btn">Python (statsmodels)</button>
+<button class="code-tab-btn">G*Power</button>
+</div>
+<div class="code-tab-content active"><pre><span class="kw">library</span>(<span class="func">pwr</span>)
+
+<span class="comment"># Two-sample t-test, Cohen's d = 0.5</span>
+<span class="func">pwr.t.test</span>(d=<span class="num">0.5</span>, sig.level=<span class="num">0.05</span>, power=<span class="num">0.80</span>,
+           type=<span class="str">"two.sample"</span>, alternative=<span class="str">"two.sided"</span>)
+<span class="comment"># → n = 63.77 per group → round up to 64</span>
+
+<span class="comment"># Two-proportion test: p1=0.40 vs p2=0.55</span>
+<span class="func">pwr.2p.test</span>(h=<span class="func">ES.h</span>(<span class="num">0.40</span>, <span class="num">0.55</span>),
+            sig.level=<span class="num">0.05</span>, power=<span class="num">0.80</span>)
+
+<span class="comment"># Survival: HR=0.6, two-arm balanced (epiR alternative)</span>
+<span class="kw">library</span>(<span class="func">powerSurvEpi</span>)
+<span class="func">ssizeCT.default</span>(power=<span class="num">0.80</span>, k=<span class="num">1</span>, pE=<span class="num">0.6</span>, pC=<span class="num">0.75</span>,
+                RR=<span class="num">0.6</span>, alpha=<span class="num">0.05</span>)</pre></div>
+<div class="code-tab-content"><pre><span class="kw">from</span> statsmodels.stats.power <span class="kw">import</span> TTestIndPower, NormalIndPower
+<span class="kw">from</span> statsmodels.stats.proportion <span class="kw">import</span> proportion_effectsize
+
+<span class="comment"># Continuous outcome — t-test</span>
+analysis = TTestIndPower()
+n = analysis.<span class="func">solve_power</span>(effect_size=<span class="num">0.5</span>, alpha=<span class="num">0.05</span>, power=<span class="num">0.80</span>)
+<span class="func">print</span>(<span class="str">f"n per arm: {n:.1f}"</span>)  <span class="comment"># 63.8</span>
+
+<span class="comment"># Binary outcome — proportions</span>
+h = <span class="func">proportion_effectsize</span>(<span class="num">0.40</span>, <span class="num">0.55</span>)
+n = NormalIndPower().<span class="func">solve_power</span>(effect_size=h, alpha=<span class="num">0.05</span>, power=<span class="num">0.80</span>)
+<span class="func">print</span>(<span class="str">f"n per arm: {n:.1f}"</span>)</pre></div>
+<div class="code-tab-content"><pre><span class="comment"># G*Power desktop app (free, very visual)</span>
+<span class="comment"># Window flow:</span>
+<span class="comment">#   Test family → t-tests</span>
+<span class="comment">#   Statistical test → Means: difference between two independent means</span>
+<span class="comment">#   Type → A priori: compute sample size</span>
+<span class="comment">#   Input: tails(2), d=0.5, α=0.05, power=0.80, allocation=1</span>
+<span class="comment">#   Output: total n, critical t, actual power</span>
+
+<span class="comment"># Highly recommended for IRB / grant figures (export plots).</span></pre></div>
+</div>
+</section>
+
+<section class="section">
+<div class="section-label" data-zh="陷阱" data-en="PITFALLS">陷阱</div>
+<h2 data-zh="三、樣本量計算的常見錯誤" data-en="III. Common Sample Size Mistakes">三、常見錯誤</h2>
+<div class="card-grid cols-2">
+<div class="card"><h4>❌ <span data-zh="post-hoc power（事後檢定力）" data-en="Post-hoc power">post-hoc power</span></h4>
+<div data-lang="zh"><p>用觀察到的效應量回推檢定力沒有意義——它與 p 值一一對應，不能用來辯護「我的研究不顯著但有檢定力」。應該事前估計、並報告效應量信賴區間。</p></div>
+<div data-lang="en"><p>Computing power from the observed effect is meaningless — it is monotone with the p-value. It cannot defend a null result. Estimate prospectively and report effect size CIs.</p></div>
+</div>
+<div class="card"><h4>❌ <span data-zh="忽略 dropout / 缺失" data-en="Ignoring dropout / missingness">忽略 dropout</span></h4>
+<div data-lang="zh"><p>實際追蹤的樣本通常會流失 10-30%。應在計算後乘以 1/(1-d) 補償。</p></div>
+<div data-lang="en"><p>Real cohorts lose 10-30%. Inflate by 1/(1-dropout rate) before recruiting.</p></div>
+</div>
+<div class="card"><h4>❌ <span data-zh="忽略多重檢定" data-en="Ignoring multiple testing">忽略多重檢定</span></h4>
+<div data-lang="zh"><p>同時測 5 個 endpoint 卻仍用 α=0.05 → false positive 暴增。需以 Bonferroni 校正後 α 重新計算 n。</p></div>
+<div data-lang="en"><p>Testing 5 endpoints with α=0.05 inflates false positives. Recompute n using Bonferroni-adjusted α.</p></div>
+</div>
+<div class="card"><h4>❌ <span data-zh="效應量靠想像" data-en="Made-up effect sizes">效應量靠想像</span></h4>
+<div data-lang="zh"><p>效應量需有依據：pilot study、文獻 meta-analysis、或臨床意義最小差異 (MCID)。空想的效應在 IRB 與審稿人面前難以辯護。</p></div>
+<div data-lang="en"><p>Effect size needs justification: pilot study, prior meta-analysis, or minimal clinically important difference (MCID). Made-up effects do not survive review.</p></div>
+</div>
+</div>
+</section>
+
+<section class="quiz-section">
+<h3 data-zh="📝 隨堂測驗" data-en="📝 Quick Quiz">📝 隨堂測驗</h3>
+<div class="quiz-q">
+<p data-zh="Q1. 將效應量 (Cohen's d) 從 0.5 減為 0.25，所需樣本量約變為原來的幾倍？" data-en="Q1. Halving Cohen's d from 0.5 to 0.25 multiplies required n by roughly:">Q1. d 從 0.5 減半到 0.25，n 約變多少倍？</p>
+<div class="quiz-options">
+<div class="quiz-opt" data-correct="0"><span>A. 2x</span></div>
+<div class="quiz-opt" data-correct="1"><span>B. 4x</span></div>
+<div class="quiz-opt" data-correct="0"><span>C. 8x</span></div>
+<div class="quiz-opt" data-correct="0"><span>D. <span data-lang="zh">不變</span><span data-lang="en">No change</span></span></div>
+</div>
+<div class="quiz-feedback"><span data-lang="zh">公式中 n ∝ 1/Δ²。效應量減半 → 樣本量約 4 倍。</span><span data-lang="en">n ∝ 1/Δ². Halving the effect quadruples the needed sample.</span></div>
+</div>
+
+<div class="quiz-q">
+<p data-zh="Q2. GWAS 為什麼用 α=5×10⁻⁸ 作為顯著性閾值？" data-en="Q2. Why does GWAS use α=5×10⁻⁸?">Q2. GWAS 為什麼用 α=5×10⁻⁸？</p>
+<div class="quiz-options">
+<div class="quiz-opt" data-correct="0"><span>A. <span data-lang="zh">這是 IRB 規定</span><span data-lang="en">It's an IRB requirement</span></span></div>
+<div class="quiz-opt" data-correct="1"><span>B. <span data-lang="zh">約等於 0.05 / 10⁶（百萬個獨立檢定的 Bonferroni）</span><span data-lang="en">≈ 0.05 / 10⁶ — Bonferroni for ~1M independent tests</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>C. <span data-lang="zh">是 Cohen 建議</span><span data-lang="en">Cohen recommended it</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>D. <span data-lang="zh">減少存檔大小</span><span data-lang="en">Reduces file size</span></span></div>
+</div>
+<div class="quiz-feedback"><span data-lang="zh">人類基因組約有 10⁶ 個獨立 LD block，Bonferroni 校正即得 5×10⁻⁸。</span><span data-lang="en">The human genome contains ~10⁶ independent LD blocks; Bonferroni gives 5×10⁻⁸.</span></div>
+</div>
+
+<div class="quiz-q">
+<p data-zh="Q3. 「事後檢定力 (post-hoc power)」為什麼不應用來辯護無顯著結果？" data-en="Q3. Why is post-hoc power inappropriate to defend a non-significant result?">Q3. 為什麼不能用 post-hoc power 辯護不顯著？</p>
+<div class="quiz-options">
+<div class="quiz-opt" data-correct="0"><span>A. <span data-lang="zh">它違反 IRB 規定</span><span data-lang="en">Violates IRB rules</span></span></div>
+<div class="quiz-opt" data-correct="1"><span>B. <span data-lang="zh">它與 p 值一一對應，不提供新資訊</span><span data-lang="en">It is monotonic with the p-value — adds no information</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>C. <span data-lang="zh">不能在 R 中計算</span><span data-lang="en">Cannot be computed in R</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>D. <span data-lang="zh">違反 GDPR</span><span data-lang="en">Violates GDPR</span></span></div>
+</div>
+<div class="quiz-feedback"><span data-lang="zh">post-hoc power 等同於 1 − p 值的單調函數，無法獨立證明檢定力是否足夠。應報告效應量信賴區間。</span><span data-lang="en">Post-hoc power is monotone in p; it cannot independently demonstrate adequacy. Report effect-size CIs instead.</span></div>
+</div>
+
+<div class="quiz-q">
+<p data-zh="Q4. 計算樣本量後，預期 dropout 率為 20%，最終招募人數應為原計算值的？" data-en="Q4. With anticipated 20% dropout, multiply the computed sample by:">Q4. dropout 20% 時應乘以？</p>
+<div class="quiz-options">
+<div class="quiz-opt" data-correct="0"><span>A. 1.0</span></div>
+<div class="quiz-opt" data-correct="0"><span>B. 1.10</span></div>
+<div class="quiz-opt" data-correct="1"><span>C. 1.25  <span data-lang="zh">（= 1/0.8）</span><span data-lang="en">(= 1/0.8)</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>D. 2.0</span></div>
+</div>
+<div class="quiz-feedback"><span data-lang="zh">補償公式：n_recruited = n_needed / (1 − dropout)。20% dropout 時 → ×1.25。</span><span data-lang="en">Inflation factor: n_recruited = n_needed / (1 − dropout). 20% dropout → ×1.25.</span></div>
+</div>
+</section>
+
+<div class="page-nav">
+<a href="ethics.html"><span class="nav-dir" data-zh="← 上一步" data-en="← Previous">← 上一步</span><span class="nav-title" data-zh="研究倫理" data-en="Ethics">研究倫理</span></a>
+<a href="statistical-tests.html"><span class="nav-dir" data-zh="下一步 →" data-en="Next →">下一步 →</span><span class="nav-title" data-zh="統計假設檢定" data-en="Hypothesis Testing">統計假設檢定</span></a>
+</div>
+
+</main>
+<footer class="site-footer">© Charlene — Biomedical Informatics Research Techniques</footer>
+<script src="i18n.js"></script>
+</body></html>

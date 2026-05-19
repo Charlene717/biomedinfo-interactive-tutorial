@@ -1,0 +1,280 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Step 3: Public Databases — Biomedical Informatics Tutorial</title>
+<link rel="stylesheet" href="styles.css">
+</head><body>
+<nav class="top-nav"><div class="top-nav-inner">
+  <a href="index.html" class="top-nav-brand"><span>🔬</span> <span data-zh="生醫資訊研究技術" data-en="BioMed Informatics">生醫資訊研究技術</span></a>
+  <ul class="top-nav-links">
+    <li><a href="research-design.html" data-zh="設計" data-en="Design">設計</a></li>
+    <li><a href="literature-review.html" data-zh="文獻" data-en="Lit">文獻</a></li>
+    <li><a href="databases.html" class="active" data-zh="資料庫" data-en="DB">資料庫</a></li>
+    <li><a href="ethics.html" data-zh="倫理" data-en="Ethics">倫理</a></li>
+    <li><a href="sample-size.html" data-zh="樣本量" data-en="Sample">樣本量</a></li>
+    <li><a href="statistical-tests.html" data-zh="檢定" data-en="Tests">檢定</a></li>
+    <li><a href="multiple-testing.html" data-zh="多重檢定" data-en="MultTest">多重檢定</a></li>
+    <li><a href="bias-confounding.html" data-zh="偏差" data-en="Bias">偏差</a></li>
+    <li><a href="survival.html" data-zh="存活" data-en="Surv">存活</a></li>
+    <li><a href="causal-inference.html" data-zh="因果" data-en="Causal">因果</a></li>
+    <li><a href="meta-analysis.html" data-zh="Meta" data-en="Meta">Meta</a></li>
+    <li><a href="reproducibility.html" data-zh="重現" data-en="Repro">重現</a></li>
+    <li><a href="visualization.html" data-zh="視覺化" data-en="Viz">視覺化</a></li>
+    <li><a href="scientific-writing.html" data-zh="寫作" data-en="Writing">寫作</a></li>
+    <li><a href="references/index.html" data-zh="📚 參考資料" data-en="📚 References">📚 參考資料</a></li>
+  </ul>
+</div></nav>
+<div class="progress-bar-container"><div class="progress-bar" id="progressBar"></div></div>
+<header class="page-hero"><div class="step-badge">STEP 3 / 9</div>
+<h1 data-zh="公開資料庫探索" data-en="Public Database Mining">公開資料庫探索</h1>
+<p class="subtitle" data-lang="zh">從 NCBI、Ensembl 到 TCGA、UK Biobank——學會找到、下載並正確引用公開的生醫資料。</p>
+<p class="subtitle" data-lang="en">From NCBI and Ensembl to TCGA and UK Biobank — learn to find, download, and correctly cite public biomedical data.</p>
+</header>
+<main class="content-wrap">
+
+<section class="section">
+<div class="section-label" data-zh="概覽" data-en="OVERVIEW">概覽</div>
+<h2 data-zh="為什麼公開資料庫是現代生醫研究的核心？" data-en="Why are public databases central to modern biomedical research?">為什麼公開資料庫是核心？</h2>
+<div data-lang="zh">
+<p>生醫資料庫的爆炸式成長使得「不需自己做實驗就能做出新發現」變得可能。一個小型實驗室可以用公開的 TCGA 泛癌資料做出 Nature 等級的研究。但這也帶來新挑戰：</p>
+<ul>
+<li>各資料庫的<strong>命名規則、版本與註釋方式</strong>差異極大</li>
+<li>原始 cohort 的<strong>納入排除標準</strong>會影響結論可推論性</li>
+<li>批次效應、缺失值與資料格式陷阱無處不在</li>
+<li>使用前需確認<strong>授權條款</strong>（如 dbGaP、UK Biobank 須申請）</li>
+</ul>
+</div>
+<div data-lang="en">
+<p>The explosion of biomedical databases makes Nature-level discoveries possible without running a single wet-lab experiment. A small lab can publish from TCGA pan-cancer data alone. But this comes with new challenges:</p>
+<ul>
+<li>Databases differ in <strong>nomenclature, versions, and annotation schemes</strong></li>
+<li>The original <strong>inclusion/exclusion criteria</strong> shape what your conclusions can generalize to</li>
+<li>Batch effects, missing values, and format pitfalls are everywhere</li>
+<li><strong>Licensing</strong> matters (dbGaP, UK Biobank require formal application)</li>
+</ul>
+</div>
+<div class="callout warn"><span class="callout-icon">⚠️</span><div>
+<span data-lang="zh"><strong>引用是責任：</strong>使用 TCGA 必須 cite TCGA Research Network；使用 UK Biobank 要寫 application ID；使用 ClinVar 要記錄存取日期。讓資料生產者得到應有的學術 credit。</span>
+<span data-lang="en"><strong>Citing is a duty:</strong> TCGA users must cite the TCGA Research Network; UK Biobank users must include the application ID; ClinVar users must log the access date. Give data producers their due credit.</span>
+</div></div>
+</section>
+
+<section class="section">
+<div class="section-label" data-zh="基因/序列資料" data-en="GENE / SEQUENCE">基因/序列</div>
+<h2 data-zh="一、基因組與序列資料庫" data-en="I. Genome &amp; Sequence Databases">一、基因組與序列資料庫</h2>
+<div class="card-grid cols-2">
+<div class="card"><h4>🧬 NCBI (National Center for Biotechnology Information)</h4>
+<div data-lang="zh"><p>美國 NIH 維護的綜合性資料庫平台。主要工具：<strong>GenBank</strong>（序列）、<strong>RefSeq</strong>（標準參考序列）、<strong>dbSNP</strong>（單核苷酸變異）、<strong>ClinVar</strong>（臨床相關變異）、<strong>GEO</strong>（基因表現微陣列與 NGS 資料）、<strong>SRA</strong>（原始定序 reads）、<strong>OMIM</strong>（孟德爾遺傳病）。</p></div>
+<div data-lang="en"><p>The NIH umbrella platform. Key tools: <strong>GenBank</strong> (sequences), <strong>RefSeq</strong> (curated reference), <strong>dbSNP</strong> (SNVs), <strong>ClinVar</strong> (clinically annotated variants), <strong>GEO</strong> (expression arrays &amp; NGS), <strong>SRA</strong> (raw reads), <strong>OMIM</strong> (Mendelian diseases).</p></div>
+</div>
+<div class="card"><h4>🌍 Ensembl / Ensembl Genomes</h4>
+<div data-lang="zh"><p>EMBL-EBI 維護，以「基因組瀏覽器 + REST API」為特色。提供轉錄本層級的註釋、跨物種比對、調控元素 (Regulatory Build)。版本化清楚（如 Ensembl 110, 111）——這對可重現性極重要。</p></div>
+<div data-lang="en"><p>EMBL-EBI's genome browser plus REST API. Transcript-level annotation, cross-species alignments, regulatory build. Clear versioning (e.g., Ensembl 110, 111) — vital for reproducibility.</p></div>
+</div>
+<div class="card"><h4>🔭 UCSC Genome Browser</h4>
+<div data-lang="zh"><p>視覺化基因組首選，<strong>BLAT</strong> 快速比對、<strong>Table Browser</strong> 批次下載 BED/BigWig。Track Hub 機制讓你能載入自己的資料對齊參考。</p></div>
+<div data-lang="en"><p>The top genome visualization tool. <strong>BLAT</strong> for fast alignment, <strong>Table Browser</strong> for bulk BED/BigWig downloads. Track Hubs let you overlay your own data on the reference.</p></div>
+</div>
+<div class="card"><h4>🧪 EMBL-EBI 其他工具 / Other EMBL-EBI tools</h4>
+<div data-lang="zh"><p><strong>UniProt</strong>（蛋白質）、<strong>InterPro</strong>（蛋白質家族與功能域）、<strong>PRIDE</strong>（質譜資料）、<strong>ChEMBL</strong>（生物活性化合物）、<strong>BioModels</strong>（系統生物學模型）。</p></div>
+<div data-lang="en"><p><strong>UniProt</strong> (proteins), <strong>InterPro</strong> (domains/families), <strong>PRIDE</strong> (proteomics), <strong>ChEMBL</strong> (bioactive compounds), <strong>BioModels</strong> (systems biology).</p></div>
+</div>
+</div>
+</section>
+
+<section class="section">
+<div class="section-label" data-zh="臨床+基因" data-en="CLINICAL+OMICS">臨床+基因</div>
+<h2 data-zh="二、臨床整合與大型 cohort 資料庫" data-en="II. Clinical-integrated &amp; Large Cohort Databases">二、臨床整合與大型 cohort</h2>
+<table class="comp-table"><thead><tr>
+<th>Database</th>
+<th data-zh="內容" data-en="Content">內容</th>
+<th data-zh="存取" data-en="Access">存取</th>
+<th data-zh="樣本規模" data-en="Scale">樣本規模</th>
+</tr></thead><tbody>
+<tr><td><strong>TCGA</strong> (The Cancer Genome Atlas)</td><td><span data-lang="zh">33 種癌症，多體學+臨床</span><span data-lang="en">33 cancers, multi-omics + clinical</span></td><td><span data-lang="zh">公開（GDC Portal）/ 受控（germline VCF）</span><span data-lang="en">Open (GDC) / Controlled (germline VCF)</span></td><td>~11,000</td></tr>
+<tr><td><strong>ICGC / ICGC-ARGO</strong></td><td><span data-lang="zh">國際泛癌、強調體細胞變異</span><span data-lang="en">International pan-cancer, somatic-focused</span></td><td><span data-lang="zh">DAC 申請</span><span data-lang="en">DAC application</span></td><td>~25,000</td></tr>
+<tr><td><strong>UK Biobank</strong></td><td><span data-lang="zh">基因+影像+EHR+問卷</span><span data-lang="en">Genetics + imaging + EHR + surveys</span></td><td><span data-lang="zh">申請+費用</span><span data-lang="en">Application + fee</span></td><td>500,000</td></tr>
+<tr><td><strong>All of Us</strong></td><td><span data-lang="zh">美國多元族裔健康資料</span><span data-lang="en">US diverse population health data</span></td><td><span data-lang="zh">Researcher Workbench</span><span data-lang="en">Researcher Workbench</span></td><td>800,000+</td></tr>
+<tr><td><strong>GTEx</strong></td><td><span data-lang="zh">54 個健康組織之 RNA-seq</span><span data-lang="en">RNA-seq of 54 healthy tissues</span></td><td><span data-lang="zh">公開</span><span data-lang="en">Open</span></td><td>~1,000 donors</td></tr>
+<tr><td><strong>cBioPortal</strong></td><td><span data-lang="zh">癌症基因組視覺化（含 TCGA、AACR Project GENIE）</span><span data-lang="en">Cancer genomics visualization (TCGA, AACR GENIE)</span></td><td><span data-lang="zh">公開 / 受控</span><span data-lang="en">Open / Controlled</span></td><td>~10⁵+</td></tr>
+<tr><td><strong>MIMIC-III / IV</strong></td><td><span data-lang="zh">ICU 電子病歷</span><span data-lang="en">ICU EHR</span></td><td><span data-lang="zh">PhysioNet 證明訓練</span><span data-lang="en">PhysioNet credential</span></td><td>~70,000</td></tr>
+<tr><td><strong>FinnGen / BioBank Japan</strong></td><td><span data-lang="zh">人口尺度 GWAS</span><span data-lang="en">Population-scale GWAS</span></td><td><span data-lang="zh">分階段公開</span><span data-lang="en">Tiered release</span></td><td>500,000+ / 200,000+</td></tr>
+</tbody></table>
+</section>
+
+<section class="section">
+<div class="section-label" data-zh="存取與下載" data-en="ACCESS &amp; DOWNLOAD">存取</div>
+<h2 data-zh="三、程式化存取資料庫" data-en="III. Programmatic Access">三、程式化存取資料庫</h2>
+<div class="code-tabs">
+<div class="code-tab-btns">
+<button class="code-tab-btn active">R / Bioconductor</button>
+<button class="code-tab-btn">Python</button>
+<button class="code-tab-btn">CLI</button>
+</div>
+<div class="code-tab-content active"><pre><span class="comment"># Download TCGA RNA-seq + clinical via TCGAbiolinks</span>
+<span class="kw">library</span>(<span class="func">TCGAbiolinks</span>)
+
+query <- <span class="func">GDCquery</span>(
+  project=<span class="str">"TCGA-LUAD"</span>,
+  data.category=<span class="str">"Transcriptome Profiling"</span>,
+  data.type=<span class="str">"Gene Expression Quantification"</span>,
+  workflow.type=<span class="str">"STAR - Counts"</span>
+)
+<span class="func">GDCdownload</span>(query, directory=<span class="str">"GDCdata"</span>)
+luad <- <span class="func">GDCprepare</span>(query)
+<span class="comment"># Pull paired clinical data</span>
+clin <- <span class="func">GDCquery_clinic</span>(<span class="str">"TCGA-LUAD"</span>, type=<span class="str">"clinical"</span>)
+
+<span class="comment"># Query GEO via GEOquery</span>
+<span class="kw">library</span>(<span class="func">GEOquery</span>)
+gse <- <span class="func">getGEO</span>(<span class="str">"GSE68465"</span>, GSEMatrix=<span class="kw">TRUE</span>)
+expr <- <span class="func">exprs</span>(gse[[<span class="num">1</span>]])</pre></div>
+<div class="code-tab-content"><pre><span class="comment"># GDC API via requests; UK Biobank via DNAnexus / RAP</span>
+<span class="kw">import</span> requests, pandas <span class="kw">as</span> pd
+
+url = <span class="str">"https://api.gdc.cancer.gov/files"</span>
+filters = {
+  <span class="str">"op"</span>:<span class="str">"and"</span>,<span class="str">"content"</span>:[
+    {<span class="str">"op"</span>:<span class="str">"in"</span>,<span class="str">"content"</span>:{<span class="str">"field"</span>:<span class="str">"cases.project.project_id"</span>,<span class="str">"value"</span>:[<span class="str">"TCGA-LUAD"</span>]}},
+    {<span class="str">"op"</span>:<span class="str">"in"</span>,<span class="str">"content"</span>:{<span class="str">"field"</span>:<span class="str">"data_type"</span>,<span class="str">"value"</span>:[<span class="str">"Gene Expression Quantification"</span>]}}
+  ]}
+params = {<span class="str">"filters"</span>:<span class="func">str</span>(filters),<span class="str">"format"</span>:<span class="str">"TSV"</span>,<span class="str">"size"</span>:<span class="str">"10000"</span>}
+r = requests.<span class="func">get</span>(url, params=params)
+files = pd.<span class="func">read_csv</span>(pd.<span class="func">compat</span>.StringIO(r.text), sep=<span class="str">"\t"</span>)
+
+<span class="comment"># Ensembl REST API — lookup gene</span>
+ens = requests.<span class="func">get</span>(
+  <span class="str">"https://rest.ensembl.org/lookup/symbol/homo_sapiens/EGFR"</span>,
+  headers={<span class="str">"Content-Type"</span>:<span class="str">"application/json"</span>}
+).<span class="func">json</span>()
+<span class="func">print</span>(ens[<span class="str">"id"</span>], ens[<span class="str">"start"</span>], ens[<span class="str">"end"</span>])</pre></div>
+<div class="code-tab-content"><pre><span class="comment"># GDC client (fastest for bulk TCGA)</span>
+gdc-client download -m manifest.txt -t token.txt
+
+<span class="comment"># SRA toolkit — get raw FASTQ</span>
+prefetch SRR123456
+fasterq-dump SRR123456 --split-files --threads <span class="num">8</span>
+
+<span class="comment"># Aspera Connect — UK Biobank bulk download</span>
+ukbfetch -afoo.enc -bdata.bulk
+
+<span class="comment"># dbGaP — controlled access via SRA toolkit + prj token</span>
+prefetch --ngc prj_12345_D12345.ngc SRR987654</pre></div>
+</div>
+</section>
+
+<section class="section">
+<div class="section-label" data-zh="陷阱清單" data-en="PITFALLS">陷阱清單</div>
+<h2 data-zh="四、常見陷阱與最佳實踐" data-en="IV. Common Pitfalls &amp; Best Practices">四、常見陷阱與最佳實踐</h2>
+<div class="card-grid cols-2">
+<div class="card"><h4>🆔 <span data-zh="ID 對應地獄" data-en="ID mapping hell">ID 對應地獄</span></h4>
+<div data-lang="zh"><p>Gene Symbol、Ensembl ID、Entrez ID、Uniprot ID 互轉時，<strong>每個版本都對應不同</strong>。Excel 把 SEPT2、MARCH1 自動轉日期是經典案例（HGNC 已在 2020 重新命名）。請用 <code>biomaRt</code>、<code>AnnotationHub</code>、<code>mygene</code> 程式化轉換，並鎖定版本。</p></div>
+<div data-lang="en"><p>Mapping between Gene Symbols, Ensembl IDs, Entrez IDs, UniProt IDs is version-dependent. Excel auto-converting SEPT2/MARCH1 to dates is legendary (HGNC renamed them in 2020). Use <code>biomaRt</code>, <code>AnnotationHub</code>, or <code>mygene</code> and pin a version.</p></div>
+</div>
+<div class="card"><h4>🧬 <span data-zh="基因組組裝版本" data-en="Genome assembly version">基因組組裝版本</span></h4>
+<div data-lang="zh"><p>GRCh37 (hg19) vs GRCh38 (hg20) 的座標<strong>不能直接相比</strong>。混用會讓 BED 檔讀錯位置。需用 UCSC liftOver 或 CrossMap 轉換。</p></div>
+<div data-lang="en"><p>GRCh37 (hg19) and GRCh38 (hg20) coordinates do <strong>NOT</strong> match. Mixing them silently corrupts BEDs. Use UCSC liftOver or CrossMap.</p></div>
+</div>
+<div class="card"><h4>🔁 <span data-zh="批次效應" data-en="Batch effects">批次效應</span></h4>
+<div data-lang="zh"><p>同樣的 TCGA-LUAD 樣本，定序中心 (BCM vs Broad) 或 RNA-seq 批次會造成大型偏差。合併多 GEO 數據時務必用 <code>ComBat</code>、<code>limma::removeBatchEffect</code> 或將 batch 納入回歸模型。</p></div>
+<div data-lang="en"><p>Even within TCGA-LUAD, sequencing center (BCM vs Broad) or RNA-seq batch creates large bias. When merging GEO datasets always apply <code>ComBat</code>, <code>limma::removeBatchEffect</code>, or include batch as a covariate.</p></div>
+</div>
+<div class="card"><h4>📋 <span data-zh="樣本選擇偏倚" data-en="Sample selection bias">樣本選擇偏倚</span></h4>
+<div data-lang="zh"><p>TCGA 多為手術切除標本 → 偏向早期、可切除腫瘤；MIMIC 來自單一 ICU → 病情嚴重。把結論推到「所有患者」之前先看 cohort table。</p></div>
+<div data-lang="en"><p>TCGA samples come from surgical resections → biased to early, resectable tumors. MIMIC is from one ICU → severe illness. Always read the cohort table before generalizing.</p></div>
+</div>
+</div>
+</section>
+
+<section class="section">
+<div class="section-label" data-zh="互動演練" data-en="INTERACTIVE">互動演練</div>
+<h2 data-zh="資料庫選擇器" data-en="Database Selector">資料庫選擇器</h2>
+<div class="interactive-panel">
+<div class="slider-group"><label><span data-zh="你的研究類型" data-en="Your research type">你的研究類型</span></label>
+<select id="dbType" style="width:100%;padding:8px;border:1px solid var(--c-border);border-radius:6px;">
+<option value="cancer-genomics" data-zh="癌症基因組學" data-en="Cancer genomics">癌症基因組學</option>
+<option value="population-gwas" data-zh="族群基因關聯研究" data-en="Population GWAS">族群基因關聯研究</option>
+<option value="rare-disease" data-zh="罕見疾病變異" data-en="Rare disease variants">罕見疾病變異</option>
+<option value="rna-expression" data-zh="基因表現比較" data-en="Gene expression comparison">基因表現比較</option>
+<option value="ehr-clinical" data-zh="電子病歷分析" data-en="EHR analysis">電子病歷分析</option>
+<option value="protein-structure" data-zh="蛋白質結構/功能" data-en="Protein structure/function">蛋白質結構/功能</option>
+</select>
+</div>
+<div id="dbReco" style="background:var(--c-accent-light);padding:16px;border-radius:8px;color:var(--c-accent-dark);font-size:.92rem;line-height:1.7;"></div>
+</div>
+<script>
+(function(){
+  const map={
+   'cancer-genomics':{zh:'<strong>建議資料庫：</strong> TCGA (33 癌種，多體學+臨床) → 用 GDC Portal 或 TCGAbiolinks；cBioPortal 看視覺化；ICGC-ARGO 取得 international cohort。',en:'<strong>Recommended:</strong> TCGA (33 cancers, multi-omics + clinical) via GDC Portal or TCGAbiolinks; cBioPortal for visualization; ICGC-ARGO for international cohorts.'},
+   'population-gwas':{zh:'<strong>建議資料庫：</strong> UK Biobank (500k 英國人) + FinnGen (芬蘭) + BioBank Japan (亞洲)。GWAS Catalog 看現有 hits。Open Targets Genetics 整合多個 cohort。',en:'<strong>Recommended:</strong> UK Biobank (500k UK) + FinnGen + BioBank Japan. GWAS Catalog for existing hits. Open Targets Genetics aggregates cohorts.'},
+   'rare-disease':{zh:'<strong>建議資料庫：</strong> OMIM (孟德爾遺傳) + ClinVar (臨床變異註釋) + gnomAD (族群頻率) + DECIPHER (拷貝數)。GeneMatcher 可找到全球同症患者。',en:'<strong>Recommended:</strong> OMIM (Mendelian) + ClinVar (clinical variants) + gnomAD (allele frequencies) + DECIPHER (CNVs). GeneMatcher connects global patients.'},
+   'rna-expression':{zh:'<strong>建議資料庫：</strong> GEO (微陣列+NGS) + ArrayExpress + Expression Atlas + GTEx (健康參考) + Recount3 (重新處理 SRA)。',en:'<strong>Recommended:</strong> GEO (arrays + NGS) + ArrayExpress + Expression Atlas + GTEx (healthy reference) + Recount3 (re-processed SRA).'},
+   'ehr-clinical':{zh:'<strong>建議資料庫：</strong> MIMIC-IV (ICU)、eICU、All of Us、UK Biobank EHR linkage。需先完成 CITI 訓練取得存取資格。',en:'<strong>Recommended:</strong> MIMIC-IV (ICU), eICU, All of Us, UK Biobank EHR linkage. CITI training is typically required.'},
+   'protein-structure':{zh:'<strong>建議資料庫：</strong> PDB (實驗結構) + AlphaFold DB (預測結構，2 億+) + UniProt + InterPro。功能性檢查可用 ESM Atlas。',en:'<strong>Recommended:</strong> PDB (experimental) + AlphaFold DB (predicted, 200M+) + UniProt + InterPro. Functional check with ESM Atlas.'}
+  };
+  function up(){
+    const v=document.getElementById('dbType').value;
+    const lang=(window.I18n&&window.I18n.get&&window.I18n.get())||'en';
+    document.getElementById('dbReco').innerHTML=map[v][lang];
+  }
+  document.getElementById('dbType').addEventListener('change',up);
+  document.addEventListener('langchange',up);
+  up();
+})();
+</script>
+</section>
+
+<section class="quiz-section">
+<h3 data-zh="📝 隨堂測驗" data-en="📝 Quick Quiz">📝 隨堂測驗</h3>
+<div class="quiz-q">
+<p data-zh="Q1. GRCh37 (hg19) 與 GRCh38 的座標可以直接互通嗎？" data-en="Q1. Are GRCh37 (hg19) and GRCh38 coordinates directly interchangeable?">Q1. GRCh37 與 GRCh38 座標可以直接互通嗎？</p>
+<div class="quiz-options">
+<div class="quiz-opt" data-correct="0"><span>A. <span data-lang="zh">可以，差異很小</span><span data-lang="en">Yes, differences are tiny</span></span></div>
+<div class="quiz-opt" data-correct="1"><span>B. <span data-lang="zh">不行，必須用 liftOver/CrossMap 轉換</span><span data-lang="en">No — must convert with liftOver / CrossMap</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>C. <span data-lang="zh">只有粒線體不同</span><span data-lang="en">Only the mitochondrial chromosome differs</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>D. <span data-lang="zh">差異只在 Y 染色體</span><span data-lang="en">Differences are only on Y</span></span></div>
+</div>
+<div class="quiz-feedback"><span data-lang="zh">兩個組裝版本在許多區段重新排列，座標不能直接相比，否則 BED/VCF 會落在錯誤位置。</span><span data-lang="en">Many regions were rearranged. Direct coordinate comparison silently corrupts BED/VCF data.</span></div>
+</div>
+
+<div class="quiz-q">
+<p data-zh="Q2. 想做泛癌多體學分析，第一首選資料庫？" data-en="Q2. First-choice database for pan-cancer multi-omics?">Q2. 泛癌多體學分析首選？</p>
+<div class="quiz-options">
+<div class="quiz-opt" data-correct="0"><span>A. GEO</span></div>
+<div class="quiz-opt" data-correct="1"><span>B. TCGA</span></div>
+<div class="quiz-opt" data-correct="0"><span>C. GTEx</span></div>
+<div class="quiz-opt" data-correct="0"><span>D. MIMIC</span></div>
+</div>
+<div class="quiz-feedback"><span data-lang="zh">TCGA 收錄 33 種癌症的 RNA-seq、WES、WGS、甲基化與蛋白陣列，並對應臨床資料，是泛癌標準集合。</span><span data-lang="en">TCGA covers 33 cancers with RNA-seq, WES, WGS, methylation, and protein arrays alongside clinical data — the pan-cancer standard.</span></div>
+</div>
+
+<div class="quiz-q">
+<p data-zh="Q3. UK Biobank 屬於哪一種存取類型？" data-en="Q3. What access tier is UK Biobank?">Q3. UK Biobank 屬於哪種存取？</p>
+<div class="quiz-options">
+<div class="quiz-opt" data-correct="0"><span>A. <span data-lang="zh">完全公開下載</span><span data-lang="en">Fully open download</span></span></div>
+<div class="quiz-opt" data-correct="1"><span>B. <span data-lang="zh">需要申請 + 收費</span><span data-lang="en">Application + fee</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>C. <span data-lang="zh">只開放給英國人</span><span data-lang="en">UK citizens only</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>D. <span data-lang="zh">完全免費 + 直接 API</span><span data-lang="en">Free + direct API</span></span></div>
+</div>
+<div class="quiz-feedback"><span data-lang="zh">UK Biobank 採「open access for bona fide researchers」原則，需提交研究計畫並付平台費。</span><span data-lang="en">UK Biobank is open to bona fide researchers but requires a proposal and platform fee.</span></div>
+</div>
+
+<div class="quiz-q">
+<p data-zh="Q4. 為什麼處理多個 GEO 資料集前要先處理批次效應？" data-en="Q4. Why correct batch effects before combining multiple GEO datasets?">Q4. 合併多 GEO 為何要處理批次效應？</p>
+<div class="quiz-options">
+<div class="quiz-opt" data-correct="0"><span>A. <span data-lang="zh">減少存檔大小</span><span data-lang="en">Shrinks file size</span></span></div>
+<div class="quiz-opt" data-correct="1"><span>B. <span data-lang="zh">避免技術差異與生物差異混淆</span><span data-lang="en">Avoid confounding technical and biological variation</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>C. <span data-lang="zh">符合 GEO 政策</span><span data-lang="en">Required by GEO policy</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>D. <span data-lang="zh">加速 PCA 運算</span><span data-lang="en">Speeds up PCA</span></span></div>
+</div>
+<div class="quiz-feedback"><span data-lang="zh">不同實驗室、平台、年代會產生系統性偏差，未校正會讓 PCA / 聚類被批次主導，得出錯誤生物學結論。</span><span data-lang="en">Different labs / platforms / years create systematic shifts. Uncorrected, PCA and clustering are dominated by batch, leading to false biology.</span></div>
+</div>
+</section>
+
+<div class="page-nav">
+<a href="literature-review.html"><span class="nav-dir" data-zh="← 上一步" data-en="← Previous">← 上一步</span><span class="nav-title" data-zh="文獻檢索" data-en="Literature Review">文獻檢索</span></a>
+<a href="ethics.html"><span class="nav-dir" data-zh="下一步 →" data-en="Next →">下一步 →</span><span class="nav-title" data-zh="研究倫理與資料治理" data-en="Ethics &amp; Data Governance">研究倫理與資料治理</span></a>
+</div>
+
+</main>
+<footer class="site-footer">© Charlene — Biomedical Informatics Research Techniques</footer>
+<script src="i18n.js"></script>
+</body></html>

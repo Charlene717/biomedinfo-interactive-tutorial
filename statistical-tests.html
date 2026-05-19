@@ -1,0 +1,223 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Step 6: Hypothesis Testing — Biomedical Informatics Tutorial</title>
+<link rel="stylesheet" href="styles.css">
+</head><body>
+<nav class="top-nav"><div class="top-nav-inner">
+  <a href="index.html" class="top-nav-brand"><span>🔬</span> <span data-zh="生醫資訊研究技術" data-en="BioMed Informatics">生醫資訊研究技術</span></a>
+  <ul class="top-nav-links">
+    <li><a href="research-design.html" data-zh="設計" data-en="Design">設計</a></li>
+    <li><a href="literature-review.html" data-zh="文獻" data-en="Lit">文獻</a></li>
+    <li><a href="databases.html" data-zh="資料庫" data-en="DB">資料庫</a></li>
+    <li><a href="ethics.html" data-zh="倫理" data-en="Ethics">倫理</a></li>
+    <li><a href="sample-size.html" data-zh="樣本量" data-en="Sample">樣本量</a></li>
+    <li><a href="statistical-tests.html" class="active" data-zh="檢定" data-en="Tests">檢定</a></li>
+    <li><a href="multiple-testing.html" data-zh="多重檢定" data-en="MultTest">多重檢定</a></li>
+    <li><a href="bias-confounding.html" data-zh="偏差" data-en="Bias">偏差</a></li>
+    <li><a href="survival.html" data-zh="存活" data-en="Surv">存活</a></li>
+    <li><a href="causal-inference.html" data-zh="因果" data-en="Causal">因果</a></li>
+    <li><a href="meta-analysis.html" data-zh="Meta" data-en="Meta">Meta</a></li>
+    <li><a href="reproducibility.html" data-zh="重現" data-en="Repro">重現</a></li>
+    <li><a href="visualization.html" data-zh="視覺化" data-en="Viz">視覺化</a></li>
+    <li><a href="scientific-writing.html" data-zh="寫作" data-en="Writing">寫作</a></li>
+    <li><a href="references/index.html" data-zh="📚 參考資料" data-en="📚 References">📚 參考資料</a></li>
+  </ul>
+</div></nav>
+<div class="progress-bar-container"><div class="progress-bar" id="progressBar"></div></div>
+<header class="page-hero"><div class="step-badge">STEP 6 / 9</div>
+<h1 data-zh="統計假設檢定" data-en="Statistical Hypothesis Testing">統計假設檢定</h1>
+<p class="subtitle" data-lang="zh">挑對檢定法是分析的關鍵分岔點——選錯會讓所有後續推論失效。</p>
+<p class="subtitle" data-lang="en">Choosing the right test is the analytical fork in the road — pick wrong and every downstream inference is voided.</p>
+</header>
+<main class="content-wrap">
+
+<section class="section">
+<div class="section-label" data-zh="概覽" data-en="OVERVIEW">概覽</div>
+<h2 data-zh="假設檢定的本質" data-en="The Essence of Hypothesis Testing">假設檢定的本質</h2>
+<div data-lang="zh">
+<p>所有經典統計檢定都遵循同一邏輯：(1) 建立<strong>虛無假設 H₀</strong> 與<strong>對立假設 H₁</strong>；(2) 假設 H₀ 為真，計算觀察數據的<strong>檢定統計量</strong>；(3) 算出在 H₀ 下觀察到「至少這麼極端」結果的機率（<strong>p 值</strong>）；(4) 若 p &lt; α 則拒絕 H₀。</p>
+<p>三大判斷要素決定該用哪種檢定：</p>
+<ul>
+<li><strong>變數類型：</strong>連續、二元、類別、順序</li>
+<li><strong>組數：</strong>單組、兩組、多組</li>
+<li><strong>樣本關係：</strong>獨立 vs. 配對</li>
+</ul>
+<p>同時要檢驗該檢定的<strong>前提條件</strong>（常態性、變異數同質性、獨立性）。違反 → 改用無母數版本或穩健方法。</p>
+</div>
+<div data-lang="en">
+<p>All classical tests follow the same logic: (1) state a <strong>null H₀</strong> and <strong>alternative H₁</strong>; (2) compute a <strong>test statistic</strong> under H₀; (3) compute the probability of seeing data at least this extreme (<strong>p-value</strong>); (4) reject H₀ if p &lt; α.</p>
+<p>Three factors decide the test:</p>
+<ul>
+<li><strong>Variable type:</strong> continuous, binary, categorical, ordinal</li>
+<li><strong>Number of groups:</strong> one, two, or many</li>
+<li><strong>Sample relationship:</strong> independent vs. paired</li>
+</ul>
+<p>Also check <strong>assumptions</strong> (normality, equal variance, independence). Violations → use non-parametric or robust alternatives.</p>
+</div>
+</section>
+
+<section class="section">
+<div class="section-label" data-zh="決策樹" data-en="DECISION TREE">決策樹</div>
+<h2 data-zh="一、檢定選擇決策樹" data-en="I. Test Selection Decision Tree">一、檢定選擇決策樹</h2>
+<div class="decision-tree">
+<h4 data-zh="🌳 三步選對檢定" data-en="🌳 Three-step test selection">🌳 三步選對檢定</h4>
+<div class="dt-node"><span class="dt-q">Q1</span><span class="dt-arrow">→</span><span data-lang="zh">主要結果變數型態？<strong>連續</strong> → Q2；<strong>二元/類別</strong> → Q3；<strong>存活時間</strong> → Step 9</span><span data-lang="en">Outcome type? <strong>Continuous</strong> → Q2; <strong>Binary/Categorical</strong> → Q3; <strong>Time-to-event</strong> → Step 9</span></div>
+<div class="dt-node"><span class="dt-q">Q2</span><span class="dt-arrow">→</span><span data-lang="zh"><strong>連續</strong>：常態？<strong>是</strong> → 兩組 t-test、多組 ANOVA；<strong>否</strong> → Wilcoxon / Mann-Whitney、Kruskal-Wallis</span><span data-lang="en"><strong>Continuous</strong>: normal? <strong>Yes</strong> → t-test (2 grp) / ANOVA (>2); <strong>No</strong> → Wilcoxon / Mann-Whitney, Kruskal-Wallis</span></div>
+<div class="dt-node"><span class="dt-q">Q3</span><span class="dt-arrow">→</span><span data-lang="zh"><strong>類別</strong>：期望次數 ≥ 5？<strong>是</strong> → chi-square；<strong>否</strong> → Fisher exact</span><span data-lang="en"><strong>Categorical</strong>: expected count ≥ 5? <strong>Yes</strong> → chi-square; <strong>No</strong> → Fisher exact</span></div>
+<div class="dt-node"><span class="dt-q">Q4</span><span class="dt-arrow">→</span><span data-lang="zh"><strong>配對 / 重複測量</strong>？用 paired t-test、Wilcoxon signed-rank、McNemar、repeated-measures ANOVA</span><span data-lang="en"><strong>Paired / repeated</strong>? Use paired t-test, Wilcoxon signed-rank, McNemar, repeated-measures ANOVA</span></div>
+<div class="dt-node"><span class="dt-q">Q5</span><span class="dt-arrow">→</span><span data-lang="zh"><strong>關聯性</strong>？兩連續 → Pearson (常態) / Spearman (無母數)</span><span data-lang="en"><strong>Correlation</strong>? Two continuous → Pearson (normal) / Spearman (non-parametric)</span></div>
+</div>
+</section>
+
+<section class="section">
+<div class="section-label" data-zh="比較表" data-en="COMPARISON">比較表</div>
+<h2 data-zh="二、常用檢定對照表" data-en="II. Common Tests Cheat Sheet">二、常用檢定對照表</h2>
+<table class="comp-table"><thead><tr>
+<th data-zh="情境" data-en="Scenario">情境</th>
+<th data-zh="參數檢定" data-en="Parametric">參數檢定</th>
+<th data-zh="無母數" data-en="Non-parametric">無母數</th>
+<th data-zh="前提" data-en="Assumptions">前提</th>
+</tr></thead><tbody>
+<tr><td><span data-zh="兩獨立組 (連續)" data-en="Two independent (continuous)">兩獨立組 (連續)</span></td><td>Student's t-test</td><td>Mann-Whitney U</td><td><span data-zh="常態、變異同質" data-en="Normal, equal variance">常態、變異同質</span></td></tr>
+<tr><td><span data-zh="兩配對 (連續)" data-en="Two paired (continuous)">兩配對 (連續)</span></td><td>Paired t-test</td><td>Wilcoxon signed-rank</td><td><span data-zh="差異常態" data-en="Differences normal">差異常態</span></td></tr>
+<tr><td><span data-zh=">2 組獨立 (連續)" data-en=">2 groups (continuous)">>2 組獨立</span></td><td>One-way ANOVA</td><td>Kruskal-Wallis</td><td><span data-zh="常態、變異同質" data-en="Normal, equal variance">常態、變異同質</span></td></tr>
+<tr><td><span data-zh=">2 組重複測量" data-en=">2 repeated measures">>2 組重複測量</span></td><td>Repeated-measures ANOVA</td><td>Friedman</td><td><span data-zh="球形性 (sphericity)" data-en="Sphericity">球形性</span></td></tr>
+<tr><td><span data-zh="兩類別變數" data-en="Two categorical">兩類別變數</span></td><td>Chi-square</td><td>Fisher exact</td><td><span data-zh="期望次數 ≥ 5" data-en="Expected count ≥ 5">期望次數 ≥ 5</span></td></tr>
+<tr><td><span data-zh="配對二元" data-en="Paired binary">配對二元</span></td><td>—</td><td>McNemar</td><td><span data-zh="配對" data-en="Paired">配對</span></td></tr>
+<tr><td><span data-zh="相關 (兩連續)" data-en="Correlation (two continuous)">兩連續相關</span></td><td>Pearson r</td><td>Spearman ρ / Kendall τ</td><td><span data-zh="線性 + 常態" data-en="Linear + normal">線性+常態</span></td></tr>
+</tbody></table>
+<div class="callout warn"><span class="callout-icon">⚠️</span><div>
+<span data-lang="zh"><strong>常態性怎麼測？</strong>視覺優先（Q-Q plot、histogram），大樣本下 Shapiro-Wilk 過於敏感。中央極限定理：n ≥ 30 時 t-test 對溫和偏離常態相對穩健。</span>
+<span data-lang="en"><strong>How to check normality?</strong> Visualize first (Q-Q plot, histogram). With large n, Shapiro-Wilk gets oversensitive. By CLT, t-test is fairly robust to mild non-normality when n ≥ 30.</span>
+</div></div>
+</section>
+
+<section class="section">
+<div class="section-label" data-zh="效應量" data-en="EFFECT SIZE">效應量</div>
+<h2 data-zh="三、p 值之外：效應量與信賴區間" data-en="III. Beyond p-values: Effect Sizes &amp; CIs">三、p 值之外：效應量與信賴區間</h2>
+<div data-lang="zh"><p>2016 ASA p 值聲明強調：<strong>p 值不能單獨衡量證據強度</strong>。報告檢定結果時，應同時呈現：</p>
+<ul>
+<li><strong>點估計</strong>（差異、OR、相關係數）</li>
+<li><strong>95% 信賴區間</strong>——區間越窄越精確</li>
+<li><strong>效應量</strong>——Cohen's d、Cliff's δ、η²、Cramer's V</li>
+<li><strong>p 值</strong> 作為輔助</li>
+</ul>
+<p>2020 後越來越多期刊（如 Nature 系列）要求作者完全省略「statistically significant」用詞，改用效應量+CI 描述。</p></div>
+<div data-lang="en"><p>The 2016 ASA p-value statement stresses: <strong>p alone is not a measure of evidence strength</strong>. Always report:</p>
+<ul>
+<li><strong>Point estimate</strong> (difference, OR, correlation)</li>
+<li><strong>95% confidence interval</strong> — narrower = more precise</li>
+<li><strong>Effect size</strong> — Cohen's d, Cliff's δ, η², Cramer's V</li>
+<li><strong>p-value</strong> as a supplement</li>
+</ul>
+<p>Post-2020, many journals (including Nature family) ask authors to drop "statistically significant" and instead use effect size + CI.</p></div>
+</section>
+
+<section class="section">
+<div class="section-label" data-zh="程式碼" data-en="CODE">程式碼</div>
+<h2 data-zh="實作：R 與 Python 範例" data-en="Implementation: R &amp; Python">實作範例</h2>
+<div class="code-tabs">
+<div class="code-tab-btns">
+<button class="code-tab-btn active">R</button>
+<button class="code-tab-btn">Python (scipy)</button>
+<button class="code-tab-btn">Python (pingouin)</button>
+</div>
+<div class="code-tab-content active"><pre><span class="comment"># Two-sample t-test + effect size</span>
+<span class="kw">library</span>(<span class="func">effsize</span>)
+data(<span class="func">sleep</span>)
+fit <- <span class="func">t.test</span>(extra ~ group, data=sleep, var.equal=<span class="kw">FALSE</span>)
+cohen <- <span class="func">cohen.d</span>(extra ~ group, data=sleep)
+<span class="func">cat</span>(<span class="str">"t="</span>,fit$statistic,<span class="str">"p="</span>,fit$p.value,
+    <span class="str">" 95% CI: ["</span>,fit$conf.int,<span class="str">"]\nCohen's d ="</span>,cohen$estimate,<span class="str">"\n"</span>)
+
+<span class="comment"># Mann-Whitney U (non-parametric alt)</span>
+<span class="func">wilcox.test</span>(extra ~ group, data=sleep, conf.int=<span class="kw">TRUE</span>)
+
+<span class="comment"># Chi-square + Fisher</span>
+tab <- <span class="func">matrix</span>(<span class="func">c</span>(<span class="num">30</span>,<span class="num">10</span>,<span class="num">15</span>,<span class="num">25</span>), nrow=<span class="num">2</span>)
+<span class="func">chisq.test</span>(tab)        <span class="comment"># standard</span>
+<span class="func">fisher.test</span>(tab)       <span class="comment"># when expected counts < 5</span></pre></div>
+<div class="code-tab-content"><pre><span class="kw">import</span> numpy <span class="kw">as</span> np
+<span class="kw">from</span> scipy <span class="kw">import</span> stats
+
+<span class="comment"># Welch's t-test (default in scipy when equal_var=False)</span>
+a = np.<span class="func">array</span>([<span class="num">5.2</span>,<span class="num">6.1</span>,<span class="num">5.8</span>,<span class="num">7.0</span>])
+b = np.<span class="func">array</span>([<span class="num">4.2</span>,<span class="num">4.9</span>,<span class="num">5.0</span>,<span class="num">4.6</span>])
+t, p = stats.<span class="func">ttest_ind</span>(a, b, equal_var=<span class="kw">False</span>)
+
+<span class="comment"># Mann-Whitney U</span>
+u, p = stats.<span class="func">mannwhitneyu</span>(a, b, alternative=<span class="str">"two-sided"</span>)
+
+<span class="comment"># Chi-square + Fisher</span>
+chi2,p,dof,exp = stats.<span class="func">chi2_contingency</span>([[<span class="num">30</span>,<span class="num">10</span>],[<span class="num">15</span>,<span class="num">25</span>]])
+odds,p_f = stats.<span class="func">fisher_exact</span>([[<span class="num">30</span>,<span class="num">10</span>],[<span class="num">15</span>,<span class="num">25</span>]])</pre></div>
+<div class="code-tab-content"><pre><span class="kw">import</span> pingouin <span class="kw">as</span> pg
+
+<span class="comment"># t-test with effect size and Bayes factor</span>
+pg.<span class="func">ttest</span>(a, b, correction=<span class="str">"auto"</span>)
+<span class="comment"># columns: T, dof, alternative, p-val, CI95%, cohen-d, BF10, power</span>
+
+<span class="comment"># Normality + Levene's variance test in one line</span>
+pg.<span class="func">normality</span>(a); pg.<span class="func">homoscedasticity</span>([a,b])
+
+<span class="comment"># One-way ANOVA + post-hoc</span>
+pg.<span class="func">anova</span>(dv=<span class="str">"score"</span>, between=<span class="str">"group"</span>, data=df)
+pg.<span class="func">pairwise_tukey</span>(dv=<span class="str">"score"</span>, between=<span class="str">"group"</span>, data=df)</pre></div>
+</div>
+</section>
+
+<section class="quiz-section">
+<h3 data-zh="📝 隨堂測驗" data-en="📝 Quick Quiz">📝 隨堂測驗</h3>
+<div class="quiz-q">
+<p data-zh="Q1. 比較三個獨立組的連續變數（資料不符合常態），最適合的檢定？" data-en="Q1. Compare 3 independent groups on a non-normal continuous outcome:">Q1. 三組獨立、連續、非常態，用？</p>
+<div class="quiz-options">
+<div class="quiz-opt" data-correct="0"><span>A. One-way ANOVA</span></div>
+<div class="quiz-opt" data-correct="0"><span>B. Mann-Whitney U</span></div>
+<div class="quiz-opt" data-correct="1"><span>C. Kruskal-Wallis</span></div>
+<div class="quiz-opt" data-correct="0"><span>D. Friedman</span></div>
+</div>
+<div class="quiz-feedback"><span data-lang="zh">Kruskal-Wallis 是 ANOVA 的無母數版本，適合 ≥3 獨立組的非常態資料。</span><span data-lang="en">Kruskal-Wallis is the non-parametric analog of ANOVA for ≥3 independent groups.</span></div>
+</div>
+
+<div class="quiz-q">
+<p data-zh="Q2. 2x2 列聯表中某格期望次數為 3，應用哪個檢定？" data-en="Q2. A 2x2 contingency table has an expected count of 3 in one cell — which test?">Q2. 2x2 期望次數 = 3 應該用？</p>
+<div class="quiz-options">
+<div class="quiz-opt" data-correct="0"><span>A. Pearson chi-square</span></div>
+<div class="quiz-opt" data-correct="1"><span>B. Fisher's exact</span></div>
+<div class="quiz-opt" data-correct="0"><span>C. McNemar</span></div>
+<div class="quiz-opt" data-correct="0"><span>D. <span data-lang="zh">獨立 t-test</span><span data-lang="en">Independent t-test</span></span></div>
+</div>
+<div class="quiz-feedback"><span data-lang="zh">期望次數 &lt; 5 時 chi-square 的近似不夠好，改用 Fisher exact 計算精確機率。</span><span data-lang="en">When expected counts &lt; 5, chi-square's approximation is poor — use Fisher's exact for precise probabilities.</span></div>
+</div>
+
+<div class="quiz-q">
+<p data-zh="Q3. p = 0.04 的最正確解讀是？" data-en="Q3. What is the correct interpretation of p = 0.04?">Q3. p = 0.04 正確的解讀？</p>
+<div class="quiz-options">
+<div class="quiz-opt" data-correct="0"><span>A. <span data-lang="zh">虛無假設是真的機率為 4%</span><span data-lang="en">There's a 4% chance H₀ is true</span></span></div>
+<div class="quiz-opt" data-correct="1"><span>B. <span data-lang="zh">若 H₀ 為真，觀察到此資料或更極端結果的機率為 4%</span><span data-lang="en">Assuming H₀ true, the probability of seeing data this extreme (or more) is 4%</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>C. <span data-lang="zh">結論犯型一錯誤的機率為 4%</span><span data-lang="en">There's a 4% chance of making a Type I error</span></span></div>
+<div class="quiz-opt" data-correct="0"><span>D. <span data-lang="zh">效應量為 0.04</span><span data-lang="en">The effect size is 0.04</span></span></div>
+</div>
+<div class="quiz-feedback"><span data-lang="zh">p 值是條件機率：P(資料 | H₀ 為真)。它不是 H₀ 為真的機率。</span><span data-lang="en">p is a conditional probability: P(data | H₀ true). It is NOT the probability that H₀ is true.</span></div>
+</div>
+
+<div class="quiz-q">
+<p data-zh="Q4. 配對前/後血壓比較（連續、常態）應用哪個檢定？" data-en="Q4. Pre/post paired blood pressure (continuous, normal):">Q4. 前後配對連續且常態？</p>
+<div class="quiz-options">
+<div class="quiz-opt" data-correct="0"><span>A. <span data-lang="zh">兩獨立樣本 t-test</span><span data-lang="en">Independent t-test</span></span></div>
+<div class="quiz-opt" data-correct="1"><span>B. Paired t-test</span></div>
+<div class="quiz-opt" data-correct="0"><span>C. Mann-Whitney U</span></div>
+<div class="quiz-opt" data-correct="0"><span>D. Chi-square</span></div>
+</div>
+<div class="quiz-feedback"><span data-lang="zh">配對 = 同一受試者前後測，應用 paired t-test（檢驗差異是否為 0）。</span><span data-lang="en">Paired = same subject pre/post → paired t-test (testing whether differences differ from 0).</span></div>
+</div>
+</section>
+
+<div class="page-nav">
+<a href="sample-size.html"><span class="nav-dir" data-zh="← 上一步" data-en="← Previous">← 上一步</span><span class="nav-title" data-zh="樣本量與檢定力" data-en="Sample Size">樣本量與檢定力</span></a>
+<a href="multiple-testing.html"><span class="nav-dir" data-zh="下一步 →" data-en="Next →">下一步 →</span><span class="nav-title" data-zh="多重檢定校正" data-en="Multiple Testing">多重檢定校正</span></a>
+</div>
+
+</main>
+<footer class="site-footer">© Charlene — Biomedical Informatics Research Techniques</footer>
+<script src="i18n.js"></script>
+</body></html>
